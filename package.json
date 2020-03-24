@@ -1,0 +1,62 @@
+{
+  "name": "exceed-crm-api",
+  "main": "src/server.js",
+  "version": "0.1.2",
+  "description": "Seed app",
+  "repository": "https://github.com/",
+  "contributors": [
+    "Sergey Kryuchkov <kryuchkovsm@gmail.com>"
+  ],
+  "scripts": {
+    "start": "npm install && node ./node_modules/sequelize-cli/lib/sequelize db:migrate && node --harmony ./src/server",
+    "serve": "nodemon  --harmony ./src/server",
+    "serve-dev": "nodemon --harmony ./src/server",
+    "test": "NODE_ENV=test DOTENV=.test.env mocha --recursive --no-timeouts",
+    "lint": "./node_modules/.bin/eslint ./src/**/*.js"
+  },
+  "dependencies": {
+    "@sentry/node": "^5.4.0",
+    "body-parser": "^1.18.2",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "config": "^1.29.2",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^7.4.3",
+    "klaw-sync": "^3.0.2",
+    "lodash": "^4.17.4",
+    "mandrill-api": "^1.0.45",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.14",
+    "multer": "^1.4.1",
+    "mysql2": "^1.6.5",
+    "pg": "6.4.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "sentry": "^0.1.2",
+    "sequelize": "4.10.3",
+    "sequelize-cli": "^4.0.0",
+    "sinon": "^7.2.4",
+    "swagger-jsdoc": "^3.0.2",
+    "swagger-ui-express": "^3.0.10",
+    "util": "^0.10.3",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "mocha": "^3.5.3",
+    "nodemon": "^1.17.2",
+    "should": "^11.2.1",
+    "supertest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=12.4.0",
+    "npm": ">=6.9"
+  },
+  "license": "MIT",
+  "preferGlobal": false,
+  "private": true
+}

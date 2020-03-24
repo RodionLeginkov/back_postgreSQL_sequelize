@@ -1,0 +1,21 @@
+# Node packages
+/node_modules
+
+# files from email
+/uploads
+
+# Configuration files
+*.test.env
+*.env
+
+# IDEs/editors
+.idea
+*.sublime-project
+
+# Temporary files
+*.log
+*.todo
+test.js
+/tmp
+.~lock*
+*/.DS_Store

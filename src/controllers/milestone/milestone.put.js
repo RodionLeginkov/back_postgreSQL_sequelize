@@ -1,0 +1,38 @@
+const authenticate = require('../../middleware/authenticate');
+const errors = require('../../errors');
+const router = require('express').Router();
+/**
+ *  @swagger
+ *  /v1/example/{uuid}:
+ *    put:
+ *      tags:
+ *        - user
+ *      description: put example
+ *      parameters:
+ *        - name: uuid
+ *          description: example primary key
+ *          in: path
+ *          type: string
+ *          default: test
+ *          required: true
+ *      responses:
+ *        204:
+ *          description: user was updated
+ */
+
+router.put('/v1/milestone/:uuid',
+    // authenticate(),
+    errors.wrap(async (req, res) => {
+        const milestone = await models.Milestone.findById(req.params.uuid);
+        if (!milestone) throw errors.NotFoundError('user not found');
+
+        const result = await milestone.update( req.body, { fields: [
+                'uuid',
+                'projectUuid'
+            ]} );
+
+        res.json(result);
+    })
+);
+
+module.exports = router;
