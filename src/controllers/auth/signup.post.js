@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const errors = require('../../errors');
+const {check, validationResult} = require('express-validator');
 /**
  *  @swagger
  *  /signup:
@@ -33,8 +34,12 @@ const errors = require('../../errors');
  *        401:
  *          description: invalid credentials
  */
-router.post('/signup',
+router.post('/signup', [check('email').isEmail(), check('password').isLength({min: 5})],
     errors.wrap(async (req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+          return res.status(422).json({errors: error.array()});
+        }
         const models = res.app.get('models');
         let userData = req.body;
         /* console.log('DEV_HASH', req.body.dev_hash);
@@ -42,6 +47,7 @@ router.post('/signup',
             throw errors.NotAllowedError('This is dev feature at this moment, contact you supoort');
         }*/
         const user = await models.User.create(userData);
+        // console.log(user);
         if (!user) throw errors.NotFoundError('User not created, invalid or missing credentials');
         const token = await user.generateToken();
         delete user.dataValues.password;

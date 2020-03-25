@@ -7,6 +7,24 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
+        userUuid: {
+          field: 'user_uuid',
+          type: Sequelize.UUID,
+          allowNull: false,
+          references: {
+              model: 'users',
+              key: 'uuid',
+          },
+      },
+      projectUuid: {
+          field: 'project_uuid',
+          type: Sequelize.UUID,
+          allowNull: false,
+          references: {
+              model: 'projects',
+              key: 'uuid',
+          },
+      },
         rate_type: {
             field: 'rate_type',
             type: Sequelize.STRING(64),
@@ -31,10 +49,8 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     UsersProject.associate = (models) => {
-      UsersProject.hasMany(models.User, {foreignKey: 'uuid', as: 'users_projects'});
-    };
-    UsersProject.associate = (models) => {
-      UsersProject.hasMany(models.Project, {foreignKey: 'uuid', as: 'users_projects'});
+      UsersProject.belongsTo(models.User, {foreignKey: 'uuid', as: 'users'});
+      UsersProject.belongsTo(models.Project, {foreignKey: 'uuid', as: 'projects'});
     };
 
     return UsersProject;

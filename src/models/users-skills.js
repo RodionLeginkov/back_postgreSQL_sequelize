@@ -2,10 +2,15 @@
 
 module.exports = (sequelize, Sequelize) => {
     const UserSkill = sequelize.define('UserSkill', {
+        uuid: {
+            type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4,
+            primaryKey: true,
+        },
         userUuid: {
             field: 'user_uuid',
             type: Sequelize.UUID,
-            primaryKey: true,
+            allowNull: false,
             references: {
                 model: 'users',
                 key: 'uuid',
@@ -14,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
         skillUuid: {
             field: 'skill_uuid',
             type: Sequelize.UUID,
-            primaryKey: true,
+            allowNull: false,
             references: {
                 model: 'skills',
                 key: 'uuid',
@@ -30,8 +35,8 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     UserSkill.associate = (models) => {
-        UserSkill.belongsTo(models.User, {foreignKey: {field: 'uuid'}, as: 'user'});
-        UserSkill.belongsTo(models.Skill, {foreignKey: {field: 'uuid'}, as: 'skill'});
+        UserSkill.belongsTo(models.User, {foreignKey: {field: 'uuid'}, as: 'users'});
+        UserSkill.belongsTo(models.Skill, {foreignKey: {field: 'uuid'}, as: 'skills'});
     };
 
     return UserSkill;

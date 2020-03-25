@@ -80,7 +80,10 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'users',
         timestamps: true,
     });
-
+    User.associate = (models) => {
+        User.hasMany(models.UserTask, {foreignKey: 'taskUuid', as: 'user_tasks'});
+        User.hasMany(models.UserSkill, {foreignKey: 'skillUuid', as: 'users_skills'});
+      };
     /**
      * @param {string} email
      * @param {string} password

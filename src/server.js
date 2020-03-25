@@ -77,7 +77,7 @@ function configureLogger() {
     process.on('unhandledRejection', (reason, promise) => {
         console.error('unhandledRejection', reason);
     });
-    console.info(`Logging settings: ${process.env.DEBUG}`);
+    // console.info(`Logging settings: ${process.env.DEBUG}`);
 };
 
 app.listen(config.app.port, '0.0.0.0', async function () {

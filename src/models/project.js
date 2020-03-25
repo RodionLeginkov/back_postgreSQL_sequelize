@@ -14,6 +14,21 @@ module.exports = (sequelize, Sequelize) => {
         communication: {
             type: Sequelize.STRING(64),
         },
+        type: {
+            type: Sequelize.STRING(64),
+        },
+        withdrawalOfFunds: {
+            type: Sequelize.STRING(64),
+        },
+        owner: {
+            type: Sequelize.STRING(64),
+        },
+        startDate: {
+            type: Sequelize.STRING(64),
+        },
+        endDate: {
+            type: Sequelize.STRING(64),
+        },
         description: {
             type: Sequelize.STRING(64),
         },
@@ -23,10 +38,10 @@ module.exports = (sequelize, Sequelize) => {
         source: {
             type: Sequelize.STRING(64),
         },
-        currentMilestoneUuid: {
-            field: 'current_milestone_id',
-            type: Sequelize.UUID,
-        },
+        // currentMilestoneUuid: {
+        //     field: 'current_milestone_id',
+        //     type: Sequelize.UUID,
+        // },
         createdAt: {
             type: Sequelize.DATE,
             field: 'created_at',
@@ -39,7 +54,11 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'projects',
         timestamps: true,
     });
-
+    Project.associate = (models) => {
+        Project.hasMany(models.ProjectSkills, {foreignKey: 'skillUuid', as: 'projects_skills'});
+        Project.hasMany(models.Task, {foreignKey: 'project_uuid', as: 'tasks'});
+        // Project.hasMany(models.UsersProject, {foreignKey: 'projectUuid', as: 'projects'});
+    };
     // Project.associate = (models) => {
     //     Project.hasMany(models.Milestone, {foreignKey: 'uuid', as: 'milestones'});
     // };

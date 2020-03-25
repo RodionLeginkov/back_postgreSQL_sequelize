@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'skills',
         timestamps: false,
     });
-
+    Skill.associate = (models) => {
+        Skill.hasMany(models.ProjectSkills, {foreignKey: 'projectUuid', as: 'project_uuid'});
+        Skill.hasMany(models.UserSkill, {foreignKey: 'skillUuid', as: 'skill_uuid'});
+      };
     return Skill;
 };
