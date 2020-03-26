@@ -19,12 +19,12 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/v1/get-users-skills',
+router.get('/v1/get-users-skills',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const result = await models.UserSkill.findAll({ where: { userUuid: req.body.userUuid } })
-        res.json(result)
+        const result = await models.UserSkill.findAll({where: {userUuid: req.body.userUuid}});
+        res.json(result);
     })
 );
 
