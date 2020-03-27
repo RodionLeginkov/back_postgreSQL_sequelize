@@ -7,8 +7,7 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        userUuid: {
-            field: 'user_uuid',
+        user_uuid: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
@@ -16,8 +15,7 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'uuid',
             },
         },
-        taskUuid: {
-            field: 'task_uuid',
+        task_uuid: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
@@ -31,8 +29,8 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     UserTask.associate = (models) => {
-        UserTask.belongsTo(models.User, {foreignKey: {field: 'uuid'}, as: 'users'});
-        UserTask.belongsTo(models.Task, {foreignKey: {field: 'uuid'}, as: 'tasks'});
+        UserTask.belongsTo(models.User, {foreignKey: 'userUuid', as: 'users'});
+        UserTask.belongsTo(models.Task, {foreignKey: 'taskUuid', as: 'tasks'});
     };
 
     return UserTask;

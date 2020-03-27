@@ -2,51 +2,51 @@
 
 module.exports = (sequelize, Sequelize) => {
     const Project = sequelize.define('Project', {
-        uuid: {
+        'uuid': {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        name: {
+        'name': {
             type: Sequelize.STRING(64),
             allowNull: false,
         },
-        communication: {
+        'withdrawal_of_funds': {
             type: Sequelize.STRING(64),
         },
-        type: {
+        'communication': {
             type: Sequelize.STRING(64),
         },
-        withdrawalOfFunds: {
+        'type': {
             type: Sequelize.STRING(64),
         },
-        owner: {
+        'owner': {
             type: Sequelize.STRING(64),
         },
-        startDate: {
+        'start_date': {
             type: Sequelize.STRING(64),
         },
-        endDate: {
+        'end_date': {
             type: Sequelize.STRING(64),
         },
-        description: {
+        'description': {
             type: Sequelize.STRING(64),
         },
-        history: {
+        'history': {
             type: Sequelize.STRING(5000),
         },
-        source: {
+        'source': {
             type: Sequelize.STRING(64),
         },
         // currentMilestoneUuid: {
         //     field: 'current_milestone_id',
         //     type: Sequelize.UUID,
         // },
-        createdAt: {
+        'createdAt': {
             type: Sequelize.DATE,
             field: 'created_at',
         },
-        updatedAt: {
+        'updatedAt': {
             type: Sequelize.DATE,
             field: 'updated_at',
         },
@@ -54,14 +54,23 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'projects',
         timestamps: true,
     });
+
     Project.associate = (models) => {
-        Project.hasMany(models.ProjectSkills, {foreignKey: 'skillUuid', as: 'projects_skills'});
-        Project.hasMany(models.Task, {foreignKey: 'project_uuid', as: 'tasks'});
-        // Project.hasMany(models.UsersProject, {foreignKey: 'projectUuid', as: 'projects'});
+        Project.belongsToMany(models.Skill, {
+            through: models.ProjectSkills,
+            as: 'Skills',
+            foreignKey: 'project_uuid',
+            otherKey: 'skill_uuid'
+          });
+
+          Project.belongsToMany(models.User, {
+            through: models.UsersProject,
+            as: 'Users',
+            foreignKey: 'project_uuid',
+            otherKey: 'user_uuid'
+          });
     };
-    // Project.associate = (models) => {
-    //     Project.hasMany(models.Milestone, {foreignKey: 'uuid', as: 'milestones'});
-    // };
+
 
     return Project;
 };

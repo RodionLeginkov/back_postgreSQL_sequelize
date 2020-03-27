@@ -80,10 +80,30 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'users',
         timestamps: true,
     });
+
+
     User.associate = (models) => {
-        User.hasMany(models.UserTask, {foreignKey: 'taskUuid', as: 'user_tasks'});
-        User.hasMany(models.UserSkill, {foreignKey: 'skillUuid', as: 'users_skills'});
-      };
+        // User.hasMany(models.UserTask, {foreignKey: 'taskUuid', as: 'user_tasks'});
+        // User.hasMany(models.UserSkill, {foreignKey: 'skillUuid', as: 'users_skills'});
+        User.belongsToMany(models.Task, {
+            through: models.UserTask,
+            as: 'Tasks',
+            foreignKey: 'userUuid',
+            otherKey: 'taskUuid'
+          });
+          User.belongsToMany(models.Skill, {
+            through: models.UserSkill,
+            as: 'Skills',
+            foreignKey: 'user_uuid',
+            otherKey: 'skill_uuid'
+          });
+          User.belongsToMany(models.Project, {
+            through: models.UsersProject,
+            as: 'Projects',
+            foreignKey: 'user_uuid',
+            otherKey: 'project_uuid'
+          });
+    };
     /**
      * @param {string} email
      * @param {string} password

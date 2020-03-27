@@ -102,35 +102,35 @@ module.exports = {
             },
             communication: {
               type: DataTypes.STRING,
-              allowNull: true,
+              allowNull: false,
             },
             type: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             withdrawal_of_funds: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             owner: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             start_date: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             end_date: {
                 type: DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             description: {
               type: DataTypes.STRING,
-              allowNull: true,
+              allowNull: false,
             },
             history: {
               type: DataTypes.STRING(5000),
-              allowNull: true,
+              allowNull: false,
             },
             createdAt: {
                 type: DataTypes.DATE,
@@ -149,7 +149,6 @@ module.exports = {
                 primaryKey: true,
             },
             project_uuid: {
-                field: 'project_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -184,7 +183,6 @@ module.exports = {
                 primaryKey: true,
             },
             user_uuid: {
-                field: 'user_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -193,7 +191,6 @@ module.exports = {
                 },
             },
             skill_uuid: {
-                field: 'skill_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -213,16 +210,14 @@ module.exports = {
                 primaryKey: true,
             },
             project_uuid: {
-                field: 'project_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: 'projects',
+                    model: 'Project',
                     key: 'uuid',
                 },
             },
             skill_uuid: {
-                field: 'skill_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -243,16 +238,14 @@ module.exports = {
                 primaryKey: true,
             },
             user_uuid: { 
-                field: 'user_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: 'users',
+                    model: 'User',
                     key: 'uuid',
                 }
             },
             project_uuid: {
-                field: 'project_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -286,7 +279,6 @@ module.exports = {
                 primaryKey: true,
             },
             user_uuid: {
-                field: 'user_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -295,7 +287,6 @@ module.exports = {
                 },
             },
             task_uuid: {
-                field: 'task_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {

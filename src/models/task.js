@@ -8,7 +8,6 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
         },
         project_uuid: {
-            field: 'project_uuid',
             type: Sequelize.UUID,
             allowNull: false,
             references: {
@@ -28,13 +27,20 @@ module.exports = (sequelize, Sequelize) => {
         },
     }, {
         tableName: 'tasks',
-        timestamps: true,
+        timestamps: false,
     });
-    Task.associate = (models) => {
-        Task.hasMany(models.UserTask, {foreignKey: 'taskUuid', as: 'user_tasks'});
-      };
-    Task.associate = (models) => {
-        Task.belongsTo(models.Project, {foreignKey: {field: 'uuid'}, as: 'project'});
-    };
+
+    // Task.associate = (models) => {
+    //     Task.belongsToMany(models.User, {
+    //         through: models.UserTask,
+    //         as: 'Users',
+    //         foreignKey: 'taskUuid',
+    //         otherKey: 'userUuid'
+    //       });
+    // };
+
+    // Task.associate = (models) => {
+    //     Task.belongsTo(models.Project, {foreignKey: {field: 'uuid'}, as: 'project'});
+    // };
     return Task;
 };

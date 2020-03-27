@@ -24,29 +24,13 @@ const router = require('express').Router();
  *                  default: 'name'
  *
  */
-// const users = await models.User.findAll({
-//     include: [{
-//         model: models.Skill,
-//         as: 'Skills',
-//         required: false,
-//         // Pass in the Product attributes that you want to retrieve
-//         attributes: ['uuid', 'name'],
-//     }]
-// });
-router.get('/v1/users',
+
+router.get('/v1/tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const users = await models.User.findAll({
-            include: [{
-                model: models.Project,
-                as: 'Projects',
-                required: false,
-                // Pass in the Product attributes that you want to retrieve
-                attributes: ['uuid', 'name'],
-            }]
-        });
-        res.json(users);
+        const tasks = await models.Task.findAll({attributes: ['uuid', 'name']});
+        res.json(tasks);
     })
 );
 

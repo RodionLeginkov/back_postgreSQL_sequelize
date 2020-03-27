@@ -1,27 +1,25 @@
 'use strict';
 
 module.exports = (sequelize, Sequelize) => {
-    const UsersProject = sequelize.define('users_projects', {
+    const UsersProject = sequelize.define('UsersProject', {
         uuid: {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        userUuid: {
-          field: 'user_uuid',
+        user_uuid: {
           type: Sequelize.UUID,
           allowNull: false,
           references: {
-              model: 'users',
+              model: 'User',
               key: 'uuid',
           },
       },
-      projectUuid: {
-          field: 'project_uuid',
+      project_uuid: {
           type: Sequelize.UUID,
           allowNull: false,
           references: {
-              model: 'projects',
+              model: 'Project',
               key: 'uuid',
           },
       },
@@ -49,8 +47,8 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     UsersProject.associate = (models) => {
-      UsersProject.belongsTo(models.User, {foreignKey: 'uuid', as: 'users'});
-      UsersProject.belongsTo(models.Project, {foreignKey: 'uuid', as: 'projects'});
+      UsersProject.belongsTo(models.User, {foreignKey: 'user_uuid', as: 'User'});
+      UsersProject.belongsTo(models.Project, {foreignKey: 'project_uuid', as: 'Project'});
     };
 
     return UsersProject;

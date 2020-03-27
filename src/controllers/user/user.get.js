@@ -21,13 +21,16 @@ const router = require('express').Router();
  */
 
 router.get('/v1/user/:uuid',
-    // authenticate(),
-    errors.wrap(async (req, res) => {
-        const models = res.app.get('models');
-        const user = await models.User.findById(req.params.uuid);
-        if (!user) throw errors.NotFoundError('Example not found');
-        res.json(user);
-    })
+    // // TEST
+    // // authenticate(),
+    // errors.wrap(async (req, res) => {
+    //     const models = res.app.get('models');
+    //     const user = await models.User.findById(req.params.uuid);
+    //     if (!user) throw errors.NotFoundError('Example not found');
+    //     res.json(user);
+    // })
+    // NEW
+    // const allUsers
 );
 
 module.exports = router;
