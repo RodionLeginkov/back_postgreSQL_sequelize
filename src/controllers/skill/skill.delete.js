@@ -23,9 +23,14 @@ const router = require('express').Router();
 router.delete('/skill/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const example = await models.Skill.findById(req.params.uuid);
-        if (!example) throw errors.NotFoundError('Example not found');
-        await example.destroy();
+        const skill = await models.Skill.findById(req.params.uuid);
+        if (!skill) throw errors.NotFoundError('Example not found');
+        
+        const users = await skill.getUsers();
+        const project = await skill.getProjects();
+        skill.removeUsers(users);
+        skill.removeProjects(project);
+        await skill.destroy();
         res.sendStatus(204);
     })
 );

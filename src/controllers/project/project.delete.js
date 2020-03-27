@@ -28,14 +28,22 @@ router.delete('/project/:uuid',
         try {
             const project = await models.Project.findById(req.params.uuid);
             if (!project) throw errors.NotFoundError('Example not found');
-
+            
+            const users = await project.getUsers();
+            const tasks = await project.getTasks();
+            const skills = await project.getSkills();
+            // const userTasks = await project.getUserTask();
+            console.log(tasks);
+            project.removeUsers(users);
+            project.removeSkills(skills);
+            // project.removeTasks(tasks);
             // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
             // for (const milestone of milestones) {
             //     await models.MiestoneSkill.destroy({where: {'milestone_uuid': milestone.uuid}});
             // }
             // await models.Milestone.destroy({where: {'project_uuid': project.uuid}});
 
-            await project.destroy();
+            // await project.destroy();
         } catch (err) {
             console.log(err);
         }
