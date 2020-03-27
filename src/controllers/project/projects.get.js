@@ -36,7 +36,15 @@ router.get('/v1/projects',
             required: false,
             // Pass in the Product attributes that you want to retrieve
             attributes: ['uuid', 'name'],
-        }]});
+        },
+        {
+            model: models.Task,
+            as: 'Tasks',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            attributes: ['uuid', 'name']
+    },
+    ]});
         res.json(projects);
     })
 );

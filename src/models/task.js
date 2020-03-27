@@ -30,14 +30,18 @@ module.exports = (sequelize, Sequelize) => {
         timestamps: false,
     });
 
-    // Task.associate = (models) => {
-    //     Task.belongsToMany(models.User, {
-    //         through: models.UserTask,
-    //         as: 'Users',
-    //         foreignKey: 'taskUuid',
-    //         otherKey: 'userUuid'
-    //       });
-    // };
+    Task.associate = (models) => {
+        Task.belongsToMany(models.User, {
+            through: models.UserTask,
+            as: 'Users',
+            foreignKey: 'task_uuid',
+            otherKey: 'user_uuid'
+          });
+          Task.belongsTo(models.Project, {
+            // as: 'Users',
+            foreignKey: 'project_uuid',
+          });
+    };
 
     // Task.associate = (models) => {
     //     Task.belongsTo(models.Project, {foreignKey: {field: 'uuid'}, as: 'project'});

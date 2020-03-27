@@ -43,8 +43,23 @@ router.get('/v1/users',
                 as: 'Projects',
                 required: false,
                 // Pass in the Product attributes that you want to retrieve
-                attributes: ['uuid', 'name'],
-            }]
+                attributes: ['uuid', 'name']
+            },
+        {                
+            model: models.Skill,
+            as: 'Skills',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            attributes: ['uuid', 'name']
+        },
+        {                
+            model: models.Task,
+            as: 'Tasks',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            attributes: ['uuid', 'name']
+        }
+    ]
         });
         res.json(users);
     })

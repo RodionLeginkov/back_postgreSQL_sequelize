@@ -24,13 +24,13 @@ module.exports = (sequelize, Sequelize) => {
             },
         },
     }, {
-        tableName: 'user_tasks',
-        timestamps: true,
+        tableName: 'users_tasks',
+        timestamps: false,
     });
 
     UserTask.associate = (models) => {
-        UserTask.belongsTo(models.User, {foreignKey: 'userUuid', as: 'users'});
-        UserTask.belongsTo(models.Task, {foreignKey: 'taskUuid', as: 'tasks'});
+        UserTask.belongsTo(models.User, {foreignKey: 'user_uuid', as: 'User'});
+        UserTask.belongsTo(models.Task, {foreignKey: 'task_uuid', as: 'Task'});
     };
 
     return UserTask;
