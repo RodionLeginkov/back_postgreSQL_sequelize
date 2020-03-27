@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 
-router.put('/v1/users/updatePassword',
+router.put('/users/updatePassword',
     // authenticate(),
     errors.wrap(async (req, res) => {
       console.log(req.body.token);
@@ -20,7 +20,7 @@ router.put('/v1/users/updatePassword',
     })
 );
 
-// router.put('/v1/user/updatePassword', 
+// router.put('/user/updatePassword', 
 //   errors.wrap(async (req, res) => {
 //     console.log('hello');
 //     res.status(400).send('password is wrong');

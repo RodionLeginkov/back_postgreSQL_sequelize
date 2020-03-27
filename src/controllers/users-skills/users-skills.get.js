@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/skill:
+ *  /skill:
  *    post:
  *      tags:
  *        - skill
@@ -19,7 +19,7 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.get('/v1/get-users-skills',
+router.get('/get-users-skills',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');

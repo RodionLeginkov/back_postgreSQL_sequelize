@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    put:
  *      tags:
  *        - user
@@ -20,7 +20,7 @@ const router = require('express').Router();
  *          description: user was updated
  */
 
-router.put('/v1/project/:uuid',
+router.put('/project/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const project = await models.Project.findById(req.params.uuid);

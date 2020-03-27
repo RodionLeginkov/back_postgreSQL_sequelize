@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    delete:
  *      tags:
  *        - example
@@ -20,7 +20,7 @@ const router = require('express').Router();
  *          description: example was deleted
  */
 
-router.delete('/v1/milestone/:uuid',
+router.delete('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const example = await models.Milestone.findById(req.params.uuid);

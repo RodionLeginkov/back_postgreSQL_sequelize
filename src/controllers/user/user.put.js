@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    put:
  *      tags:
  *        - user
@@ -20,7 +20,7 @@ const router = require('express').Router();
  *          description: user was updated
  */
 
-router.put('/v1/user/:uuid',
+router.put('/user/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const user = await models.User.findById(req.params.uuid);

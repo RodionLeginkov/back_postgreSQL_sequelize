@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    get:
  *      tags:
  *        - example
@@ -20,7 +20,7 @@ const router = require('express').Router();
  *          description: example received
  */
 
-router.get('/v1/user/:uuid',
+router.get('/user/:uuid',
     // // TEST
     // // authenticate(),
     // errors.wrap(async (req, res) => {

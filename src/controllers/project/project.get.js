@@ -4,7 +4,7 @@ const router = require('express').Router();
 const roles = require('../../enums/user-roles');
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    get:
  *      tags:
  *        - example
@@ -22,7 +22,7 @@ const roles = require('../../enums/user-roles');
  */
 
 
-router.get('/v1/project/:uuid',
+router.get('/project/:uuid',
     // authenticate([roles.MANAGER, roles.STAFF]),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');

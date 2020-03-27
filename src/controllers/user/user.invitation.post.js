@@ -4,7 +4,7 @@ const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
 
-router.post('/v1/user/invitation', [check('email').isEmail()],
+router.post('/user/invitation', [check('email').isEmail()],
   errors.wrap(async (req, res) => {
     const error = validationResult(req);
         if (!error.isEmpty()) {

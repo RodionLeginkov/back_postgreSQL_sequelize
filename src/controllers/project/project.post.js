@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/skill:
+ *  /skill:
  *    post:
  *      tags:
  *        - skill
@@ -19,7 +19,7 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/v1/project',
+router.post('/project',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
