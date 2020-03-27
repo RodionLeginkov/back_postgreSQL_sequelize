@@ -213,7 +213,7 @@ module.exports = {
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: 'Project',
+                    model: 'projects',
                     key: 'uuid',
                 },
             },
@@ -241,7 +241,7 @@ module.exports = {
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
-                    model: 'User',
+                    model: 'users',
                     key: 'uuid',
                 }
             },
