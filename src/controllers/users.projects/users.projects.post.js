@@ -19,37 +19,15 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/users-skills',
+router.post('/users-projects',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 
         const info = req.body;
-        const result = await models.UserSkill.create(info);
+        const result = await models.UsersProject.create(info);
         res.json(result);
     })
 );
 
 module.exports = router;
-
-
-// router.post('/users-skills',
-//     // authenticate(),
-//     errors.wrap(async (req, res) => {
-//         const models = res.app.get('models');
-
-//         const skills = req.body.userSkills;
-//         const userUuid = req.body.userUuid;
-
-//         await models.UserSkill.destroy({ where: { "user_uuid": userUuid } });
-
-//         console.log(skills)
-
-//         for (const skill of skills) {
-//             await models.UserSkill.create({ userUuid: userUuid, skillUuid: skill.uuid });
-//         }
-//         res.sendStatus(200);
-//     })
-// );
-
-// module.exports = router;

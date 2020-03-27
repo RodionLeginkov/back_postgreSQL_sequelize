@@ -20,12 +20,12 @@ const authenticate = require('../../middleware/authenticate');
  *          description: example was deleted
  */
 
-router.delete('/users-skills/:skill_uuid/:user_uuid',
+router.delete('/users-projects/:user_uuid/:project_uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        await models.UserSkill.destroy({where: {'skill_uuid': req.params.skill_uuid, 'user_uuid': req.params.user_uuid}});        
-        res.sendStatus(204);
+        await models.UsersProject.destroy({where: {'user_uuid': req.params.user_uuid, 'project_uuid': req.params.project_uuid}});        
+        res.send('delete');
     })
 );
 

@@ -29,7 +29,7 @@ router.get('/tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const tasks = await models.Task.findAll({attributes: ['uuid', 'name']});
+        const tasks = await models.Task.findAll();
         res.json(tasks);
     })
 );

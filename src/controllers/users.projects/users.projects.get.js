@@ -19,20 +19,12 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/milestone-skills',
+router.get('/users-projects',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-
-        const skills = req.body.milestoneSkills;
-        const milestoneUuid = req.body.milestoneUuid;
-
-        await models.MiestoneSkill.destroy({ where: { milestoneUuid : milestoneUuid } });
-
-        for (const skill of skills) {
-            await models.MiestoneSkill.create({ milestoneUuid: milestoneUuid, skillUuid: skill.uuid });
-        }
-        res.sendStatus(200);
+        const result = await models.UsersProject.findAll();
+        res.json(result);
     })
 );
 

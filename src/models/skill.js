@@ -32,9 +32,7 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: 'skill_uuid',
             otherKey: 'user_uuid'
           });
-    };
 
-    Skill.associate = (models) => {
         Skill.belongsToMany(models.Project, {
             through: models.ProjectSkills,
             as: 'Projects',

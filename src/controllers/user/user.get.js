@@ -21,16 +21,36 @@ const router = require('express').Router();
  */
 
 router.get('/user/:uuid',
-    // // TEST
-    // // authenticate(),
-    // errors.wrap(async (req, res) => {
-    //     const models = res.app.get('models');
-    //     const user = await models.User.findById(req.params.uuid);
-    //     if (!user) throw errors.NotFoundError('Example not found');
-    //     res.json(user);
-    // })
-    // NEW
-    // const allUsers
+
+    // authenticate(),
+    errors.wrap(async (req, res) => {
+        const models = res.app.get('models');
+        const user = await models.User.findById(req.params.uuid,
+            {include: [{
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Skill,
+                as: 'Skills',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {                
+                model: models.Task,
+                as: 'Tasks',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name']
+            }]});
+        if (!user) throw errors.NotFoundError('Example not found');
+        res.json(user);
+    })
+
 );
 
 module.exports = router;

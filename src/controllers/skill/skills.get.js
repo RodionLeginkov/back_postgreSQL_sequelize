@@ -29,7 +29,23 @@ router.get('/skills',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const skills = await models.Skill.findAll({attributes: ['uuid', 'name']});
+        const skills = await models.Skill.findAll({
+            include: [{
+                model: models.User,
+                as: 'Users',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            
+        ]});
         res.json(skills);
     })
 );

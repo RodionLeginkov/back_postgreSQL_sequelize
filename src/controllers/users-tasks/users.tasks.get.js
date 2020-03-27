@@ -19,11 +19,11 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.get('/users-skills',
+router.get('/users-tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const result = await models.UserSkill.findAll();
+        const result = await models.UserTask.findAll();
         res.json(result);
     })
 );

@@ -23,18 +23,17 @@ const router = require('express').Router();
 router.delete('/project/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-
         const models = res.app.get('models');
 
         try {
             const project = await models.Project.findById(req.params.uuid);
             if (!project) throw errors.NotFoundError('Example not found');
 
-            const milestones = await models.Milestone.findAll({ where: { 'project_uuid': project.uuid } });
-            for (const milestone of milestones) {
-                await models.MiestoneSkill.destroy({ where: { "milestone_uuid": milestone.uuid } });
-            }
-            await models.Milestone.destroy({ where: { "project_uuid": project.uuid } });
+            // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
+            // for (const milestone of milestones) {
+            //     await models.MiestoneSkill.destroy({where: {'milestone_uuid': milestone.uuid}});
+            // }
+            // await models.Milestone.destroy({where: {'project_uuid': project.uuid}});
 
             await project.destroy();
         } catch (err) {
