@@ -31,7 +31,7 @@ router.post('/user/invitation', [check('email').isEmail()],
       text:
       'Welcome to the Exceed Team CRM!\n\n'
       + 'Please click on the following link, or paste this into your browser to create your password and start using CRM system:\n\n'
-      + `http://localhost:3000/reset/${result.uuid}\n\n`
+      + `https://black-list-frontend.herokuapp.com/reset/${result.uuid}\n\n`
       + 'Best Regards,'
       + 'Exceed Team,\n',
       

@@ -38,7 +38,9 @@ router.get('/tasks',
             // Pass in the Product attributes that you want to retrieve
            // attributes: ['uuid', 'name']
     },
-        ]});
+        ]}, {
+            order: [{model: models.User}, 'firstName'],
+        });
         res.json(tasks);
     })
 );
