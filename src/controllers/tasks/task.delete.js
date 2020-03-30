@@ -4,10 +4,10 @@ const router = require('express').Router();
 /**
  *  @swagger
  *  /example/{uuid}:
- *    put:
+ *    delete:
  *      tags:
- *        - user
- *      description: put example
+ *        - example
+ *      description: delete example
  *      parameters:
  *        - name: uuid
  *          description: example primary key
@@ -17,18 +17,19 @@ const router = require('express').Router();
  *          required: true
  *      responses:
  *        204:
- *          description: user was updated
+ *          description: example was deleted
  */
 
-router.put('/skill/:uuid',
+router.delete('/task/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const user = await models.Skill.findById(req.params.uuid);
-        if (!user) throw errors.NotFoundError('user not found');
-
-        const result = await user.update(req.body);
-
-        res.json(result);
+        const task = await models.Task.findById(req.params.uuid);
+        if (!task) throw errors.NotFoundError('Example not found');
+        
+        const users = await task.getUsers();
+        task.removeUsers(users);
+        await task.destroy();
+        res.sendStatus(204);
     })
 );
 

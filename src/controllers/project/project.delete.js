@@ -43,7 +43,8 @@ router.delete('/project/:uuid',
             // }
             // await models.Milestone.destroy({where: {'project_uuid': project.uuid}});
 
-            // await project.destroy();
+            await project.destroy();
+            // res.send('Project deleted');
         } catch (err) {
             console.log(err);
         }

@@ -26,12 +26,7 @@ router.put('/project/:uuid',
         const project = await models.Project.findById(req.params.uuid);
         if (!project) throw errors.NotFoundError('user not found');
 
-        const result = await project.update( req.body, { fields: [
-                'uuid',
-                'name',
-                'source',
-                'current_milestone_id'
-            ]} );
+        const result = await project.update( req.body);
 
         res.json(result);
     })

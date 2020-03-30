@@ -10,7 +10,7 @@ const authenticate = require('../../middleware/authenticate');
  *      description: save report
  *      parameters:
  *        - name: name
- *          default: react
+ *          default: 
  *          required: true
  *          in: formData
  *          type: string

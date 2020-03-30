@@ -24,10 +24,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(64),
         },
         'start_date': {
-            type: Sequelize.STRING(64),
+            type: Sequelize.DATE,
         },
         'end_date': {
-            type: Sequelize.STRING(64),
+            type: Sequelize.DATE,
         },
         'description': {
             type: Sequelize.STRING(64),

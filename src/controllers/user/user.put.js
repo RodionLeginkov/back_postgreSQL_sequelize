@@ -26,15 +26,7 @@ router.put('/user/:uuid',
         const user = await models.User.findById(req.params.uuid);
         if (!user) throw errors.NotFoundError('user not found');
 
-        const result = await user.update( req.body, { fields: [
-            'firstName',
-            'middleName',
-            'lastName',
-            'email',
-            'phone1',
-            'phone2',
-            'role',
-        ]} );
+        const result = await user.update(req.body);
         
         res.json(result);
     })
