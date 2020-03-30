@@ -4,10 +4,10 @@ const router = require('express').Router();
 /**
  *  @swagger
  *  /example/{uuid}:
- *    get:
+ *    delete:
  *      tags:
  *        - example
- *      description: get example record
+ *      description: delete example
  *      parameters:
  *        - name: uuid
  *          description: example primary key
@@ -16,17 +16,20 @@ const router = require('express').Router();
  *          default: test
  *          required: true
  *      responses:
- *        200:
- *          description: example received
+ *        204:
+ *          description: example was deleted
  */
 
-router.get('/example/:uuid',
+router.delete('/task/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const models = res.app.get('models');
-        const example = await models.Example.findById(req.params.uuid);
-        if (!example) throw errors.NotFoundError('Example not found');
-        res.json(example);
+        const task = await models.Task.findById(req.params.uuid);
+        if (!task) throw errors.NotFoundError('Example not found');
+        
+        const users = await task.getUsers();
+        task.removeUsers(users);
+        await task.destroy();
+        res.sendStatus(204);
     })
 );
 

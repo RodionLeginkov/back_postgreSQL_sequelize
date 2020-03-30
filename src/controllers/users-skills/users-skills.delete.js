@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    delete:
  *      tags:
  *        - example
@@ -20,11 +20,11 @@ const authenticate = require('../../middleware/authenticate');
  *          description: example was deleted
  */
 
-router.delete('/v1/users-skills/:skillUuid/:userUuid',
+router.delete('/users-skills/:skill_uuid/:user_uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        await models.UserSkill.destroy({ where: { "user_uuid": req.params.userUuid, "skill_uuid": req.params.skillUuid } });        
+        await models.UserSkill.destroy({where: {'skill_uuid': req.params.skill_uuid, 'user_uuid': req.params.user_uuid}});        
         res.sendStatus(204);
     })
 );

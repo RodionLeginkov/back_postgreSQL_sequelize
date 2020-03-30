@@ -1,13 +1,13 @@
-const authenticate = require('../../middleware/authenticate');
-const errors = require('../../errors');
 const router = require('express').Router();
+const errors = require('../../errors');
+const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
  *  /example/{uuid}:
- *    get:
+ *    delete:
  *      tags:
  *        - example
- *      description: get example record
+ *      description: delete example
  *      parameters:
  *        - name: uuid
  *          description: example primary key
@@ -16,17 +16,16 @@ const router = require('express').Router();
  *          default: test
  *          required: true
  *      responses:
- *        200:
- *          description: example received
+ *        204:
+ *          description: example was deleted
  */
 
-router.get('/example/:uuid',
+router.delete('/users-projects/:user_uuid/:project_uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const example = await models.Example.findById(req.params.uuid);
-        if (!example) throw errors.NotFoundError('Example not found');
-        res.json(example);
+        await models.UsersProject.destroy({where: {'user_uuid': req.params.user_uuid, 'project_uuid': req.params.project_uuid}});        
+        res.send('delete');
     })
 );
 

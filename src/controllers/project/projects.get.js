@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example:
+ *  /example:
  *    get:
  *      tags:
  *        - example
@@ -25,19 +25,33 @@ const router = require('express').Router();
  *
  */
 
-router.get('/v1/projects',
+router.get('/projects',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const projects = await models.Project.findAll();
-
-        for (let project of projects) {
-            const milestone = await models.Milestone.findOne({where: {uuid: project.currentMilestoneUuid}});
-            const skills = await models.MiestoneSkill.findAll({where: {milestoneUuid: milestone.uuid}});
-            project['dataValues']['milestone'] = milestone;
-            project['dataValues']['skills'] = skills;
-        }
-
+        const projects = await models.Project.findAll({
+        include: [{
+            model: models.Skill,
+            as: 'Skills',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            // attributes: ['uuid', 'name'],
+        },
+        {
+            model: models.Task,
+            as: 'Tasks',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            // attributes: ['uuid', 'name']
+    },
+    {
+        model: models.User,
+        as: 'Users',
+        required: false,
+        // Pass in the Product attributes that you want to retrieve
+       // attributes: ['uuid', 'name']
+},
+    ]});
         res.json(projects);
     })
 );

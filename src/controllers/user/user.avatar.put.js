@@ -24,7 +24,7 @@ const upload = multer({
 });
 /**
  *  @swagger
- *  /v1/users/{uuid}/avatar:
+ *  /users/{uuid}/avatar:
  *    put:
  *      tags:
  *        - example
@@ -37,13 +37,13 @@ const upload = multer({
  *          description: example was updated
  */
 
-router.put('/v1/user/avatar/:uuid',
+router.put('/user/avatar/:uuid',
     // authenticate(),
     upload.single('avatar'),
     errors.wrap(async (req, res) => {
         const user = await models.User.findById(req.params.uuid);
         if (!user) throw errors.NotFoundError('user not found');
-        const result = await user.update({avatar: `/v1/users/avatar/${req.params.uuid}`});
+        const result = await user.update({avatar: `/users/avatar/${req.params.uuid}`});
         res.json(result);
     })
 );

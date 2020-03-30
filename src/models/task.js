@@ -7,14 +7,13 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        milestoneUuid: {
-            field: 'milestone_uuid',
+        project_uuid: {
             type: Sequelize.UUID,
             allowNull: false,
             references: {
-                model: 'milestones',
+                model: 'project',
                 key: 'uuid',
-            },
+            }
         },
         name: {
             type: Sequelize.STRING(64),
@@ -28,11 +27,24 @@ module.exports = (sequelize, Sequelize) => {
         },
     }, {
         tableName: 'tasks',
-        timestamps: true,
+        timestamps: false,
     });
 
     Task.associate = (models) => {
-        Task.belongsTo(models.Project, {foreignKey: {field: 'uuid'}, as: 'project'});
+        Task.belongsToMany(models.User, {
+            through: models.UserTask,
+            as: 'Users',
+            foreignKey: 'task_uuid',
+            otherKey: 'user_uuid'
+          });
+          Task.belongsTo(models.Project, {
+            // as: 'Users',
+            foreignKey: 'project_uuid',
+          });
     };
+
+    // Task.associate = (models) => {
+    //     Task.belongsTo(models.Project, {foreignKey: {field: 'uuid'}, as: 'project'});
+    // };
     return Task;
 };

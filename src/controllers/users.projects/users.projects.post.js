@@ -19,14 +19,13 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/project',
+router.post('/users-projects',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const project = req.body;
-        const existingProject = await models.Project.findOne({where: {name: project.name}});
-        if (existingProject) throw errors.InvalidInputError('Filter with same name already exists');
-        const result = await models.Project.create(project);
+
+        const info = req.body;
+        const result = await models.UsersProject.create(info);
         res.json(result);
     })
 );

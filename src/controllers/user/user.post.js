@@ -4,7 +4,7 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
 /**
  *  @swagger
  *
- *  /v1/user:
+ *  /user:
  *    post:
  *      tags:
  *        - users
@@ -48,7 +48,7 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
  *          description: user data
  */
 
-router.post('/v1/user',
+router.post('/user',
     arrangeInputs('body', {
         email: {required: false},
         firstName: {required: true},

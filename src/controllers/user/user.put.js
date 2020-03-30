@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    put:
  *      tags:
  *        - user
@@ -20,21 +20,34 @@ const router = require('express').Router();
  *          description: user was updated
  */
 
-router.put('/v1/user/:uuid',
+router.put('/user/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const user = await models.User.findById(req.params.uuid);
+        const user = await models.User.findById(req.params.uuid,
+            {include: [{
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Skill,
+                as: 'Skills',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {                
+                model: models.Task,
+                as: 'Tasks',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name']
+            }]});
         if (!user) throw errors.NotFoundError('user not found');
 
-        const result = await user.update( req.body, { fields: [
-            'firstName',
-            'middleName',
-            'lastName',
-            'email',
-            'phone1',
-            'phone2',
-            'role',
-        ]} );
+        const result = await user.update(req.body);
         
         res.json(result);
     })

@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/skill:
+ *  /skill:
  *    post:
  *      tags:
  *        - skill
@@ -19,20 +19,15 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/v1/milestone-skills',
+router.post('/tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-
-        const skills = req.body.milestoneSkills;
-        const milestoneUuid = req.body.milestoneUuid;
-
-        await models.MiestoneSkill.destroy({ where: { milestoneUuid : milestoneUuid } });
-
-        for (const skill of skills) {
-            await models.MiestoneSkill.create({ milestoneUuid: milestoneUuid, skillUuid: skill.uuid });
-        }
-        res.sendStatus(200);
+        const tasks = req.body;
+        const existingSkill = await models.Task.findOne({where: {name: tasks.name}});
+        if (existingSkill) throw errors.InvalidInputError('Filter with same name already exists');
+        const result = await models.Task.create(tasks);
+        res.json(result);
     })
 );
 

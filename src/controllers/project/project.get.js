@@ -4,7 +4,7 @@ const router = require('express').Router();
 const roles = require('../../enums/user-roles');
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    get:
  *      tags:
  *        - example
@@ -22,11 +22,32 @@ const roles = require('../../enums/user-roles');
  */
 
 
-router.get('/v1/project/:uuid',
+router.get('/project/:uuid',
     // authenticate([roles.MANAGER, roles.STAFF]),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const project = await models.Project.findById(req.params.uuid);
+        const project = await models.Project.findById(req.params.uuid,
+            {include: [{
+                model: models.Skill,
+                as: 'Skills',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Task,
+                as: 'Tasks',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.User,
+                as: 'Users',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+               // attributes: ['uuid', 'name']
+        }]});
         if (!project) throw errors.NotFoundError('Example not found');
         res.json(project);
     })

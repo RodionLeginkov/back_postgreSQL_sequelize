@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    get:
  *      tags:
  *        - example
@@ -20,11 +20,25 @@ const router = require('express').Router();
  *          description: example received
  */
 
-router.get('/v1/skill/:uuid',
+router.get('/skill/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const user = await models.Skill.findById(req.params.uuid);
+        const user = await models.Skill.findById(req.params.uuid,
+            {include: [{
+                model: models.User,
+                as: 'Users',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            }]});
         if (!user) throw errors.NotFoundError('Example not found');
         res.json(user);
     })

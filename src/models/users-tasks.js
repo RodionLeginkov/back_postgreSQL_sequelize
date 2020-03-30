@@ -2,32 +2,35 @@
 
 module.exports = (sequelize, Sequelize) => {
     const UserTask = sequelize.define('UserTask', {
-        userUuid: {
-            field: 'user_uuid',
+        uuid: {
             type: Sequelize.UUID,
+            defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
+        },
+        user_uuid: {
+            type: Sequelize.UUID,
+            allowNull: false,
             references: {
                 model: 'users',
                 key: 'uuid',
             },
         },
-        taskUuid: {
-            field: 'task_uuid',
+        task_uuid: {
             type: Sequelize.UUID,
-            primaryKey: true,
+            allowNull: false,
             references: {
                 model: 'tasks',
                 key: 'uuid',
             },
         },
     }, {
-        tableName: 'user_tasks',
-        timestamps: true,
+        tableName: 'users_tasks',
+        timestamps: false,
     });
 
     UserTask.associate = (models) => {
-        UserTask.belongsTo(models.User, {foreignKey: {field: 'uuid'}, as: 'user'});
-        UserTask.belongsTo(models.Task, {foreignKey: {field: 'uuid'}, as: 'task'});
+        UserTask.belongsTo(models.User, {foreignKey: 'user_uuid', as: 'User'});
+        UserTask.belongsTo(models.Task, {foreignKey: 'task_uuid', as: 'Task'});
     };
 
     return UserTask;

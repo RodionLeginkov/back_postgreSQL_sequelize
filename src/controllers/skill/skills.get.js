@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example:
+ *  /example:
  *    get:
  *      tags:
  *        - example
@@ -25,11 +25,27 @@ const router = require('express').Router();
  *
  */
 
-router.get('/v1/skills',
+router.get('/skills',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const skills = await models.Skill.findAll({attributes: ['uuid', 'name']});
+        const skills = await models.Skill.findAll({
+            include: [{
+                model: models.User,
+                as: 'Users',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            
+        ]});
         res.json(skills);
     })
 );

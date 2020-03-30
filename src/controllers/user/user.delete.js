@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    delete:
  *      tags:
  *        - example
@@ -20,16 +20,31 @@ const router = require('express').Router();
  *          description: example was deleted
  */
 
-router.delete('/v1/user/:uuid',
+router.delete('/user/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 
+
         try {
-            await models.UserSkill.destroy({ where: { "user_uuid": req.params.uuid } });
-            const user = await models.User.findById(req.params.uuid);
-            if (!user) throw errors.NotFoundError('Example not found');
-            await user.destroy();
+            const users = await models.User.findById(req.params.uuid);
+            if (!users) throw errors.NotFoundError('Example not found');
+            
+            const project = await users.getProjects();
+            // const tasks = await users.getTasks();
+            const skills = await users.getSkills();
+            // const userTasks = await project.getUserTask();
+            // console.log(tasks);
+            users.removeProjects(project);
+            // users.removeSkills(tasks);
+            users.removeSkills(skills);
+            // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
+            // for (const milestone of milestones) {
+            //     await models.MiestoneSkill.destroy({where: {'milestone_uuid': milestone.uuid}});
+            // }
+            // await models.Milestone.destroy({where: {'project_uuid': project.uuid}});
+
+            await users.destroy();
         } catch (err) {
             console.log(err);
         }

@@ -1,9 +1,9 @@
-const authenticate = require('../../middleware/authenticate');
-const errors = require('../../errors');
 const router = require('express').Router();
+const errors = require('../../errors');
+const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    delete:
  *      tags:
  *        - example
@@ -20,12 +20,11 @@ const router = require('express').Router();
  *          description: example was deleted
  */
 
-router.delete('/v1/milestone/:uuid',
+router.delete('/users-skills/:skill_uuid/:project_uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const example = await models.Milestone.findById(req.params.uuid);
-        if (!example) throw errors.NotFoundError('Example not found');
-        await example.destroy();
+        const models = res.app.get('models');
+        await models.UserSkill.destroy({where: {'skill_uuid': req.params.skill_uuid, 'project_uuid': req.params.project_uuid}});        
         res.sendStatus(204);
     })
 );

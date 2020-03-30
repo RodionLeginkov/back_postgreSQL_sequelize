@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 /**
  *  @swagger
- *  /v1/skill:
+ *  /skill:
  *    post:
  *      tags:
  *        - skill
@@ -19,23 +19,37 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/v1/users-skills',
+router.post('/users-skills',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 
-        const skills = req.body.userSkills;
-        const userUuid = req.body.userUuid;
-
-        await models.UserSkill.destroy({ where: { "user_uuid": userUuid } });
-
-        console.log(skills)
-
-        for (const skill of skills) {
-            await models.UserSkill.create({ userUuid: userUuid, skillUuid: skill.uuid });
-        }
-        res.sendStatus(200);
+        const info = req.body;
+        const result = await models.UserSkill.create(info);
+        res.json(result);
     })
 );
 
 module.exports = router;
+
+
+// router.post('/users-skills',
+//     // authenticate(),
+//     errors.wrap(async (req, res) => {
+//         const models = res.app.get('models');
+
+//         const skills = req.body.userSkills;
+//         const userUuid = req.body.userUuid;
+
+//         await models.UserSkill.destroy({ where: { "user_uuid": userUuid } });
+
+//         console.log(skills)
+
+//         for (const skill of skills) {
+//             await models.UserSkill.create({ userUuid: userUuid, skillUuid: skill.uuid });
+//         }
+//         res.sendStatus(200);
+//     })
+// );
+
+// module.exports = router;

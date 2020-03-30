@@ -21,7 +21,7 @@
 
 //     describe('must be properly created:', () => {
 //         // it('escape symbols should be removed from tag name and is_public field should be "false" by default', async () => {
-//         //     await request.post('/v1/tag')
+//         //     await request.post('/tag')
 //         //         .set(`Authorization`, `Bearer ${saJwt}`)
 //         //         .type('form')
 //         //         .send(tags.tagWithEscapes)
@@ -36,7 +36,7 @@
 //         // });
         
 //         it('can have same name as another user private tag', async () => {;
-//             await request.get('/v1/users')
+//             await request.get('/users')
 //                 // .set(`Authorization`, `Bearer ${userMasterJwt}`)
 //                 // .type('form')
 //                 // .send(tags.tagWithEscapes)
@@ -44,7 +44,7 @@
 //         });
 
 //         it('but public tag should not be duplicated', async () => {
-//             await request.post('/v1/user')
+//             await request.post('/user')
 //                 // .set(`Authorization`, `Bearer ${userMasterJwt}`)
 //                 // .type('form')
 //                 .send({})

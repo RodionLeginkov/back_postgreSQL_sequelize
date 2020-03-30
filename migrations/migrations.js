@@ -102,15 +102,35 @@ module.exports = {
             },
             communication: {
               type: DataTypes.STRING,
-              allowNull: true,
+              allowNull: false,
+            },
+            type: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            withdrawal_of_funds: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            owner: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            start_date: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
+            end_date: {
+                type: DataTypes.DATE,
+                allowNull: false,
             },
             description: {
               type: DataTypes.STRING,
-              allowNull: true,
+              allowNull: false,
             },
             history: {
               type: DataTypes.STRING(5000),
-              allowNull: true,
+              allowNull: false,
             },
             createdAt: {
                 type: DataTypes.DATE,
@@ -129,7 +149,6 @@ module.exports = {
                 primaryKey: true,
             },
             project_uuid: {
-                field: 'project_uuid',
                 type: DataTypes.UUID,
                 allowNull: false,
                 references: {
@@ -158,19 +177,22 @@ module.exports = {
         });
 
         await queryInterface.createTable('users_skills', {
-            userUuid: {
-                field: 'user_uuid',
+            uuid: {
                 type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
+            },
+            user_uuid: {
+                type: DataTypes.UUID,
+                allowNull: false,
                 references: {
                     model: 'users',
                     key: 'uuid',
                 },
             },
-            skillUuid: {
-                field: 'skill_uuid',
+            skill_uuid: {
                 type: DataTypes.UUID,
-                primaryKey: true,
+                allowNull: false,
                 references: {
                     model: 'skills',
                     key: 'uuid',
@@ -182,19 +204,22 @@ module.exports = {
             },
         });
         await queryInterface.createTable('projects_skills', {
-            userUuid: {
-                field: 'project_uuid',
+            uuid: {
                 type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
+            },
+            project_uuid: {
+                type: DataTypes.UUID,
+                allowNull: false,
                 references: {
                     model: 'projects',
                     key: 'uuid',
                 },
             },
-            skillUuid: {
-                field: 'skill_uuid',
+            skill_uuid: {
                 type: DataTypes.UUID,
-                primaryKey: true,
+                allowNull: false,
                 references: {
                     model: 'skills',
                     key: 'uuid',
@@ -207,23 +232,26 @@ module.exports = {
         });
 
         await queryInterface.createTable('users_projects', {
-            userUuid: { 
-                field: 'user_uuid',
+            uuid: {
                 type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
+            },
+            user_uuid: { 
+                type: DataTypes.UUID,
+                allowNull: false,
                 references: {
                     model: 'users',
                     key: 'uuid',
                 }
             },
-            projectUuid: { 
-                field: 'project_uuid',
+            project_uuid: {
                 type: DataTypes.UUID,
-                primaryKey: true,
+                allowNull: false,
                 references: {
                     model: 'projects',
                     key: 'uuid',
-                }
+                },
             },
             rate_type: {
                 field: 'rate_type',
@@ -245,19 +273,22 @@ module.exports = {
         });
 
         await queryInterface.createTable('users_tasks', {
-            userUuid: {
-                field: 'user_uuid',
+            uuid: {
                 type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
+            },
+            user_uuid: {
+                type: DataTypes.UUID,
+                allowNull: false,
                 references: {
                     model: 'users',
                     key: 'uuid',
                 },
             },
-            taskUuid: {
-                field: 'task_uuid',
+            task_uuid: {
                 type: DataTypes.UUID,
-                primaryKey: true,
+                allowNull: false,
                 references: {
                     model: 'tasks',
                     key: 'uuid',

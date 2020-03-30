@@ -4,7 +4,7 @@ const router = require('express').Router();
 const path = require('path');
 /**
  *  @swagger
- *  /v1/users/{uuid}/avatar:
+ *  /users/{uuid}/avatar:
  *    put:
  *      tags:
  *        - example
@@ -17,7 +17,7 @@ const path = require('path');
  *          description: example was updated
  */
 
-router.get('/v1/user/avatar/:uuid',
+router.get('/user/avatar/:uuid',
     // authenticate(),
     errors.wrap(async (req,res) => {
         file = path.resolve(process.env.FILE_URL);

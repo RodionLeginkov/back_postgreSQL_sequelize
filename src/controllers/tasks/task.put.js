@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example/{uuid}:
+ *  /example/{uuid}:
  *    put:
  *      tags:
  *        - user
@@ -20,18 +20,15 @@ const router = require('express').Router();
  *          description: user was updated
  */
 
-router.put('/v1/milestone/:uuid',
+router.put('/task/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const milestone = await models.Milestone.findById(req.params.uuid);
-        if (!milestone) throw errors.NotFoundError('user not found');
+      const tasks = await models.Task.findById(req.params.uuid);
+      if (!tasks) throw errors.NotFoundError('user not found');
 
-        const result = await milestone.update( req.body, { fields: [
-                'uuid',
-                'projectUuid'
-            ]} );
+      const result = await tasks.update( req.body);
 
-        res.json(result);
+      res.json(result);
     })
 );
 

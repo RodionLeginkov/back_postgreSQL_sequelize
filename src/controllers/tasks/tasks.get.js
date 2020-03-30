@@ -3,7 +3,7 @@ const errors = require('../../errors');
 const router = require('express').Router();
 /**
  *  @swagger
- *  /v1/example:
+ *  /example:
  *    get:
  *      tags:
  *        - example
@@ -25,13 +25,23 @@ const router = require('express').Router();
  *
  */
 
-router.get('/v1/milestones',
+router.get('/tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const milestone = await models.Milestone.findAll({attributes: ['uuid']});
-        // console.log(res.locals.user.dataValues.firstName)
-        res.json(milestone);
+        const tasks = await models.Task.findAll( {
+            include: [
+        {
+            model: models.User,
+            as: 'Users',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+           // attributes: ['uuid', 'name']
+    },
+        ]}, {
+            order: [{model: models.User}, 'firstName'],
+        });
+        res.json(tasks);
     })
 );
 
