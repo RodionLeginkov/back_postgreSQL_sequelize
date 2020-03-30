@@ -29,7 +29,16 @@ router.get('/tasks',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const tasks = await models.Task.findAll();
+        const tasks = await models.Task.findAll( {
+            include: [
+        {
+            model: models.User,
+            as: 'Users',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+           // attributes: ['uuid', 'name']
+    },
+        ]});
         res.json(tasks);
     })
 );
