@@ -29,10 +29,10 @@ router.delete('/project/:uuid',
             const project = await models.Project.findById(req.params.uuid);
             if (!project) throw errors.NotFoundError('Example not found');
             
-            const users = await project.getUsers();
+            const milestones = await users.getProjects_Milestones();
             const skills = await project.getSkills();
             // const userTasks = await project.getUserTask();
-            project.removeUsers(users);
+            if (!Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
             project.removeSkills(skills);
             // project.removeTasks(tasks);
             // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});

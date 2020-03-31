@@ -25,25 +25,18 @@ router.delete('/user/:uuid',
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 
-
         try {
             const users = await models.User.findById(req.params.uuid);
             if (!users) throw errors.NotFoundError('Example not found');
             
-            // const tasks = await users.getTasks();
             const skills = await users.getSkills();
             const milestones = await users.getUsers_Milestones();
             // const userTasks = await project.getUserTask();
-            // console.log(tasks);
-            users.removeUsers_Milestones(milestones);
+            if (!Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
+            // users.removeUsers_Milestones(milestones);
             users.removeSkills(skills);
-            // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
-            // for (const milestone of milestones) {
-            //     await models.MiestoneSkill.destroy({where: {'milestone_uuid': milestone.uuid}});
-            // }
-            // await models.Milestone.destroy({where: {'project_uuid': project.uuid}});
-
-            await users.destroy();
+            console.log('test');
+            // await users.destroy();
         } catch (err) {
             console.log(err);
         }

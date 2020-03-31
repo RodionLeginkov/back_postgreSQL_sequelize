@@ -51,8 +51,10 @@ router.get('/users',
             required: false,
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']
-        },
-    ]
+        }
+    ], order: [
+        ['role'],
+    ],
         });
         res.json(users);
     })
