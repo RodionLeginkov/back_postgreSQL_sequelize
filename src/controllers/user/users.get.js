@@ -1,6 +1,9 @@
 const authenticate = require('../../middleware/authenticate');
 const errors = require('../../errors');
 const router = require('express').Router();
+const Sequelize = require('sequelize');
+const {Op} = require('sequelize');
+const {paginate} = require('../../../utils/pagination');
 /**
  *  @swagger
  *  /example:
@@ -36,33 +39,65 @@ const router = require('express').Router();
 router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const models = res.app.get('models');
+            const models = res.app.get('models');
+            console.log(req);
+        let page =0, pageSize =0;
+                // const whereCondition = search
+        // ? {
+        //     [Op.or]: [{
+        //         'fname': {
+        //             [Op.iLike]: `${search}%`,
+        //         }
+        //     }, {
+        //         'lname': {
+        //             [Op.iLike]: `${search}%`,
+        //         }
+        //     }, {
+        //         'email': {
+        //             [Op.iLike]: `${search}%`,
+        //         }
+        //     }]
+        // }
+        // : {};
+
         const users = await models.User.findAll({
             include: [{
-                model: models.Project,
-                as: 'Projects',
+                model: models.Milestones,
+                as: 'Users_Milestones',
                 required: false,
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
-            },
-        {                
+        },
+         {                
             model: models.Skill,
             as: 'Skills',
             required: false,
             // Pass in the Product attributes that you want to retrieve
-            // attributes: ['uuid', 'name']
-        },
-        {                
-            model: models.Task,
-            as: 'Tasks',
-            required: false,
-            // Pass in the Product attributes that you want to retrieve
-            // attributes: ['uuid', 'name']
-        }
-    ]
+            // attributes: ['uuid', 'name']    
+        }], 
+            order: [[Sequelize.literal(orderByRole)]],
+            ...paginate({page,pageSize}),
+            distinct: true,
         });
+        // console.log(req);
         res.json(users);
     })
 );
+
+
+const orderByRole = `
+CASE WHEN "User"."role" = 'ceo' THEN 1 
+     WHEN "User"."role" = 'cto' THEN 2 
+     WHEN "User"."role" = 'hr_manager' THEN 3
+     WHEN "User"."role" = 'sales_manager' THEN 4
+     WHEN "User"."role" = 'office_manager' THEN 5  
+     WHEN "User"."role" = 'team_leader' THEN 6
+     WHEN "User"."role" = 'senior_developer' THEN 6
+     WHEN "User"."role" = 'middle_developer' THEN 7
+     WHEN "User"."role" = 'junior_developer' THEN 9  
+     WHEN "User"."role" = 'intern' THEN 10  
+     ELSE 11
+END ASC
+`;
 
 module.exports = router;

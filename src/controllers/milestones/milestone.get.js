@@ -20,33 +20,28 @@ const router = require('express').Router();
  *          description: example received
  */
 
-router.get('/user/:uuid',
-
+router.get('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const user = await models.User.findById(req.params.uuid,
-            {
-                include: [{
-                    model: models.Milestones,
-                    as: 'Users_Milestones',
-                    required: false,
-                    // Pass in the Product attributes that you want to retrieve
-                    // attributes: ['uuid', 'name']
-            },
-             {                
-                model: models.Skill,
-                as: 'Skills',
+        const user = await models.Milestones.findById(req.params.uuid,
+            {include: [{
+                model: models.User,
+                as: 'Users',
                 required: false,
                 // Pass in the Product attributes that you want to retrieve
-                // attributes: ['uuid', 'name']
+                // attributes: ['uuid', 'name'],
             },
-        ]
-            });
+            {
+                model: models.Project,
+                as: 'Projects',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            }]});
         if (!user) throw errors.NotFoundError('Example not found');
         res.json(user);
     })
-
 );
 
 module.exports = router;

@@ -34,23 +34,13 @@ router.get('/projects',
             model: models.Skill,
             as: 'Skills',
             required: false,
-            // Pass in the Product attributes that you want to retrieve
-            // attributes: ['uuid', 'name'],
         },
         {
-            model: models.Task,
-            as: 'Tasks',
+            model: models.Milestones,
+            as: 'Projects_Milestones',
             required: false,
-            // Pass in the Product attributes that you want to retrieve
-            // attributes: ['uuid', 'name']
     },
-    {
-        model: models.User,
-        as: 'Users',
-        required: false,
-        // Pass in the Product attributes that you want to retrieve
-       // attributes: ['uuid', 'name']
-},
+
     ]});
         res.json(projects);
     })

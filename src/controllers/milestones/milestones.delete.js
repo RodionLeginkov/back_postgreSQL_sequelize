@@ -20,15 +20,17 @@ const router = require('express').Router();
  *          description: example was deleted
  */
 
-router.delete('/task/:uuid',
+router.delete('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const task = await models.Task.findById(req.params.uuid);
-        if (!task) throw errors.NotFoundError('Example not found');
-        
-        const users = await task.getUsers();
-        task.removeUsers(users);
-        await task.destroy();
+        const milestone = await models.Milestones.findById(req.params.uuid);
+        if (!milestone) throw errors.NotFoundError('Example not found');
+        // const users = await milestone.getUsers();
+        // const project = await milestone.getProjects();
+        // console.log(project);
+        // milestone.removeUsers(users);
+        // milestone.removeProjects(project);
+        await milestone.destroy();
         res.sendStatus(204);
     })
 );
