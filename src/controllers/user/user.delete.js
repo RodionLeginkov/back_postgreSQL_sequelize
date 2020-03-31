@@ -36,7 +36,7 @@ router.delete('/user/:uuid',
             // users.removeUsers_Milestones(milestones);
             users.removeSkills(skills);
             console.log('test');
-            // await users.destroy();
+            await users.destroy();
         } catch (err) {
             console.log(err);
         }
