@@ -11,37 +11,12 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(64),
             allowNull: false,
         },
-        'withdrawal_of_funds': {
-            type: Sequelize.STRING(64),
-        },
-        'communication': {
-            type: Sequelize.STRING(64),
-        },
-        'type': {
-            type: Sequelize.STRING(64),
-        },
-        'owner': {
-            type: Sequelize.STRING(64),
-        },
-        'start_date': {
-            type: Sequelize.DATE,
-        },
-        'end_date': {
-            type: Sequelize.DATE,
-        },
         'description': {
+            type: Sequelize.STRING(255),
+        },
+        'customer': {
             type: Sequelize.STRING(64),
         },
-        'history': {
-            type: Sequelize.STRING(5000),
-        },
-        'source': {
-            type: Sequelize.STRING(64),
-        },
-        // currentMilestoneUuid: {
-        //     field: 'current_milestone_id',
-        //     type: Sequelize.UUID,
-        // },
         'createdAt': {
             type: Sequelize.DATE,
             field: 'created_at',
@@ -63,15 +38,8 @@ module.exports = (sequelize, Sequelize) => {
             otherKey: 'skill_uuid'
           });
 
-          Project.belongsToMany(models.User, {
-            through: models.UsersProject,
-            as: 'Users',
-            foreignKey: 'project_uuid',
-            otherKey: 'user_uuid'
-          });
-
-          Project.hasMany(models.Task, {
-            as: 'Tasks',
+          Project.hasMany(models.Milestones, {
+            as: 'Projects_Milestones',
             foreignKey: 'project_uuid',
           });
     };

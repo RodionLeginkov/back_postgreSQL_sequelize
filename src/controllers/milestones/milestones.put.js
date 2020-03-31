@@ -20,15 +20,15 @@ const router = require('express').Router();
  *          description: user was updated
  */
 
-router.put('/task/:uuid',
+router.put('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-      const tasks = await models.Task.findById(req.params.uuid);
-      if (!tasks) throw errors.NotFoundError('user not found');
+        const milestone = await models.Milestones.findById(req.params.uuid);
+        if (!milestone) throw errors.NotFoundError('user not found');
 
-      const result = await tasks.update( req.body);
+        const result = await milestone.update(req.body);
 
-      res.json(result);
+        res.json(result);
     })
 );
 

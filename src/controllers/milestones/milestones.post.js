@@ -19,14 +19,13 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/tasks',
+router.post('/milestones',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const tasks = req.body;
-        const existingSkill = await models.Task.findOne({where: {name: tasks.name}});
-        if (existingSkill) throw errors.InvalidInputError('Filter with same name already exists');
-        const result = await models.Task.create(tasks);
+
+        const info = req.body;
+        const result = await models.Milestones.create(info);
         res.json(result);
     })
 );

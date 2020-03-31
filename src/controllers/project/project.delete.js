@@ -30,10 +30,8 @@ router.delete('/project/:uuid',
             if (!project) throw errors.NotFoundError('Example not found');
             
             const users = await project.getUsers();
-            const tasks = await project.getTasks();
             const skills = await project.getSkills();
             // const userTasks = await project.getUserTask();
-            console.log(tasks);
             project.removeUsers(users);
             project.removeSkills(skills);
             // project.removeTasks(tasks);

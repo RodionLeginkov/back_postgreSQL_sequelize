@@ -83,23 +83,16 @@ module.exports = (sequelize, DataTypes) => {
 
 
     User.associate = (models) => {
-        User.belongsToMany(models.Task, {
-            through: models.UserTask,
-            as: 'Tasks',
-            foreignKey: 'user_uuid',
-            otherKey: 'task_uuid'
-          });
           User.belongsToMany(models.Skill, {
             through: models.UserSkill,
             as: 'Skills',
             foreignKey: 'user_uuid',
             otherKey: 'skill_uuid'
           });
-          User.belongsToMany(models.Project, {
-            through: models.UsersProject,
-            as: 'Projects',
+
+          User.hasMany(models.Milestones, {
+            as: 'Users_Milestones',
             foreignKey: 'user_uuid',
-            otherKey: 'project_uuid'
           });
     };
     /**
