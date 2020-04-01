@@ -24,7 +24,7 @@ router.get('/example/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const example = await models.Example.findById(req.params.uuid);
+        const example = await models.Example.findByPk(req.params.uuid);
         if (!example) throw errors.NotFoundError('Example not found');
         res.json(example);
     })

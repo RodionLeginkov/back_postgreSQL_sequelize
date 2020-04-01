@@ -24,7 +24,7 @@ router.post('/project',
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const project = req.body;
-        console.log(req.body);
+      
         const existingProject = await models.Project.findOne({where: {name: project.name}});
         if (existingProject) throw errors.InvalidInputError('Filter with same name already exists');
         const result = await models.Project.create(project);
@@ -38,7 +38,7 @@ router.post('/project',
             // console.log('test', item);
         });
     
-        const FrontProject = await models.Project.findById(result.uuid,
+        const FrontProject = await models.Project.findByPk(result.uuid,
             {include: [{
                 model: models.Skill,
                 as: 'Skills',

@@ -41,7 +41,7 @@ router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-            //console.log(req);
+            console.log("sdfsdf",req);
         let page =0, pageSize =0,search = 'managers';
                 // const whereCondition = search
         // ? {

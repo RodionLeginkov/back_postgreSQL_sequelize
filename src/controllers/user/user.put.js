@@ -23,7 +23,7 @@ const router = require('express').Router();
 router.put('/user/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const user = await models.User.findById(req.params.uuid,
+        const user = await models.User.findByPk(req.params.uuid,
             {
                 include: [{
                     model: models.Milestones,

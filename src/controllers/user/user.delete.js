@@ -26,7 +26,7 @@ router.delete('/user/:uuid',
         const models = res.app.get('models');
 
         try {
-            const users = await models.User.findById(req.params.uuid);
+            const users = await models.User.findByPk(req.params.uuid);
             if (!users) throw errors.NotFoundError('Example not found');
             
             const skills = await users.getSkills();

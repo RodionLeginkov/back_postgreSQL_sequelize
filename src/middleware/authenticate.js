@@ -15,7 +15,7 @@ module.exports = function authenticate(allowedRoles) {
             throw errors.UnauthorizedError(err.name);
         }
 
-        const user = await models.User.findById(payload.userId);
+        const user = await models.User.findByPk(payload.userId);
         if (!user) throw errors.UnauthorizedError('User not found');
 
         if (allowedRoles && allowedRoles.includes(user.role)) throw errors.Forbidden('Not enough rights');

@@ -26,7 +26,7 @@ router.delete('/project/:uuid',
         const models = res.app.get('models');
 
         try {
-            const project = await models.Project.findById(req.params.uuid);
+            const project = await models.Project.findByPk(req.params.uuid);
             console.log('hello');
             if (!project) throw errors.NotFoundError('Example not found');
             

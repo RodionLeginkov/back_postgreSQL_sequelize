@@ -23,7 +23,7 @@ const router = require('express').Router();
 router.put('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const milestone = await models.Milestones.findById(req.params.uuid);
+        const milestone = await models.Milestones.findByPk(req.params.uuid);
         if (!milestone) throw errors.NotFoundError('user not found');
 
         const result = await milestone.update(req.body);

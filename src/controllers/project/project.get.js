@@ -26,7 +26,7 @@ router.get('/project/:uuid',
     // authenticate([roles.MANAGER, roles.STAFF]),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const project = await models.Project.findById(req.params.uuid,
+        const project = await models.Project.findByPk(req.params.uuid,
             {include: [{
                 model: models.Skill,
                 as: 'Skills',
