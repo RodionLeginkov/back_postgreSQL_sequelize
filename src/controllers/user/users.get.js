@@ -59,13 +59,13 @@ router.get('/users',
         //     }]
         // }
         // : {};
-        /*const whereCondition = (search) => {
-            if (search === '2'){
-               [Op.or]:[{
-                   'role'
-               }]
-            }
-        }*/
+        // const whereCondition = (search) => {
+        //     if (search === '2'){
+        //        [Op.or]:[{
+        //            'role'
+        //        }]
+        //     }
+        // }
 
         const users = await models.User.findAll({
             include: [{
