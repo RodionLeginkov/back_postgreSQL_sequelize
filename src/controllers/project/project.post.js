@@ -38,8 +38,23 @@ router.post('/project',
             // console.log('test', item);
         });
 
+        const FrontProject = await models.Project.findById(result.uuid,
+            {include: [{
+                model: models.Skill,
+                as: 'Skills',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
+            },
+            {
+                model: models.Milestones,
+                as: 'Projects_Milestones',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name']
+        }]});
 
-        res.json(result);
+        res.json(FrontProject);
     })
 );
 
