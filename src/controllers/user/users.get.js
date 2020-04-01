@@ -41,8 +41,9 @@ router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-            console.log("sdfsdf",req);
-        let page =0, pageSize =0,search = 'managers';
+           // console.log("sdfsdf",req);
+            console.log("SELECT",req.query.filter)
+        let page =0, pageSize =0,search = req.query.filter;
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -61,15 +62,15 @@ router.get('/users',
         // }
         // : {};
          let whereCondition = {};
-        // : {};
-         if (search === 'developers') { whereCondition = {
+        console.log(search)
+         if (search === 'Developers') { whereCondition = {
             [Op.or]: {
                 role: {
                     [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer','junior_developer','senior_developer','intern']},
                 }
             }
          }}
-         else if (search === 'managers'){ whereCondition = {
+         else if (search === 'manager'){ whereCondition = {
             [Op.or]:{
                 role: {
                     [Op.iLike]: {[Op.any]: ['ceo','cto','hr_manager','sales_manager','office_manager']},
