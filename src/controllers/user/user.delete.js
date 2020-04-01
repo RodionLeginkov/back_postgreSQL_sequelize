@@ -26,16 +26,16 @@ router.delete('/user/:uuid',
         const models = res.app.get('models');
 
         try {
-            const users = await models.User.findById(req.params.uuid);
+            const users = await models.User.findByPk(req.params.uuid);
             if (!users) throw errors.NotFoundError('Example not found');
             
             const skills = await users.getSkills();
-            //const milestones = await users.getUsers_Milestones();
+            const milestones = await users.getUsers_Milestones();
             // const userTasks = await project.getUserTask();
-            //if (!Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
+            if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
             // users.removeUsers_Milestones(milestones);
             users.removeSkills(skills);
-            console.log('test');
+            // console.log('test');
             await users.destroy();
         } catch (err) {
             console.log(err);

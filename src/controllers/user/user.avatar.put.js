@@ -41,7 +41,7 @@ router.put('/user/avatar/:uuid',
     // authenticate(),
     upload.single('avatar'),
     errors.wrap(async (req, res) => {
-        const user = await models.User.findById(req.params.uuid);
+        const user = await models.User.findByPk(req.params.uuid);
         if (!user) throw errors.NotFoundError('user not found');
         const result = await user.update({avatar: `/users/avatar/${req.params.uuid}`});
         res.json(result);

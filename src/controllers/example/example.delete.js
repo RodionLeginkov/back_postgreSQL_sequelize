@@ -23,7 +23,7 @@ const router = require('express').Router();
 router.delete('/example/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const example = await models.Example.findById(req.params.uuid);
+        const example = await models.Example.findByPk(req.params.uuid);
         if (!example) throw errors.NotFoundError('Example not found');
         await example.destroy();
         res.sendStatus(204);

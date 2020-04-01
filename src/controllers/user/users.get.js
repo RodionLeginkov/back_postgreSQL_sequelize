@@ -4,6 +4,7 @@ const router = require('express').Router();
 const Sequelize = require('sequelize');
 const {Op} = require('sequelize');
 const {paginate} = require('../../../utils/pagination');
+
 /**
  *  @swagger
  *  /example:
@@ -40,8 +41,9 @@ router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-            console.log(req);
-        let page =0, pageSize =0;
+           // console.log("sdfsdf",req);
+            console.log("SELECT",req.query.filter)
+        let page =0, pageSize =0,search = req.query.filter;
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -59,6 +61,22 @@ router.get('/users',
         //     }]
         // }
         // : {};
+         let whereCondition = {};
+        console.log(search)
+         if (search === 'Developers') { whereCondition = {
+            [Op.or]: {
+                role: {
+                    [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer','junior_developer','senior_developer','intern']},
+                }
+            }
+         }}
+         else if (search === 'manager'){ whereCondition = {
+            [Op.or]:{
+                role: {
+                    [Op.iLike]: {[Op.any]: ['ceo','cto','hr_manager','sales_manager','office_manager']},
+                }
+            }
+         }}
 
         const users = await models.User.findAll({
             include: [{
@@ -74,8 +92,9 @@ router.get('/users',
             required: false,
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
-        }], 
-            order: [[Sequelize.literal(orderByRole)]],
+        }],
+           order: [[Sequelize.literal(orderByRole)], ['first_name','ASC'],['last_name','ASC']],
+           where:whereCondition,
             ...paginate({page,pageSize}),
             distinct: true,
         });
@@ -99,5 +118,9 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
+const whereCondition =
+`
+case WHEN "search" = ''
+`
 
 module.exports = router;

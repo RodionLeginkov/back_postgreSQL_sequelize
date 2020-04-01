@@ -23,28 +23,24 @@ const router = require('express').Router();
 router.put('/user/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const user = await models.User.findById(req.params.uuid,
-            {include: [{
-                model: models.Project,
-                as: 'Projects',
-                required: false,
-                // Pass in the Product attributes that you want to retrieve
-                // attributes: ['uuid', 'name'],
-            },
+        const user = await models.User.findByPk(req.params.uuid,
             {
+                include: [{
+                    model: models.Milestones,
+                    as: 'Users_Milestones',
+                    required: false,
+                    // Pass in the Product attributes that you want to retrieve
+                    // attributes: ['uuid', 'name']
+            },
+             {                
                 model: models.Skill,
                 as: 'Skills',
                 required: false,
                 // Pass in the Product attributes that you want to retrieve
-                // attributes: ['uuid', 'name'],
-            },
-            {                
-                model: models.Task,
-                as: 'Tasks',
-                required: false,
-                // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
-            }]});
+            },
+        ]
+            });
         if (!user) throw errors.NotFoundError('user not found');
 
         const result = await user.update(req.body);

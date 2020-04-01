@@ -24,7 +24,7 @@ router.get('/skill/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const user = await models.Skill.findById(req.params.uuid,
+        const user = await models.Skill.findByPk(req.params.uuid,
             {include: [{
                 model: models.User,
                 as: 'Users',
