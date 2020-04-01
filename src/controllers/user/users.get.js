@@ -40,8 +40,8 @@ router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-            console.log(req);
-        let page =0, pageSize =0;
+            //console.log(req);
+        let page =0, pageSize =0,search = 1;
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -59,6 +59,13 @@ router.get('/users',
         //     }]
         // }
         // : {};
+        /*const whereCondition = (search) => {
+            if (search === '2'){
+               [Op.or]:[{
+                   'role'
+               }]
+            }
+        }*/
 
         const users = await models.User.findAll({
             include: [{
@@ -74,8 +81,9 @@ router.get('/users',
             required: false,
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
-        }], 
-            order: [[Sequelize.literal(orderByRole)]],
+        }],
+           order: [[Sequelize.literal(orderByRole)]],
+           where:{},
             ...paginate({page,pageSize}),
             distinct: true,
         });
@@ -99,5 +107,9 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
+const whereCondition =
+`
+case WHEN "search" = ''
+`
 
 module.exports = router;
