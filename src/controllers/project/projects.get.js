@@ -41,7 +41,9 @@ router.get('/projects',
             required: false,
     },
 
-    ]});
+    ],
+    order: [['name', 'ASC']],
+    });
         res.json(projects);
     })
 );

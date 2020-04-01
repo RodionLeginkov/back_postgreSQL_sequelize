@@ -4,6 +4,7 @@ const router = require('express').Router();
 const Sequelize = require('sequelize');
 const {Op} = require('sequelize');
 const {paginate} = require('../../../utils/pagination');
+
 /**
  *  @swagger
  *  /example:
@@ -41,7 +42,7 @@ router.get('/users',
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
             //console.log(req);
-        let page =0, pageSize =0,search = 1;
+        let page =0, pageSize =0,search = 'managers';
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -59,13 +60,22 @@ router.get('/users',
         //     }]
         // }
         // : {};
-        // const whereCondition = (search) => {
-        //     if (search === '2'){
-        //        [Op.or]:[{
-        //            'role'
-        //        }]
-        //     }
-        // }
+         let whereCondition = {};
+        // : {};
+         if (search === 'developers') { whereCondition = {
+            [Op.or]: {
+                role: {
+                    [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer','junior_developer','senior_developer','intern']},
+                }
+            }
+         }}
+         else if (search === 'managers'){ whereCondition = {
+            [Op.or]:{
+                role: {
+                    [Op.iLike]: {[Op.any]: ['ceo','cto','hr_manager','sales_manager','office_manager']},
+                }
+            }
+         }}
 
         const users = await models.User.findAll({
             include: [{
@@ -82,8 +92,8 @@ router.get('/users',
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(orderByRole)]],
-           where:{},
+           order: [[Sequelize.literal(orderByRole)], ['first_name','ASC'],['last_name','ASC']],
+           where:whereCondition,
             ...paginate({page,pageSize}),
             distinct: true,
         });
