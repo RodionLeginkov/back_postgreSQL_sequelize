@@ -27,13 +27,13 @@ router.delete('/project/:uuid',
 
         try {
             const project = await models.Project.findByPk(req.params.uuid);
-            console.log('hello');
+            // console.log('hello');
             if (!project) throw errors.NotFoundError('Example not found');
             
             const milestones = await project.getProjects_Milestones();
             const skills = await project.getSkills();
             // const userTasks = await project.getUserTask();
-            console.log('TEST', Object.keys(milestones).length);
+            // console.log('TEST', Object.keys(milestones).length);
             if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
             project.removeSkills(skills);
             // project.removeTasks(tasks);

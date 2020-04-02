@@ -6,7 +6,7 @@ const crypto = require('crypto');
 router.put('/users/updatePassword',
     // authenticate(),
     errors.wrap(async (req, res) => {
-      console.log(req.body.token);
+      // console.log(req.body.token);
       password = req.body.password;
       const user = await models.User.findByPk(req.body.token);
       if (user === null) throw errors.InvalidInputError('User isn"t exists');
@@ -15,7 +15,7 @@ router.put('/users/updatePassword',
       await user.update({
         password: req.body.password,
       });
-      console.log(user.password);
+      // console.log(user.password);
       res.status(200).send({message: 'password updated'});
     })
 );

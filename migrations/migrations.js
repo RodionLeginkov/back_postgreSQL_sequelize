@@ -35,6 +35,12 @@ module.exports = {
                 type: DataTypes.STRING(512),
                 allowNull: false,
             },
+            project_ready: {
+                type: DataTypes.INTEGER,
+            },
+            current_task: {
+                type: DataTypes.STRING(256),
+            },
             phone1: {
                 type: DataTypes.STRING(64),
             },

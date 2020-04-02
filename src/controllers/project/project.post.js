@@ -54,7 +54,7 @@ router.post('/project',
                 // attributes: ['uuid', 'name']
         }]});
 
-        console.log(FrontProject);
+        // console.log(FrontProject);
         res.json(FrontProject);
     })
 );
