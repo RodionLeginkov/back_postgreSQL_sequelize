@@ -4,20 +4,25 @@ const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
 // 
-router.post('/user/invitation/:uuid', [check('email').isEmail()],
+router.post('/user/invitation/:uuid',
   errors.wrap(async (req, res) => {
+    let result;
     const models = res.app.get('models');
     const error = validationResult(req);
         if (!error.isEmpty()) {
           return res.status(422).json({errors: error.array()});
         }
-    const existinguser = await models.User.findOne({where: {email: req.body.email}});
-        if (existinguser) throw errors.InvalidInputError('Filter with same name already exists');
+
     const user = await models.User.findByPk(req.params.uuid);
-      
-    const result = await user.update(req.body);
-    console.log(req.body);      
-    // console.log('TEST RESET PASSWORD', result.uuid);
+     console.log(typeof(user.email));
+     if (user.email === null) {
+      const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+      if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
+            result = await user.update(req.body);
+    } else {
+      result = user;
+    }
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

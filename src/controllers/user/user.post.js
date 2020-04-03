@@ -51,12 +51,17 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
 router.post('/user', arrangeInputs('body', {
     firstName: {required: true},
     lastName: {required: true},
-    password: {required: true},
+    password: {required: false},
     role: {required: true},
+    email: {required: false},
 }),
     errors.wrap(async (req, res) => {
         const user = req.body;
-        console.log(req.body);
+        if (req.body.email !== undefined) {
+            const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+            if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong'); ;
+            console.log('hello');
+        }
         if (!user.password) user.password = 'HelloWorld!';
         const result = await models.User.create(user);        
         res.json(result);
