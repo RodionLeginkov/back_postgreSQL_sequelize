@@ -48,19 +48,16 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
  *          description: user data
  */
 
-router.post('/user',
-    arrangeInputs('body', {
-        email: {required: false},
-        firstName: {required: true},
-        lastName: {required: true},
-        password: {required: true},
-        role: {required: false},
-    }),
+router.post('/user', arrangeInputs('body', {
+    firstName: {required: true},
+    lastName: {required: true},
+    password: {required: true},
+    role: {required: true},
+}),
     errors.wrap(async (req, res) => {
         const user = req.body;
+        console.log(req.body);
         if (!user.password) user.password = 'HelloWorld!';
-        const existinguser = await models.User.findOne({where: {email: user.email}});
-        if (existinguser) throw errors.InvalidInputError('Filter with same name already exists');
         const result = await models.User.create(user);        
         res.json(result);
     })
