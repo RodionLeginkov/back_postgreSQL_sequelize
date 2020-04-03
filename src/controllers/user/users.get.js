@@ -43,8 +43,9 @@ router.get('/users',
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
             //console.log("SELECT",req.query.filter)
+        //let page =req.query.page, pageSize = req.query.pageSize,search = req.query.filter;
         let page =req.query.page, pageSize = req.query.pageSize,search = req.query.filter;
-                // const whereCondition = search
+        // const whereCondition = search
         // ? {
         //     [Op.or]: [{
         //         'fname': {
