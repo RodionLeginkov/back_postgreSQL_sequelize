@@ -12,7 +12,7 @@ router.post('/user/invitation', [check('email').isEmail()],
         }
     const user = req.body;
     // if (!user.password) user.password = 'HelloWorld!';
-    user.password = 'HelloWorld!';
+    user.password = 'adminadmin';
     const existinguser = await models.User.findOne({where: {email: user.email}});
     if (existinguser) throw errors.InvalidInputError('Filter with same name already exists');
     const result = await models.User.create(user);        
