@@ -42,8 +42,8 @@ router.get('/users',
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
-            console.log("SELECT",req.query.filter)
-        let page =0, pageSize =0,search = req.query.filter;
+            //console.log("SELECT",req.query.filter)
+        let page =req.query.page, pageSize = req.query.pageSize,search = req.query.filter;
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -62,7 +62,7 @@ router.get('/users',
         // }
         // : {};
          let whereCondition = {};
-        console.log(search)
+        console.log("search",search,page,pageSize)
          if (search === 'Developers') { whereCondition = {
             [Op.or]: {
                 role: {
@@ -77,8 +77,8 @@ router.get('/users',
                 }
             }
          }}
-
-        const users = await models.User.findAll({
+         //if ()
+        const users = await models.User.findAndCountAll({
             include: [{
                 model: models.Milestones,
                 as: 'Users_Milestones',
@@ -98,7 +98,10 @@ router.get('/users',
             ...paginate({page,pageSize}),
             distinct: true,
         });
-        // console.log(req);
+        //console.log(users)
+        console.log("req.query",req.query)
+        console.log("Users",Object.keys(users).length)
+        number_of_users = Object.keys(users).length
         res.json(users);
     })
 );
