@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const errors = require('../../errors');
+const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 const mandrill = require('mandrill-api/mandrill');
 
 /**
@@ -29,37 +31,35 @@ router.post('/forgotPass',
         const user = await models.User.findOne({where: {email: req.body.email}});
         
         if (!user) throw errors.NotFoundError('Email not found');
-        /*
-        send letter to mail 
-        */
-
-        const mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_KEY);
-        const message = {
-            'html': '<p>Example HTML content</p>',
-            'text': 'Example text content',
-            'subject': 'example subject',
-            'from_email': 'crm@exceedCRM.com',
-            'from_name': 'Exampel',
-            'to': [{
-                    'email': 'nikolaymihaylov1337@gmail.com',
-                    'name': 'Recipient Name',
-                    'type': 'to'
-                }]
-        };
-        mandrill_client.messages.send({'message': message}, function(result) {
-        // console.log(result)
-        res.send('On your email send letter');
-        
-        /*
-            [{
-                    "email": "recipient.email@example.com",
-                    "status": "sent",
-                    "reject_reason": "hard-bounce",
-                    "_id": "abc123abc123abc123abc123abc123"
-                }]
-            */
-        });
-    })
-);
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: `${process.env.EMAIL_ADDRESS}`,
+              pass: `${process.env.EMAIL_PASSWORD}`,
+            }
+          });
+          const mailOptions = {
+            from: 'rodion.leginkov@gmail.com',
+            to: `${user.email}`,
+            subject: 'Welcome to the Exceed Team CRM!',
+            text:
+            'Welcome to the Exceed Team CRM!\n\n'
+            + 'Please click on the following link, or paste this into your browser to create your password and start using CRM system:\n\n'
+            + `https://black-list-frontend.herokuapp.com/reset/${user.uuid}\n\n`
+            + 'Best Regards,'
+            + 'Exceed Team,\n',
+            
+          };
+          transporter.sendMail(mailOptions, (err, response) =>{
+            if (err) console.error('there was an error: ', err);
+            else {
+              console.log('here is the res: ', response);
+              res.status(200).json('recovery email sent');
+            }
+      });
+      
+          res.json(user);
+      })
+      );
 
 module.exports = router;
