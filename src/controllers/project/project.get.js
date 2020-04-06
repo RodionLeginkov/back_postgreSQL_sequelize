@@ -38,6 +38,7 @@ router.get('/project/:uuid',
                 model: models.Milestones,
                 as: 'Projects_Milestones',
                 required: false,
+                
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
         }]});

@@ -14,7 +14,7 @@ router.post('/user/invitation', [check('email').isEmail()],
     // if (!user.password) user.password = 'HelloWorld!';
     user.password = 'adminadmin';
     const existinguser = await models.User.findOne({where: {email: user.email}});
-    if (existinguser) throw errors.InvalidInputError('Filter with same name already exists');
+    if (existinguser) throw errors.InvalidInputError('User with same email already exists');
     const result = await models.User.create(user);        
     // console.log('TEST RESET PASSWORD', result.uuid);
     const transporter = nodemailer.createTransport({
