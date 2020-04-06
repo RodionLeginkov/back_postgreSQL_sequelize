@@ -26,9 +26,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         fullName: {
-            type: DataTypes.VIRTUAL,
-            get: () => `${User.lastName} ${User.firstName} ${User.middleName}`,
-        },
+            type: DataTypes.VIRTUAL(DataTypes.STRING, [
+                'firstName',
+                'lastName',
+            ]),
+            get() {
+                return `${this.get('firstName') || ''} ${this.get('lastName') ||
+                    ''}`.trim();
+            }},
         email: {
             type: DataTypes.STRING(64),
             unique: true,

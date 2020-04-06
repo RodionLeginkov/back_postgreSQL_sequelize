@@ -12,7 +12,8 @@
     "serve": "nodemon  --harmony ./src/server",
     "serve-dev": "nodemon --harmony ./src/server",
     "test": "NODE_ENV=test DOTENV=.test.env mocha --recursive --no-timeouts",
-    "lint": "./node_modules/.bin/eslint ./src/**/*.js"
+    "lint": "./node_modules/.bin/eslint ./src/**/*.js",
+    "add-migration": "node ./node_modules/sequelize-cli/lib/sequelize migration:create --name"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.5.5",
