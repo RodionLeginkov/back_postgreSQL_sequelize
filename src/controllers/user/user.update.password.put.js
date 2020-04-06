@@ -9,14 +9,21 @@ router.put('/users/updatePassword',
       // console.log(req.body.token);
       password = req.body.password;
       const user = await models.User.findByPk(req.body.token);
+      console.log(user);
       if (user === null) throw errors.InvalidInputError('User isn"t exists');
       if (password.length < 6) throw errors.InvalidInputError('password is wrong');
       // const hashedPassword = await crypto.createHmac('sha512', process.env.SALT || 'salt').update(password).digest('hex');
       await user.update({
         password: req.body.password,
       });
+      const token = await user.generateToken();
+      await user.save();
+      console.log(token);
+      res.status(200).json({
+        user: user,
+        token: token,
+    });
       // console.log(user.password);
-      res.status(200).send({message: 'password updated'});
     })
 );
 
