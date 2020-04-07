@@ -41,6 +41,11 @@ router.put('/user/:uuid',
             },
         ]
             });
+        console.log(typeof(req.body.email));
+        if (req.body.email !== '') {
+            const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+            if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong'); ;
+        }
         if (!user) throw errors.NotFoundError('user not found');
 
         const result = await user.update(req.body);
