@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.delete('/user/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 

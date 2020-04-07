@@ -24,6 +24,7 @@ const roles = require('../../enums/user-roles');
 
 router.get('/project/:uuid',
     // authenticate([roles.MANAGER, roles.STAFF]),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const project = await models.Project.findByPk(req.params.uuid,
@@ -42,6 +43,7 @@ router.get('/project/:uuid',
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
         }]});
+        
         if (!project) throw errors.NotFoundError('Example not found');
         res.json(project);
     })

@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.put('/project/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const project = await models.Project.findByPk(req.params.uuid,
@@ -39,6 +39,7 @@ router.put('/project/:uuid',
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
         }]});
+        console.log(req.headers);
         if (!project) throw errors.NotFoundError('project not found');
 
         const result = await project.update( req.body);
