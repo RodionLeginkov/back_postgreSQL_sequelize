@@ -3,20 +3,28 @@ const errors = require('../../errors');
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
-
-router.post('/user/invitation', [check('email').isEmail()],
+// 
+router.post('/user/invitation/:uuid',
   errors.wrap(async (req, res) => {
+    let result;
+    const models = res.app.get('models');
     const error = validationResult(req);
         if (!error.isEmpty()) {
           return res.status(422).json({errors: error.array()});
         }
-    const user = req.body;
-    // if (!user.password) user.password = 'HelloWorld!';
-    user.password = 'adminadmin';
-    const existinguser = await models.User.findOne({where: {email: user.email}});
-    if (existinguser) throw errors.InvalidInputError('User with same email already exists');
-    const result = await models.User.create(user);        
-    // console.log('TEST RESET PASSWORD', result.uuid);
+
+    const user = await models.User.findByPk(req.params.uuid);
+     console.log(typeof(user.email));
+     if (user.email === null) {
+      const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+      if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
+      result = await user.update(req.body);
+    } else {
+      result = user;
+    }
+    // const existinguser = await models.User.findOne({where: {email: result.email}});
+    // if (existinguser) throw errors.InvalidInputError('User with same email already exists');
+    
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -44,9 +52,8 @@ router.post('/user/invitation', [check('email').isEmail()],
       }
 });
 
-    res.json(result);
+   res.json(result);
 })
 );
 
 module.exports = router;
-
