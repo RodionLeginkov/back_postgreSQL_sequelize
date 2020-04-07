@@ -54,20 +54,17 @@ router.post('/user', arrangeInputs('body', {
     password: {required: false},
     role: {required: true},
     email: {required: false},
-}),
+    }),
     errors.wrap(async (req, res) => {
-        const user = req.body;
-        if (req.body.email !== '') {
-            const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
-            if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong'); ;
-            const existinguser = await models.User.findOne({where: {email: user.email}});
-            if (existinguser) throw errors.InvalidInputError('User with same email already exists');
-            console.log('hello');
-        }
-        if (!user.password) user.password = 'HelloWorld!';
-        const result = await models.User.create(user);        
-        res.json(result);
+    const user = req.body;
+    if (req.body.email !== undefined) {
+    const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+    if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
+    console.log('hello');
+    }
+    if (!user.password) user.password = 'HelloWorld!';
+    const result = await models.User.create(user);
+    res.json(result);
     })
-);
-
-module.exports = router;
+    );
+    module.exports = router;
