@@ -1,3 +1,4 @@
+const authenticate = require('../../middleware/authenticate');
 const router = require('express').Router();
 const errors = require('../../errors');
 const arrangeInputs = require('../../middleware/arrange-inputs');
@@ -48,7 +49,9 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
  *          description: user data
  */
 
-router.post('/user', arrangeInputs('body', {
+router.post('/user',
+  authenticate(),
+    arrangeInputs('body', {
     firstName: {required: true},
     lastName: {required: true},
     password: {required: false},
@@ -60,7 +63,6 @@ router.post('/user', arrangeInputs('body', {
     if (req.body.email !== undefined) {
     const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
     if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
-    console.log('hello');
     }
     if (!user.password) user.password = 'HelloWorld!';
     const result = await models.User.create(user);

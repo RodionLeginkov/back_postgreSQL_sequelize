@@ -21,10 +21,10 @@ const router = require('express').Router();
  */
 
 router.delete('/project/:uuid',
-    // authenticate(),
+   authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-
+        console.log(req.headers);
         try {
             const project = await models.Project.findByPk(req.params.uuid);
             // console.log('hello');

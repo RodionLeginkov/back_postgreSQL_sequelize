@@ -43,7 +43,8 @@ router.get('/user/:uuid',
             },
         ]
             });
-        if (!user) throw errors.NotFoundError('Example not found');
+            if (!user) throw errors.NotFoundError('Example not found');
+            console.log('userGet', req.headers);
         res.json(user);
     })
 

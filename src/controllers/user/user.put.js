@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.put('/user/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const user = await models.User.findByPk(req.params.uuid,
             {

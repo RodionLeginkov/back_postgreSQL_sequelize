@@ -20,11 +20,10 @@ const authenticate = require('../../middleware/authenticate');
  */
 
 router.post('/project',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const project = req.body;
-      
         const existingProject = await models.Project.findOne({where: {name: project.name}});
         if (existingProject) throw errors.InvalidInputError('Filter with same name already exists');
         const result = await models.Project.create(project);

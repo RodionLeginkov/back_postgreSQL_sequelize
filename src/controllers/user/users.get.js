@@ -38,12 +38,12 @@ const {paginate} = require('../../../utils/pagination');
 //     }]
 // });
 router.get('/users',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
-            console.log("SELECT",req.query.filter)
         let page =0, pageSize =0,search = req.query.filter;
+        //console.log(req.headers)
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{

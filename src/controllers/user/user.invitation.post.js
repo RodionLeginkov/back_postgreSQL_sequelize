@@ -1,3 +1,4 @@
+const authenticate = require('../../middleware/authenticate');
 const router = require('express').Router();
 const errors = require('../../errors');
 const sgMail = require('@sendgrid/mail');
@@ -5,6 +6,7 @@ const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
 // 
 router.post('/user/invitation/:uuid',
+  authenticate(),
   errors.wrap(async (req, res) => {
     let result;
     const models = res.app.get('models');
@@ -14,7 +16,6 @@ router.post('/user/invitation/:uuid',
         }
 
     const user = await models.User.findByPk(req.params.uuid);
-     console.log(typeof(user.email));
      if (user.email === null) {
       const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
       if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
