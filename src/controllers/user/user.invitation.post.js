@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
 // 
 router.post('/user/invitation/:uuid',
-  authenticate(),
+  // authenticate(),
   errors.wrap(async (req, res) => {
     let result;
     const models = res.app.get('models');

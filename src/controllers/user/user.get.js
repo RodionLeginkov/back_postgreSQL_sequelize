@@ -22,7 +22,7 @@ const router = require('express').Router();
 
 router.get('/user/:uuid',
 
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const user = await models.User.findByPk(req.params.uuid,
@@ -31,6 +31,11 @@ router.get('/user/:uuid',
                     model: models.Milestones,
                     as: 'Users_Milestones',
                     required: false,
+                    include: [{
+                        model: models.Project,
+                        as: 'Projects',
+                        required: false,
+                    }]
                     // Pass in the Product attributes that you want to retrieve
                     // attributes: ['uuid', 'name']
             },
