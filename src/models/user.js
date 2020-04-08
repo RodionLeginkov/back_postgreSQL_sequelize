@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const errors = require('../errors');
 
+
 module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         uuid: {

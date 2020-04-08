@@ -20,7 +20,7 @@ models = require('./database').models;
 
 app.set('models', database.models);
 app.set('sequelize', database.sequelize);
-
+app.use('/uploads', express.static('uploads'));
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 // The error handler must be before any other error middleware
