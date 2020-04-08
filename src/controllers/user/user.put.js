@@ -29,6 +29,11 @@ router.put('/user/:uuid',
                     model: models.Milestones,
                     as: 'Users_Milestones',
                     required: false,
+                    include: [{
+                        model: models.Project,
+                        as: 'Projects',
+                        required: false,
+                    }]
                     // Pass in the Product attributes that you want to retrieve
                     // attributes: ['uuid', 'name']
             },

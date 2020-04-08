@@ -39,6 +39,11 @@ router.get('/project/:uuid',
                 model: models.Milestones,
                 as: 'Projects_Milestones',
                 required: false,
+                include: [{
+                    model: models.User,
+                    as: 'Users',
+                    required: false,
+                }]
                 
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
