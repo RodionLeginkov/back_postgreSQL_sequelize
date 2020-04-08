@@ -39,6 +39,11 @@ router.get('/projects',
             model: models.Milestones,
             as: 'Projects_Milestones',
             required: false,
+            include: [{
+                model: models.User,
+                as: 'Users',
+                required: false,
+            }]
     },
 
     ],
