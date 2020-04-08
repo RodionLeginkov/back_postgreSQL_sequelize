@@ -12,7 +12,7 @@ router.put('/users/updatePassword',
       console.log(user);
       if (user === null) throw errors.InvalidInputError('User isn"t exists');
       if (password.length < 6) throw errors.InvalidInputError('password is wrong');
-      // const hashedPassword = await crypto.createHmac('sha512', process.env.SALT || 'salt').update(password).digest('hex');
+      // //const hashedPassword = await crypto.createHmac('sha512', process.env.SALT || 'salt').update(password).digest('hex');
       await user.update({
         password: req.body.password,
       });
