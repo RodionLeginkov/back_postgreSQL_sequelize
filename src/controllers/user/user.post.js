@@ -50,23 +50,27 @@ const arrangeInputs = require('../../middleware/arrange-inputs');
  */
 
 router.post('/user',
-  authenticate(),
+    authenticate(),
     arrangeInputs('body', {
-    firstName: {required: true},
-    lastName: {required: true},
-    password: {required: false},
-    role: {required: true},
-    email: {required: false},
+        firstName: {type: 'STRING', required: true},
+        lastName: {type: 'STRING', required: true},
+        password: {type: 'STRING'},
+        role: {type: 'STRING', required: true},
+        email: {type: 'STRING',
+            required: false,
+            pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            transform: (val) => val.toLowerCase()
+        }
     }),
     errors.wrap(async (req, res) => {
-    const user = req.body;
-    if (req.body.email !== undefined) {
-    const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
-    if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
-    }
-    if (!user.password) user.password = 'HelloWorld!';
-    const result = await models.User.create(user);
-    res.json(result);
+        const user = req.body;
+        // if (req.body.email !== undefined) {
+        //     const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
+        //     if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
+        // }
+        if (!user.password) user.password = 'HelloWorld!';
+        const result = await models.User.create(user);
+        res.json(result);
     })
-    );
-    module.exports = router;
+);
+module.exports = router;

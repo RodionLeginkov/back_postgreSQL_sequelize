@@ -4,28 +4,21 @@ const errors = require('../../errors');
 const sgMail = require('@sendgrid/mail');
 const nodemailer = require('nodemailer');
 const {check, validationResult} = require('express-validator');
+const arrangeInputs = require('../../middleware/arrange-inputs');
 // 
 router.post('/user/invitation/:uuid',
   // authenticate(),
-  errors.wrap(async (req, res) => {
-    let result;
-    const models = res.app.get('models');
-    const error = validationResult(req);
-        if (!error.isEmpty()) {
-          return res.status(422).json({errors: error.array()});
-        }
-
-    const user = await models.User.findByPk(req.params.uuid);
-     if (user.email === null) {
-      const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
-      if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
-      result = await user.update(req.body);
-    } else {
-      result = user;
+  arrangeInputs('body', {
+    email: {type: 'STRING',
+        required: false,
+        pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        transform: (val) => val.toLowerCase()
     }
-    // const existinguser = await models.User.findOne({where: {email: result.email}});
-    // if (existinguser) throw errors.InvalidInputError('User with same email already exists');
-    
+}),
+  errors.wrap(async (req, res) => {
+    const models = res.app.get('models');
+    const result = await models.User.findByPk(req.params.uuid);
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -33,6 +26,7 @@ router.post('/user/invitation/:uuid',
         pass: `${process.env.EMAIL_PASSWORD}`,
       }
     });
+    
     const mailOptions = {
       from: 'rodion.leginkov@gmail.com',
       to: `${result.email}`,

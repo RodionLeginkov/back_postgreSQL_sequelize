@@ -22,7 +22,7 @@ const router = require('express').Router();
 
 router.get('/user/:uuid',
 
-    authenticate(),
+    // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const user = await models.User.findByPk(req.params.uuid,

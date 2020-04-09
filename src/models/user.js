@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             get() {
                 return `${this.get('firstName') || ''} ${this.get('lastName') ||
                     ''}`.trim();
-            }},
+            } },
         email: {
             type: DataTypes.STRING(64),
             unique: true,
@@ -95,17 +95,17 @@ module.exports = (sequelize, DataTypes) => {
 
 
     User.associate = (models) => {
-          User.belongsToMany(models.Skill, {
+        User.belongsToMany(models.Skill, {
             through: models.UserSkill,
             as: 'Skills',
             foreignKey: 'user_uuid',
             otherKey: 'skill_uuid'
-          });
+        });
 
-          User.hasMany(models.Milestones, {
+        User.hasMany(models.Milestones, {
             as: 'Users_Milestones',
             foreignKey: 'user_uuid',
-          });
+        });
     };
     /**
      * @param {string} email
@@ -114,7 +114,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     User.authenticate = async (email, password) => {
         const user = await User.findOne({
-            where: {email: email},
+            where: { email: email },
             attributes: [...User.publicAttributes, 'password'],
         });
         if (!user) throw errors.NotFoundError('User not found!');
@@ -128,12 +128,10 @@ module.exports = (sequelize, DataTypes) => {
      * @param {string} password
      * @return {any} hash
      */
-    User.hashPassword = (password) => {
-        return crypto
-            .createHmac('sha512', process.env.SALT || 'salt')
-            .update(password)
-            .digest('hex');
-    };
+    User.hashPassword = (password) => crypto
+        .createHmac('sha512', process.env.SALT || 'salt')
+        .update(password)
+        .digest('hex');
 
     /**
      * Generate Authentication Token for user
@@ -150,7 +148,7 @@ module.exports = (sequelize, DataTypes) => {
         return {
             type: 'Bearer',
             expiresIn: tokenLifeTime,
-            accessToken: jwt.sign(data, salt, {expiresIn: tokenLifeTime}),
+            accessToken: jwt.sign(data, salt, { expiresIn: tokenLifeTime }),
         };
     };
 
