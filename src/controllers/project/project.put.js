@@ -24,7 +24,21 @@ router.put('/project/:uuid',
     authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const project = await models.Project.findByPk(req.params.uuid);
+        const project = await models.Project.findByPk(req.params.uuid,
+            {include: [
+            {
+                model: models.Milestones,
+                as: 'Projects_Milestones',
+                required: false,
+                include: [{
+                    model: models.User,
+                    as: 'Users',
+                    required: false,
+                }]
+                
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name']
+        }]});
         console.log(req.headers);
         if (!project) throw errors.NotFoundError('project not found');
 

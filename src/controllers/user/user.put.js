@@ -35,7 +35,22 @@ router.put('/user/:uuid',
         }
     }),
     errors.wrap(async (req, res) => {
-        const user = await models.User.findByPk(req.params.uuid);
+        const user = await models.User.findByPk(req.params.uuid,
+            {
+                include: [{
+                    model: models.Milestones,
+                    as: 'Users_Milestones',
+                    required: false,
+                    include: [{
+                        model: models.Project,
+                        as: 'Projects',
+                        required: false,
+                    }]
+                    // Pass in the Product attributes that you want to retrieve
+                    // attributes: ['uuid', 'name']
+            },
+        ]
+            });
             delete req.body.password;
         // if (req.body.email !== null) {
         //     const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
