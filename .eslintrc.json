@@ -5,7 +5,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "max-len": ["error", 140],
+    "max-len": [
+      "error",
+      140
+    ],
     "one-var": "off",
     "new-cap": "off",
     "space-before-function-paren": "off",
