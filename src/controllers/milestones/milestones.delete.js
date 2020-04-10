@@ -27,7 +27,7 @@ router.delete('/milestone/:uuid',
         if (!milestone) throw errors.NotFoundError('Example not found');
         // const users = await milestone.getUsers();
         // const project = await milestone.getProjects();
-        // console.log(project);
+
         // milestone.removeUsers(users);
         // milestone.removeProjects(project);
         await milestone.destroy();

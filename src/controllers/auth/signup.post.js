@@ -42,12 +42,12 @@ router.post('/signup', [check('email').isEmail(), check('password').isLength({mi
         }
         const models = res.app.get('models');
         let userData = req.body;
-        /* console.log('DEV_HASH', req.body.dev_hash);
+        /* 
         if (!req.body.dev_hash || !req.body.dev_hash === '7f49cb0950dca2be02bb2cd67510986') {
             throw errors.NotAllowedError('This is dev feature at this moment, contact you supoort');
         }*/
         const user = await models.User.create(userData);
-        // console.log(user);
+       
         if (!user) throw errors.NotFoundError('User not created, invalid or missing credentials');
         const token = await user.generateToken();
         delete user.dataValues.password;

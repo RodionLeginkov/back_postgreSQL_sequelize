@@ -33,10 +33,12 @@ router.post('/signin',
         const models = res.app.get('models');
         const user = await models.User.authenticate(req.body.email, req.body.password);
         const token = await user.generateToken();
+        
         user.lastLoginDate = new Date();
+        
         await user.save();
         delete user.dataValues.password;
-        console.log(token);
+
         res.json({
             user: user,
             token: token,

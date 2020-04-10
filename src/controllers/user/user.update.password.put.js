@@ -6,10 +6,9 @@ const crypto = require('crypto');
 router.put('/users/updatePassword',
     // authenticate(),
     errors.wrap(async (req, res) => {
-      // console.log(req.body.token);
       password = req.body.password;
       const user = await models.User.findByPk(req.body.token);
-      console.log(user);
+
       if (user === null) throw errors.InvalidInputError('User isn"t exists');
       if (password.length < 6) throw errors.InvalidInputError('password is wrong');
       // //const hashedPassword = await crypto.createHmac('sha512', process.env.SALT || 'salt').update(password).digest('hex');
