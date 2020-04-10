@@ -43,8 +43,9 @@ router.get('/users',
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
         let page =0, pageSize =0, search = req.query.filter;
-        console.log('search', req.query.filter);
+        console.log('search', req.query);
         console.log('yesy');
+        let order;
         // console.log(req.headers)
                 // const whereCondition = search
         // ? {
@@ -139,9 +140,10 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
-const whereCondition =
-`
-case WHEN "search" = ''
+const orderByName =`
 `;
+
+// case WHEN "search" = ''
+// `;
 
 module.exports = router;
