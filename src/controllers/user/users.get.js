@@ -42,8 +42,10 @@ router.get('/users',
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
-        let page =0, pageSize =0,search = req.query.filter;
-        //console.log(req.headers)
+        let page =0, pageSize =0, search = req.query.filter;
+        console.log('search', req.query.filter);
+        console.log('yesy');
+        // console.log(req.headers)
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -62,22 +64,35 @@ router.get('/users',
         // }
         // : {};
          let whereCondition = {};
-        console.log(search)
-         if (search === 'Developers') { whereCondition = {
+         if (search === 'Developers') {
+ whereCondition = {
             [Op.or]: {
                 role: {
-                    [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer','junior_developer','senior_developer','intern']},
+                    [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
                 }
             }
-         }}
-         else if (search === 'manager'){ whereCondition = {
-            [Op.or]:{
+         };
+} else if (search === 'manager') {
+ whereCondition = {
+            [Op.or]: {
                 role: {
-                    [Op.iLike]: {[Op.any]: ['ceo','cto','hr_manager','sales_manager','office_manager']},
+                    [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
                 }
             }
-         }}
-
+         };
+} else if (search != '' || search != null) {
+ whereCondition = {
+            [Op.or]: [{
+                firstName: {
+                    [Op.iLike]: `${search}%`,
+                }
+            }, {
+                lastName: {
+                     [Op.iLike]: `${search}%`,
+             }
+         }]
+};
+}
         const users = await models.User.findAll({
             include: [{
                 model: models.Milestones,
@@ -98,12 +113,13 @@ router.get('/users',
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(orderByRole)], ['first_name','ASC'],['last_name','ASC']],
-           where:whereCondition,
-            ...paginate({page,pageSize}),
+           order: [[Sequelize.literal(orderByRole)], ['first_name', 'ASC'], ['last_name', 'ASC']],
+           where: whereCondition,
+            // ...paginate({page,pageSize}),
             distinct: true,
         });
         // console.log(req);
+        // console.log('UUSEERRR', models.User);
         res.json(users);
     })
 );
@@ -126,6 +142,6 @@ END ASC
 const whereCondition =
 `
 case WHEN "search" = ''
-`
+`;
 
 module.exports = router;

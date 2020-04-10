@@ -25,7 +25,7 @@ router.put('/project/:uuid',
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const project = await models.Project.findByPk(req.params.uuid);
-        console.log(req.headers);
+        
         if (!project) throw errors.NotFoundError('project not found');
 
         const result = await project.update( req.body);

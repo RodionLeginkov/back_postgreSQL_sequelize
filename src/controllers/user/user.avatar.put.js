@@ -75,7 +75,7 @@ router.put('/user/avatar/:uuid',
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const id = req.params.uuid;
-        console.log(id);
+
         // const changedProject = await Projects.findByPk(id); 
         const file = req.file;
         const s3FileURL = process.env.AWS_Uploaded_File_URL_LINK;
@@ -92,7 +92,7 @@ router.put('/user/avatar/:uuid',
             ContentType: file.mimetype,
             ACL: 'public-read'
         };
-        console.log('file,params', params);
+
         s3bucket.upload(params, async(err, data) =>{
           if (err) res.status(500).json({error: true, Message: err});
           else {
