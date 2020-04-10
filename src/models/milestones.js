@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
         'rate': {
             type: Sequelize.INTEGER,
         },
-        'unit': {
+        'rate_type': {
             type: Sequelize.STRING(15),
         },
         'load': {
