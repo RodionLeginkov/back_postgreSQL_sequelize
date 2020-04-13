@@ -42,9 +42,10 @@ router.get('/users',
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
-        let page =0, pageSize =0, search = req.query.filter;
+        let page =0, pageSize =0, filterRole = req.query.filterRole, filterBar = req.query.filterBar, sort = req.query.sort;
+        let IAdebil = 'first_name';
         // console.log('searchTypeof', typeof(search));
-        console.log('yesy');
+        console.log('yesy', req.query);
         // console.log(req.headers)
                 // const whereCondition = search
         // ? {
@@ -63,32 +64,66 @@ router.get('/users',
         //     }]
         // }
         // : {};
+        if (sort === 'Role') {
+            IAdebil = orderByRole;
+        } else if (sort === 'Name') {
+            IAdebil='first_name';
+        }
          let whereCondition = {};
-         if (search === 'Developers') {
+         console.log('FilterRole', filterRole, 'Filterbar', filterBar);
+         if (filterRole === 'Developers') {
  whereCondition = {
-            [Op.or]: {
-                role: {
-                    [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
-                }
-            }
+            [Op.or]: [{
+                [Op.and]: [{
+                    role: {
+                        [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                    },
+                    firstName: {
+                    [Op.iLike]: `${filterBar}%`,
+                },
+                }]}, {
+                [Op.and]: [{
+                    role: {
+                        [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                    },
+                    lastName: {
+                    [Op.iLike]: `${filterBar}%`,
+                },
+                }]}
+
+ ]
          };
-} else if (search === 'manager') {
- whereCondition = {
-            [Op.or]: {
-                role: {
-                    [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
-                }
-            }
-         };
-} else if (search !== '' || search !== null || search !== undefined) {
+} else if (filterRole === 'manager') {
+whereCondition = {
+    [Op.or]: [{
+        [Op.and]: [{
+            role: {
+                [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
+            },
+            firstName: {
+            [Op.iLike]: `${filterBar}%`,
+        },
+        }]}, {
+        [Op.and]: [{
+            role: {
+                [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
+            },
+            lastName: {
+            [Op.iLike]: `${filterBar}%`,
+        },
+        }]}
+
+]
+ };
+} else if (filterRole === '' ) {
  whereCondition = {
             [Op.or]: [{
                 firstName: {
-                    [Op.iLike]: `${search}%`,
+                    [Op.iLike]: `${filterBar}%`,
                 }
             }, {
                 lastName: {
-                     [Op.iLike]: `${search}%`,
+                     [Op.iLike]: `${filterBar}%`,
              }
          }]
 };
@@ -123,13 +158,11 @@ router.get('/users',
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(orderByRole)], ['first_name', 'ASC'], ['last_name', 'ASC']],
+           order: [[Sequelize.literal(IAdebil)], ['first_name', 'ASC'], ['last_name', 'ASC']],
            where: whereCondition,
             // ...paginate({page,pageSize}),
             distinct: true,
         });
-        // console.log(req);
-        // console.log('UUSEERRR', models.User);
         res.json(users);
     })
 );
@@ -149,9 +182,9 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
-const whereCondition =
-`
-case WHEN "search" = ''
-`;
+// const whereCondition =
+// `
+// case WHEN "search" = ''
+// `;
 
 module.exports = router;
