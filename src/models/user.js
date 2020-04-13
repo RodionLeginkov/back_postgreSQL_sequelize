@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
             get() {
                 return `${this.get('firstName') || ''} ${this.get('lastName') ||
                     ''}`.trim();
-            } },
+            }},
         email: {
             type: DataTypes.STRING(64),
             unique: true,
@@ -106,6 +106,14 @@ module.exports = (sequelize, DataTypes) => {
             as: 'Users_Milestones',
             foreignKey: 'user_uuid',
         });
+        User.hasMany(models.TasksHistory, {
+            as: 'UsersTasks',
+            foreignKey: 'user_uuid',
+        });
+        User.hasMany(models.TasksHistory, {
+            as: 'TasksCreator',
+            foreignKey: 'creator_uuid',
+        });
     };
     /**
      * @param {string} email
@@ -114,7 +122,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     User.authenticate = async (email, password) => {
         const user = await User.findOne({
-            where: { email: email },
+            where: {email: email},
             attributes: [...User.publicAttributes, 'password'],
         });
         if (!user) throw errors.NotFoundError('User not found!');
@@ -148,7 +156,7 @@ module.exports = (sequelize, DataTypes) => {
         return {
             type: 'Bearer',
             expiresIn: tokenLifeTime,
-            accessToken: jwt.sign(data, salt, { expiresIn: tokenLifeTime }),
+            accessToken: jwt.sign(data, salt, {expiresIn: tokenLifeTime}),
         };
     };
 

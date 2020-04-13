@@ -46,6 +46,16 @@ router.get('/user/:uuid',
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
             },
+            {
+                model: models.TasksHistory,
+                as: 'UsersTasks',
+                foreignKey: 'user_uuid',
+            },
+            {
+                model: models.TasksHistory,
+                as: 'TasksCreator',
+                foreignKey: 'creator_uuid',
+            },
         ]
             });
             if (!user) throw errors.NotFoundError('Example not found');
