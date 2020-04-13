@@ -41,12 +41,9 @@ router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-           // console.log("sdfsdf",req);
         let page =0, pageSize =0, filterRole = req.query.filterRole, filterBar = req.query.filterBar, sort = req.query.sort;
         let orderSort = 'first_name';
-        // console.log('searchTypeof', typeof(search));
-        console.log('yesy', req.query);
-        // console.log(req.headers)
+
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -70,7 +67,6 @@ router.get('/users',
             orderSort='first_name';
         }
          let whereCondition = {};
-         console.log('FilterRole', filterRole, 'Filterbar', filterBar);
          if (filterRole === 'Developers') {
  whereCondition = {
             [Op.or]: [{
