@@ -43,7 +43,7 @@ router.get('/users',
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
         let page =0, pageSize =0, filterRole = req.query.filterRole, filterBar = req.query.filterBar, sort = req.query.sort;
-        let IAdebil = 'first_name';
+        let orderSort = 'first_name';
         // console.log('searchTypeof', typeof(search));
         console.log('yesy', req.query);
         // console.log(req.headers)
@@ -65,9 +65,9 @@ router.get('/users',
         // }
         // : {};
         if (sort === 'Role') {
-            IAdebil = orderByRole;
+            orderSort = orderByRole;
         } else if (sort === 'Name') {
-            IAdebil='first_name';
+            orderSort='first_name';
         }
          let whereCondition = {};
          console.log('FilterRole', filterRole, 'Filterbar', filterBar);
@@ -158,7 +158,7 @@ whereCondition = {
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(IAdebil)], ['first_name', 'ASC'], ['last_name', 'ASC']],
+           order: [[Sequelize.literal(orderSort)], ['first_name', 'ASC'], ['last_name', 'ASC']],
            where: whereCondition,
             // ...paginate({page,pageSize}),
             distinct: true,
@@ -182,9 +182,9 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
-// const whereCondition =
-// `
-// case WHEN "search" = ''
-// `;
+const orderBySenioiry =
+`
+case WHEN "search" = ''
+`;
 
 module.exports = router;
