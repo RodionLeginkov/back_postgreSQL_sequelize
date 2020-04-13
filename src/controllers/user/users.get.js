@@ -65,6 +65,8 @@ router.get('/users',
             orderSort = orderByRole;
         } else if (sort === 'Name') {
             orderSort='first_name';
+        } else if (sort === 'Senioiry') {
+            orderSort = orderBySenioiry;
         }
          let whereCondition = {};
          if (filterRole === 'Developers') {
@@ -178,9 +180,10 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      ELSE 11
 END ASC
 `;
+// (${new Date()} - hired_at) ASC
 const orderBySenioiry =
 `
-case WHEN "search" = ''
+(CURRENT_TIMESTAMP - hired_at) ASC
 `;
-
+//
 module.exports = router;
