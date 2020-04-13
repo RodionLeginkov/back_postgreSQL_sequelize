@@ -38,12 +38,12 @@ const {paginate} = require('../../../utils/pagination');
 //     }]
 // });
 router.get('/users',
-    authenticate(),
+    // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
            // console.log("sdfsdf",req);
         let page =0, pageSize =0, search = req.query.filter;
-        console.log('search', req.query.filter);
+        // console.log('searchTypeof', typeof(search));
         console.log('yesy');
         // console.log(req.headers)
                 // const whereCondition = search
@@ -80,7 +80,7 @@ router.get('/users',
                 }
             }
          };
-} else if (search != '' || search != null) {
+} else if (search !== '' || search !== null || search !== undefined) {
  whereCondition = {
             [Op.or]: [{
                 firstName: {
@@ -105,6 +105,16 @@ router.get('/users',
                 }]
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
+        },
+        {
+            model: models.TasksHistory,
+            as: 'UsersTasks',
+            foreignKey: 'user_uuid',
+        },
+        {
+            model: models.TasksHistory,
+            as: 'TasksCreator',
+            foreignKey: 'creator_uuid',
         },
          {                
             model: models.Skill,
