@@ -37,13 +37,21 @@ const {paginate} = require('../../../utils/pagination');
 //         attributes: ['uuid', 'name'],
 //     }]
 // });
+
+// page =0, pageSize =0, 
 router.get('/users',
     // authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-        let page =0, pageSize =0, filterRole = req.query.filterRole, filterBar = req.query.filterBar, sort = req.query.sort;
-        let orderSort = 'first_name';
-
+        
+        const sort = req.query.sort, filterRole = req.query.filterRole, 
+        order =req.query.order, filterBar = req.query.filterBar;
+        
+        let orderSort = 'first_name', changeorder='ASC';
+    
+        if (order === 'false') {
+            changeorder='DESC';
+        }
                 // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -67,6 +75,8 @@ router.get('/users',
             orderSort='first_name';
         } else if (sort === 'Senioiry') {
             orderSort = orderBySenioiry;
+        } else if (sort === 'Loads') {
+            orderSort = 'total_load';
         }
          let whereCondition = {};
          if (filterRole === 'Developers') {
@@ -126,6 +136,7 @@ whereCondition = {
          }]
 };
 }
+
         const users = await models.User.findAll({
             include: [{
                 model: models.Milestones,
@@ -156,7 +167,7 @@ whereCondition = {
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(orderSort), 'ASC'], ['first_name', 'ASC'], ['last_name', 'ASC']],
+           order: [[Sequelize.literal(orderSort), changeorder], ['first_name', 'ASC'], ['last_name', 'ASC']],
            where: whereCondition,
             // ...paginate({page,pageSize}),
             distinct: true,
