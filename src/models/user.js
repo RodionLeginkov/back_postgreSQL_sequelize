@@ -66,6 +66,10 @@ module.exports = (sequelize, DataTypes) => {
         avatar: {
             type: DataTypes.STRING(128),
         },
+        totalLoad: {
+            field: 'total_load',
+            type: DataTypes.STRING(250)
+        },
         current_occupation: {
             type: DataTypes.STRING(128),
         },
