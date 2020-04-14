@@ -28,9 +28,27 @@ router.delete('/milestone/:uuid',
         // const users = await milestone.getUsers();
         // const project = await milestone.getProjects();
 
-        // milestone.removeUsers(users);
-        // milestone.removeProjects(project);
+        const userId = milestone.dataValues.user_uuid;
+
+        // user.update({total_load: user.dataValues.total_load - milestone.dataValues.load});
         await milestone.destroy();
+        const user = await models.User.findByPk(userId,
+            {
+                include: [{
+                    model: models.Milestones,
+                    as: 'Users_Milestones',
+                    required: false,
+            },
+        ]
+            });
+        
+        const milestones = user.Users_Milestones;
+        let totalLoad = 0;
+        for (let i = 0; i < milestones.length; i++) {
+            totalLoad += milestones[i].load;
+        }
+        await user.update({total_load: totalLoad});
+        console.log(totalLoad);
         res.sendStatus(204);
     })
 );
