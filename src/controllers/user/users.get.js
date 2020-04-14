@@ -156,7 +156,7 @@ whereCondition = {
             // Pass in the Product attributes that you want to retrieve
             // attributes: ['uuid', 'name']    
         }],
-           order: [[Sequelize.literal(orderSort)], ['first_name', 'ASC'], ['last_name', 'ASC']],
+           order: [[Sequelize.literal(orderSort), 'ASC'], ['first_name', 'ASC'], ['last_name', 'ASC']],
            where: whereCondition,
             // ...paginate({page,pageSize}),
             distinct: true,
@@ -164,7 +164,7 @@ whereCondition = {
         res.json(users);
     })
 );
-
+// 'DESC'
 
 const orderByRole = `
 CASE WHEN "User"."role" = 'ceo' THEN 1 
@@ -178,12 +178,12 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      WHEN "User"."role" = 'junior_developer' THEN 9  
      WHEN "User"."role" = 'intern' THEN 10  
      ELSE 11
-END ASC
+END 
 `;
 // (${new Date()} - hired_at) ASC
 const orderBySenioiry =
 `
-(CURRENT_TIMESTAMP - hired_at) ASC
+(CURRENT_TIMESTAMP - hired_at) 
 `;
 //
 module.exports = router;
