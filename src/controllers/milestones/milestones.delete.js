@@ -44,11 +44,13 @@ router.delete('/milestone/:uuid',
         
         const milestones = user.Users_Milestones;
         let totalLoad = 0;
+        
         for (let i = 0; i < milestones.length; i++) {
             totalLoad += milestones[i].load;
         }
+        
         await user.update({total_load: totalLoad});
-        console.log(totalLoad);
+
         res.sendStatus(204);
     })
 );

@@ -32,18 +32,18 @@ router.post('/milestones',
                     model: models.Milestones,
                     as: 'Users_Milestones',
                     required: false,
-                    // Pass in the Product attributes that you want to retrieve
-                    // attributes: ['uuid', 'name']
             },
         ]
             });
         const milestones = user.Users_Milestones;
+        
         let totalLoad = 0;
             for (let i = 0; i < milestones.length; i++) {
                 totalLoad += milestones[i].load;
-                }
+            }
+        
         await user.update({total_load: totalLoad});
-        // user.update({total_load: user.dataValues.total_load + result.dataValues.load});
+
         res.json(result);
     })
 );

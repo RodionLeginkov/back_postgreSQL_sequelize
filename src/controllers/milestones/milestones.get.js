@@ -28,15 +28,11 @@ router.get('/milestones',
                 model: models.User,
                 as: 'Users',
                 required: false,
-                // Pass in the Product attributes that you want to retrieve
-                // attributes: ['uuid', 'name'],
             },
             {
                 model: models.Project,
                 as: 'Projects',
                 required: false,
-                // Pass in the Product attributes that you want to retrieve
-                // attributes: ['uuid', 'name'],
             }]});
         res.json(result);
     })
