@@ -59,7 +59,15 @@ router.get('/user/:uuid',
         ]
             });
             if (!user) throw errors.NotFoundError('Example not found');
-        res.json(user);
+            const milestones = user.Users_Milestones;
+            let totalLoad = 0;
+            for (let i = 0; i < milestones.length; i++) {
+                totalLoad += milestones[i].load;
+                }
+           const result = await user.update({total_load: totalLoad});
+                 // res.json(result);
+           // }
+        res.json(result);
     })
 
 );

@@ -72,6 +72,9 @@ module.exports = (sequelize, DataTypes) => {
         role: {
             type: DataTypes.STRING(64),
         },
+        total_load: {
+            type: DataTypes.STRING(250)
+        },
         hiredAt: {
             type: DataTypes.DATE,
             field: 'hired_at',
