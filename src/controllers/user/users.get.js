@@ -77,7 +77,11 @@ router.get('/users',
             orderSort = orderBySenioiry;
         } else if (sort === 'Loads') {
             orderSort = 'total_load';
-        }
+        } else if (sort === 'project_ready') {
+        orderSort = 'project_ready';
+    } else if (sort === 'current_task') {
+        orderSort = 'current_task';
+    }
          let whereCondition = {};
          if (filterRole === 'Developers') {
  whereCondition = {
