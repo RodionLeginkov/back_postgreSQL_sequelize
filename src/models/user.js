@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(64),
         },
         total_load: {
-            type: DataTypes.STRING(250)
+            type: DataTypes.INTEGER
         },
         hiredAt: {
             type: DataTypes.DATE,
