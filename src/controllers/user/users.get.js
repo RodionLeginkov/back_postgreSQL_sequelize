@@ -51,7 +51,8 @@ router.get('/users',
         if (order === 'false') {
             changeorder='DESC';
         }
-                // const whereCondition = search
+        
+        // const whereCondition = search
         // ? {
         //     [Op.or]: [{
         //         'fname': {
@@ -144,15 +145,15 @@ whereCondition = {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
-            role: {[Op.not]: null},  
+            rate: {[Op.not]: null},  
         }
     ]
-    };
+};
 } else if (profitableFilter === 'No Profitable') {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
-            role: {[Op.is]: null},  
+            rate: {[Op.is]: null},  
         }
     ]
     };
