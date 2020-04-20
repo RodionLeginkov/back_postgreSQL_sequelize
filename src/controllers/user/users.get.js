@@ -45,10 +45,9 @@ router.get('/users',
             const models = res.app.get('models');
         
         const sort = req.query.sort, filterRole = req.query.filterRole, 
-        order =req.query.order, filterBar = req.query.filterBar;
+        order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
         
         let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {};
-        console.log( req.query.filterRole);
         if (order === 'false') {
             changeorder='DESC';
         }
@@ -139,7 +138,7 @@ whereCondition = {
              }
          }]
 };
-} else if (filterRole === 'Profitable') {
+} if (profitableFilter === 'Profitable') {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
@@ -147,7 +146,7 @@ whereCondition = {
         }
     ]
     };
-} else if (filterRole === 'No Profitable') {
+} else if (profitableFilter === 'No Profitable') {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
