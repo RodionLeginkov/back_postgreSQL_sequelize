@@ -47,8 +47,8 @@ router.get('/users',
         const sort = req.query.sort, filterRole = req.query.filterRole, 
         order =req.query.order, filterBar = req.query.filterBar;
         
-        let orderSort = 'first_name', changeorder='ASC';
-    
+        let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {};
+        console.log( req.query.filterRole);
         if (order === 'false') {
             changeorder='DESC';
         }
@@ -139,25 +139,44 @@ whereCondition = {
              }
          }]
 };
+} else if (filterRole === 'Profitable') {
+    reqMilestone = true;
+    whereConditionMilestone = {
+        [Op.or]: [{
+            role: {[Op.not]: null},  
+        }
+    ]
+    };
+} else if (filterRole === 'No Profitable') {
+    reqMilestone = true;
+    whereConditionMilestone = {
+        [Op.or]: [{
+            role: {[Op.is]: null},  
+        }
+    ]
+    };
 }
+
 
         const users = await models.User.findAll({
             include: [{
                 model: models.Milestones,
                 as: 'Users_Milestones',
-                required: false,
+                required: reqMilestone,
+                where: whereConditionMilestone,
                 include: [{
                     model: models.Project,
                     as: 'Projects',
                     required: false,
-                }]
+                }],
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
-        },
-        {
-            model: models.TasksHistory,
-            as: 'UsersTasks',
-            foreignKey: 'user_uuid',
+            },
+            {
+                model: models.TasksHistory,
+                as: 'UsersTasks',
+                foreignKey: 'user_uuid',
+                
         },
         {
             model: models.TasksHistory,
