@@ -65,7 +65,7 @@ router.get('/user/:uuid',
                 }
         
             const result = await user.update({total_load: totalLoad});
-        res.json(result);
+            res.json(result);
     })
 
 );

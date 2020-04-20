@@ -75,6 +75,9 @@ module.exports = (sequelize, DataTypes) => {
         total_load: {
             type: DataTypes.INTEGER
         },
+        english_skill: {
+            type: DataTypes.STRING(64),
+        },
         hiredAt: {
             type: DataTypes.DATE,
             field: 'hired_at',

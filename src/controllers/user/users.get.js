@@ -80,6 +80,8 @@ router.get('/users',
         orderSort = 'project_ready';
     } else if (sort === 'current_task') {
         orderSort = 'current_task';
+    } else if (sort === 'english_skill') {
+        orderSort = orderByEnglish;
     }
          let whereCondition = {};
          if (filterRole === 'Developers') {
@@ -194,6 +196,7 @@ whereCondition = {
             // ...paginate({page,pageSize}),
             distinct: true,
         });
+        // console.log(users);
         res.json(users);
     })
 );
@@ -217,6 +220,21 @@ END
 const orderBySenioiry =
 `
 (CURRENT_TIMESTAMP - hired_at) 
+`;
+
+const orderByEnglish = `
+CASE WHEN "User"."english_skill" = null THEN 1 
+     WHEN "User"."english_skill" = 'beginner' THEN 2 
+     WHEN "User"."english_skill" = 'elementary' THEN 3 
+     WHEN "User"."english_skill" = 'pre_intermediate' THEN 4
+     WHEN "User"."english_skill" = 'low_intermediate' THEN 5
+     WHEN "User"."english_skill" = 'intermediate' THEN 6  
+     WHEN "User"."english_skill" = 'upper_intermediate' THEN 7
+     WHEN "User"."english_skill" = 'pre_advanced' THEN 8
+     WHEN "User"."english_skill" = 'advanced' THEN 9
+     WHEN "User"."english_skill" = 'very_advanced' THEN 10  
+     ELSE 11
+END 
 `;
 //
 module.exports = router;
