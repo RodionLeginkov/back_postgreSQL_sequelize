@@ -150,16 +150,20 @@ whereCondition = {
     ]
 };
 } else if (profitableFilter === 'No Profitable') {
-    reqMilestone = false;
+    reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
             rate: {[Op.is]: null},  
-        }
-    ]
-    };
-}
+        }]};
+}   
 
-
+// } else if (profitableFilter === 'No Profitable') {
+//     reqMilestone = true;
+//     whereConditionMilestone = {
+//         [Op.or]: [{
+//             rate: {[Op.is]: null},  
+//         }]};
+// }   
         const users = await models.User.findAll({
             include: [{
                 model: models.Milestones,
@@ -224,7 +228,7 @@ const orderBySenioiry =
 `;
 
 const orderByEnglish = `
-CASE WHEN "User"."english_skill" = null THEN 1 
+CASE WHEN "User"."english_skill" IS null THEN 1 
      WHEN "User"."english_skill" = 'beginner' THEN 2 
      WHEN "User"."english_skill" = 'elementary' THEN 3 
      WHEN "User"."english_skill" = 'pre_intermediate' THEN 4
