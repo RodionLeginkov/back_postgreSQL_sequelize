@@ -150,7 +150,7 @@ whereCondition = {
     ]
 };
 } else if (profitableFilter === 'No Profitable') {
-    reqMilestone = true;
+    reqMilestone = false;
     whereConditionMilestone = {
         [Op.or]: [{
             rate: {[Op.is]: null},  
