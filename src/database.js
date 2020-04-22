@@ -12,6 +12,7 @@ const sequelize = new Sequelize(dbConfig.uri, {
     dialectOptions: {
       multipleStatements: true,
     },
+    logging: dbConfig.logging ? debug : false,
     // logging: console.log
 });
 

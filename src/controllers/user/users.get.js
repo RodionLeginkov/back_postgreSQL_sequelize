@@ -170,12 +170,15 @@ whereCondition = {
                 model: models.TasksHistory,
                 as: 'UsersTasks',
                 foreignKey: 'user_uuid',
-                
+                order: [['created_at', 'DESC']],
+                limit: 1,
         },
         {
             model: models.TasksHistory,
             as: 'TasksCreator',
             foreignKey: 'creator_uuid',
+            order: [['created_at', 'DESC']],
+            limit: 1,
         },
          {                
             model: models.Skill,
@@ -189,7 +192,6 @@ whereCondition = {
             // ...paginate({page,pageSize}),
             distinct: true,
         });
-        // console.log(users);
         res.json(users);
     })
 );
