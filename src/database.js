@@ -12,7 +12,7 @@ const sequelize = new Sequelize(dbConfig.uri, {
     dialectOptions: {
       multipleStatements: true,
     },
-    logging: dbConfig.logging ? debug : false,
+    // logging: console.log
 });
 
 const models = {};
@@ -28,7 +28,7 @@ modelsPaths.forEach((file) => {
 Object.keys(models).forEach((name) => {
     if ('associate' in models[name]) {
         models[name].associate(models);
-        models[name]
+        models[name];
     }
 });
 

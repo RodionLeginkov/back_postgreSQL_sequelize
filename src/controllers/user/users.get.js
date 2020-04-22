@@ -28,15 +28,6 @@ const {paginate} = require('../../../utils/pagination');
  *                  default: 'name'
  *
  */
-// const users = await models.User.findAll({
-//     include: [{
-//         model: models.Skill,
-//         as: 'Skills',
-//         required: false,
-//         // Pass in the Product attributes that you want to retrieve
-//         attributes: ['uuid', 'name'],
-//     }]
-// });
 
 // page =0, pageSize =0, 
 router.get('/users',
@@ -44,14 +35,16 @@ router.get('/users',
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
         
-        const sort = req.query.sort, filterRole = req.query.filterRole, 
-        order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
-        
+        // const sort = req.query.sort, filterRole = req.query.filterRole, 
+        // order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
+        const {sort, filterRole, order, filterBar, profitable: profitableFilter} = req.query;
+
         let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {};
         if (order === 'false') {
             changeorder='DESC';
         }
         
+
         // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -152,16 +145,14 @@ whereCondition = {
 } else if (profitableFilter === 'No Profitable') {
     reqMilestone = true;
     whereConditionMilestone = {
-        [Op.or]: [{
-            rate: {[Op.is]: null},  
+        [Op.not]: [{
+            rate: {[Op.not]: null},  
         }]};
 }   
-
 // } else if (profitableFilter === 'No Profitable') {
-//     reqMilestone = true;
-//     whereConditionMilestone = {
+//     whereCondition = {
 //         [Op.or]: [{
-//             rate: {[Op.is]: null},  
+//             Users_Milestones: {[Op.is]: null},  
 //         }]};
 // }   
         const users = await models.User.findAll({
@@ -197,7 +188,7 @@ whereCondition = {
             // attributes: ['uuid', 'name']    
         }],
            order: [[Sequelize.literal(orderSort), changeorder], ['first_name', 'ASC'], ['last_name', 'ASC']],
-           where: whereCondition,
+           where: whereCondition, // whereCondition,
             // ...paginate({page,pageSize}),
             distinct: true,
         });
@@ -241,5 +232,15 @@ CASE WHEN "User"."english_skill" IS null THEN 1
      ELSE 11
 END 
 `;
+
+const whereNonprofite =
+`
+SELECT *
+FROM users
+WHERE english_skill = 'beginner' 
+ORDER BY role DESC;
+`;
+
+
 //
 module.exports = router;
