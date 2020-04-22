@@ -22,6 +22,25 @@ const authenticate = require('../../middleware/authenticate');
 router.get('/milestones',
     // authenticate(),
     errors.wrap(async (req, res) => {
+        const sort = '', order = 0;
+        let orderSort, changeorder='ASC', whereCondition = {};
+
+        switch (sort) {
+            case 'Load':
+                orderSort = 'load';
+            break;
+            case 'RPD':
+                orderSort = 'rate';
+            break;
+            case 'Platform':
+                orderSort = 'platform';
+            break;
+            case 'Withdraw':
+                orderSort = 'withdraw';
+            break;
+            default:
+                orderSort = 'project_uuid';
+        }
         const models = res.app.get('models');
         const result = await models.Milestones.findAll(
             {include: [{
@@ -33,7 +52,9 @@ router.get('/milestones',
                 model: models.Project,
                 as: 'Projects',
                 required: false,
-            }]});
+            }],
+            order: [[orderSort, 'ASC']]
+        });
         res.json(result);
     })
 );
