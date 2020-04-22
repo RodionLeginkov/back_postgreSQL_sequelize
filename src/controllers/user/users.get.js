@@ -142,13 +142,10 @@ whereCondition = {
         }
     ]
 };
-} else if (profitableFilter === 'No Profitable') {
-    reqMilestone = true;
-    whereConditionMilestone = {
-        [Op.not]: [{
-            rate: {[Op.not]: null},  
-        }]};
-}   
+} 
+// else if (profitableFilter === 'No Profitable') {
+//     reqMilestone = false;
+// }   
 // } else if (profitableFilter === 'No Profitable') {
 //     whereCondition = {
 //         [Op.or]: [{
