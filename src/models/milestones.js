@@ -35,6 +35,12 @@ module.exports = (sequelize, Sequelize) => {
         'load': {
           type: Sequelize.INTEGER,
         },
+        'platform': {
+        type: Sequelize.STRING(64),
+        },
+        'withdraw': {
+            type: Sequelize.STRING(64),
+        },
         'start_date': {
           type: Sequelize.DATE,
           field: 'start_date',
