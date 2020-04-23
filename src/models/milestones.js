@@ -44,6 +44,9 @@ module.exports = (sequelize, Sequelize) => {
         'comment': {
             type: Sequelize.STRING(255),
         },
+        'participants': {
+            type: Sequelize.STRING(255),
+        },
         'start_date': {
           type: Sequelize.DATE,
           field: 'start_date',
