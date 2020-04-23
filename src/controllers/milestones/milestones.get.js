@@ -86,8 +86,9 @@ router.get('/milestones',
 
 const rpdCount =`
 CASE WHEN "Milestones"."rate_type" = 'flat_rate' then  "Milestones"."rate" / 20
-    WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / 20 
+    WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / "Milestones"."load"
     WHEN "Milestones"."rate_type" = 'hourly' then  "Milestones"."rate" / "Milestones"."load"
+    WHEN "Milestones"."rate_type" = 'fixed' then  "Milestones"."load"
    ELSE 0
 END
 `;
