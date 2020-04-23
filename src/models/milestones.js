@@ -41,6 +41,9 @@ module.exports = (sequelize, Sequelize) => {
         'withdraw': {
             type: Sequelize.STRING(64),
         },
+        'comment': {
+            type: Sequelize.STRING(255),
+        },
         'start_date': {
           type: Sequelize.DATE,
           field: 'start_date',
