@@ -78,6 +78,7 @@ router.get('/milestones',
                 }],
                 order: [[sequelize.literal(orderSort), changeorder]]
         });
+        // console.log("test")
         res.json(result);
     })
 );
