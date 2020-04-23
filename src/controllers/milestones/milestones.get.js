@@ -24,21 +24,31 @@ const sequelize = require('sequelize');
 router.get('/milestones',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const sort = '', order = 0;
+        const {sort, order} = req.query;
         let orderSort, changeorder='ASC', whereCondition = {};
 
+        if (order === 'false') {
+            changeorder='DESC';
+        }
+
         switch (sort) {
-            case 'Load':
+            case 'load':
                 orderSort = 'load';
+            break;
+            case 'rate':
+                orderSort = 'rate';
             break;
             case 'rpd':
                 orderSort = 'RPD';
             break;
-            case 'Platform':
+            case 'platform':
                 orderSort = 'platform';
             break;
-            case 'Withdraw':
+            case 'withdraw':
                 orderSort = 'withdraw';
+            break;
+            case 'startDate':
+                orderSort = 'start_date';
             break;
             default:
                 orderSort = 'project_uuid';
@@ -50,7 +60,7 @@ router.get('/milestones',
                 group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid'],
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
-                'withdraw', 'start_date', 
+                'withdraw', 'start_date', 'comment',
                 'end_date', [sequelize.literal(rpdCount), 'rpd']],
                 
                 include: [{
@@ -65,7 +75,7 @@ router.get('/milestones',
                     // attributes: [],
                     required: false,
                 }],
-                // order: [[orderSort, 'ASC']]
+                order: [[sequelize.literal(orderSort), changeorder]]
         });
         console.log(req.query);
         res.json(result);
