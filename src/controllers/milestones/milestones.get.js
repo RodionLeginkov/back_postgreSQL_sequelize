@@ -31,8 +31,8 @@ router.get('/milestones',
             case 'Load':
                 orderSort = 'load';
             break;
-            case 'RPD':
-                orderSort = 'rate';
+            case 'rpd':
+                orderSort = 'RPD';
             break;
             case 'Platform':
                 orderSort = 'platform';
@@ -51,7 +51,7 @@ router.get('/milestones',
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
                 'withdraw', 'start_date', 
-                'end_date', [sequelize.literal(rpdCount), 'RPD']],
+                'end_date', [sequelize.literal(rpdCount), 'rpd']],
                 
                 include: [{
                     model: models.User,
@@ -67,7 +67,7 @@ router.get('/milestones',
                 }],
                 // order: [[orderSort, 'ASC']]
         });
-        console.log(result);
+        console.log(req.query);
         res.json(result);
     })
 );
