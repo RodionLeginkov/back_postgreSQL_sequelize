@@ -37,6 +37,7 @@ router.get('/milestones',
             break;
             case 'rate':
                 orderSort = 'rate';
+
             break;
             case 'rpd':
                 orderSort = 'RPD';
@@ -60,7 +61,7 @@ router.get('/milestones',
                 group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid'],
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
-                'withdraw', 'start_date', 'comment',
+                'withdraw', 'start_date', 'comment', 'participants',
                 'end_date', [sequelize.literal(rpdCount), 'rpd']],
                 
                 include: [{
@@ -77,7 +78,6 @@ router.get('/milestones',
                 }],
                 order: [[sequelize.literal(orderSort), changeorder]]
         });
-        console.log(req.query);
         res.json(result);
     })
 );

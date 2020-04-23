@@ -25,9 +25,9 @@ router.post('/history-tasks',
         // console.log('histoty', res.locals.user.dataValues.uuid);
         const models = res.app.get('models');
         const info = req.body;
-        console.log(info.creator_uuid);
-        console.log(info);
+
         info.creator_uuid = res.locals.user.dataValues.uuid;
+        
         const result = await models.TasksHistory.create(info);
         res.json(result);
     })

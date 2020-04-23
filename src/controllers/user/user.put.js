@@ -42,7 +42,7 @@ router.put('/user/:uuid',
         //     if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong'); 
         // }
         if (!user) throw errors.NotFoundError('user not found');
-        console.log(req.body.password);
+
         const result = await user.update(req.body);
         
         res.json(result);

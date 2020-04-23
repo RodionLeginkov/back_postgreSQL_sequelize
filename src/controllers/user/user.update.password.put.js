@@ -17,7 +17,6 @@ router.put('/users/updatePassword',
       });
       const token = await user.generateToken();
       await user.save();
-      console.log(token);
       res.status(200).json({
         user: user,
         token: token,
