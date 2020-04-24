@@ -99,14 +99,15 @@ router.get('/milestones',
         res.json(result);
     })
 );
-// WHEN "Milestones"."rate_type" = 'flat_rate' then  "Milestones"."rate" / 20
-// WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / "Milestones"."load"
-// WHEN "Milestones"."rate_type" = 'hourly' then  "Milestones"."rate" * "Milestones"."load" /5 
-// ELSE 0
+
+// 
 
 const rpdCount =`
-CASE 
-    WHEN "Milestones"."rate_type" = 'fixed' AND "Milestones"."end_date" IS NOT null then (("Milestones"."end_date")::date - ("Milestones"."start_date")::date)*24
+CASE WHEN "Milestones"."rate_type" = 'flat_rate' then  "Milestones"."rate" / 20
+    WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / "Milestones"."load"
+    WHEN "Milestones"."rate_type" = 'hourly' then  "Milestones"."rate" * "Milestones"."load" /5 
+    WHEN "Milestones"."rate_type" = 'fixed' AND "Milestones"."end_date" IS NOT null then "Milestones"."rate" * "Milestones"."load"/(("Milestones"."end_date")::date - ("Milestones"."start_date")::date)
+    ELSE 0
 END
 `;
 
