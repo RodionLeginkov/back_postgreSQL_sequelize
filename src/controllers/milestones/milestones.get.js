@@ -2,6 +2,7 @@ const router = require('express').Router();
 const errors = require('../../errors');
 const authenticate = require('../../middleware/authenticate');
 const sequelize = require('sequelize');
+const {Op} = require('sequelize');
 /**
  *  @swagger
  *  /skill:
@@ -76,6 +77,22 @@ router.get('/milestones',
                     // attributes: [],
                     required: false,
                 }],
+                where: {
+                    [Op.and]: [{
+                        load: {
+                            [Op.not]: null,
+                        }, 
+                        load: {
+                            [Op.not]: 0,
+                        },  
+                        rate: {
+                            [Op.not]: null,
+                        },  
+                        rate: {
+                            [Op.not]: 0,
+                        },
+                    }],    
+            },
                 order: [[sequelize.literal(orderSort), changeorder]]
         });
         // console.log("test")
