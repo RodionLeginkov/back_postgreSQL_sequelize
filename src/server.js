@@ -10,7 +10,7 @@ const config = require('config');
 const database = require('./database');
 const app = express();
 const Sentry = require('@sentry/node');
-Sentry.init({dsn: `https://${config.sentry.API_KEY}@sentry.io/1482280`});
+Sentry.init({dsn: process.env.SENTRY_DSN});
 
 
 const root = __dirname;
