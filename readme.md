@@ -15,6 +15,10 @@ npm run start
 #### App setup
 - FRONTEND_URL - base frontend URL for email invitations 
 
+#### Default user
+- login: admin@admin.com
+- password: adminadmin
+
 #### Database credentials
 - DATABASE_URL = postgres://[user]:[password]@[host]:[port]/[db_name]
 
