@@ -51,9 +51,8 @@ router.post('/forgotPass',
             
           };
           transporter.sendMail(mailOptions, (err, response) =>{
-            if (err) console.error('there was an error: ', err);
+            if (err) throw errors.InternalServerError('Email wasn\`t sent');
             else {
-              console.log('here is the res: ', response);
               res.status(200).json('recovery email sent');
             }
       });

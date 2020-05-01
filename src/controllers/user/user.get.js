@@ -65,7 +65,6 @@ router.get('/user/:uuid',
                 }
         
             const result = await user.update({total_load: totalLoad});
-            console.log(typeof(result.english_skill));
             res.json(result);
     })
 

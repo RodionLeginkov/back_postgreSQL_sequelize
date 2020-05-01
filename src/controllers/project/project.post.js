@@ -25,7 +25,7 @@ router.post('/project',
         const models = res.app.get('models');
         const project = req.body;
         const existingProject = await models.Project.findOne({where: {name: project.name}});
-        if (existingProject) throw errors.InvalidInputError('Filter with same name already exists');
+        if (existingProject) throw errors.InvalidInputError('Project with same name already exists');
         const result = await models.Project.create(project);
 
         const milestones = req.body.Projects_Milestones;

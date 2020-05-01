@@ -49,7 +49,7 @@ router.get('/project/:uuid',
                 // attributes: ['uuid', 'name']
         }]});
         
-        if (!project) throw errors.NotFoundError('Example not found');
+        if (!project) throw errors.NotFoundError('Project not found');
         res.json(project);
     })
 );
