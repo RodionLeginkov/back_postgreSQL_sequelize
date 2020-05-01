@@ -25,17 +25,16 @@ router.delete('/project/:uuid',
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
 
-        try {
             const project = await models.Project.findByPk(req.params.uuid);
 
-            if (!project) throw errors.NotFoundError('Example not found');
+            if (!project) throw errors.NotFoundError('Project not found');
             
             const milestones = await project.getProjects_Milestones();
             const skills = await project.getSkills();
             // const userTasks = await project.getUserTask();
 
             if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
-            project.removeSkills(skills);
+            await project.removeSkills(skills);
             // project.removeTasks(tasks);
             // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
             // for (const milestone of milestones) {
@@ -46,9 +45,6 @@ router.delete('/project/:uuid',
             await project.destroy();
 
             // res.send('Project deleted');
-        } catch (err) {
-            console.log(err);
-        }
 
         res.sendStatus(204);
     })

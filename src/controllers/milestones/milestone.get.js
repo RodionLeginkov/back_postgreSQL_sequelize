@@ -39,7 +39,7 @@ router.get('/milestone/:uuid',
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name'],
             }]});
-        if (!user) throw errors.NotFoundError('Example not found');
+        if (!user) throw errors.NotFoundError('Milestone not found');
         res.json(user);
     })
 );
