@@ -10,17 +10,13 @@ const config = require('config');
 const database = require('./database');
 const app = express();
 const Sentry = require('@sentry/node');
-Sentry.init({dsn: `https://${config.sentry.API_KEY}@sentry.io/1482280`});
-
-
-const root = __dirname;
+Sentry.init({dsn: config.sentry.DSN});
 
 /* globals */
 models = require('./database').models;
 
 app.set('models', database.models);
 app.set('sequelize', database.sequelize);
-app.use('/uploads', express.static('uploads'));
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
 // The error handler must be before any other error middleware

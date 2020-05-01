@@ -8,6 +8,6 @@ module.exports = {
         uploadDir: process.cwd() + '/uploads',
     },
     sentry: {
-        API_KEY: process.env.SENTRY_API_KEY,
+        DSN: process.env.SENTRY_DSN,
     }
 };

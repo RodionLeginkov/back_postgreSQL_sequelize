@@ -13,8 +13,7 @@ npm run start
 ```
 
 #### App setup
-- AUTO_JOBS: [TRUE/FALSE] auto start jobs
-- SKIP_JOBS: list of jobs filenames to skip
+- FRONTEND_URL - base frontend URL for email invitations 
 
 #### Database credentials
 - DATABASE_URL = postgres://[user]:[password]@[host]:[port]/[db_name]
