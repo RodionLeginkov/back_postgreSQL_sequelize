@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             }
         },
         'role': {
-            type: Sequelize.STRING(20),
+            type: Sequelize.STRING(50),
         },
         'rate': {
             type: Sequelize.INTEGER,
