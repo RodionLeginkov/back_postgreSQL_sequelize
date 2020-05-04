@@ -42,6 +42,11 @@ module.exports = (sequelize, Sequelize) => {
             as: 'Projects_Milestones',
             foreignKey: 'project_uuid',
           });
+
+          Project.hasMany(models.Person, {
+            as: 'Person',
+            foreignKey: 'project_uuid',
+          });
     };
 
 

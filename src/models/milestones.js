@@ -23,6 +23,13 @@ module.exports = (sequelize, Sequelize) => {
                 key: 'uuid',
             }
         },
+        'person_uuid': {
+            type: Sequelize.UUID,
+            references: {
+                model: 'persons',
+                key: 'uuid',   
+            }     
+        },
         'role': {
             type: Sequelize.STRING(50),
         },
@@ -66,10 +73,16 @@ module.exports = (sequelize, Sequelize) => {
         foreignKey: 'user_uuid',
       });
       Milestones.belongsTo(models.Project, {
-            as: 'Projects',
-            foreignKey: 'project_uuid',
-          });
+        as: 'Projects',
+        foreignKey: 'project_uuid',
+    });
+    
+    Milestones.belongsTo(models.Person, {
+        as: 'Project',
+        foreignKey: 'person_uuid',
+    });
     };
+    
 
     return Milestones;
 };
