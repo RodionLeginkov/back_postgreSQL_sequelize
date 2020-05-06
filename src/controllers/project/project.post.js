@@ -33,6 +33,12 @@ router.post('/project',
             item.project_uuid = result.uuid;
             let ProjectMilestones = await models.Milestones.create(item);
         });
+
+        const persons = req.body.Person;
+        persons.forEach(async item =>{
+            item.project_uuid = result.uuid;
+            let ProjectPersons = await models.Person.create(item);
+        });
     
         const FrontProject = await models.Project.findByPk(result.uuid,
             {include: [{
