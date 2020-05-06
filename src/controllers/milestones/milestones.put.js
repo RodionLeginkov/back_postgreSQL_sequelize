@@ -23,7 +23,7 @@ const router = require('express').Router();
 router.put('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const milestone = await models.Milestones.findByPk(req.params.uuid);
+        const milestone = await models.Milestone.findByPk(req.params.uuid);
        
         if (!milestone) throw errors.NotFoundError('Milestone not found');
 
@@ -32,7 +32,7 @@ router.put('/milestone/:uuid',
         const user = await models.User.findByPk(result.dataValues.user_uuid,
         {
             include: [{
-                    model: models.Milestones,
+                    model: models.Milestone,
                     as: 'Users_Milestones',
                     required: false,
             },

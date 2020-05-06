@@ -43,7 +43,7 @@ router.post('/project',
                 // attributes: ['uuid', 'name'],
             },
             {
-                model: models.Milestones,
+                model: models.Milestone,
                 as: 'Projects_Milestones',
                 required: false,
                 include: [{

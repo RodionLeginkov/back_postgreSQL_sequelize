@@ -28,7 +28,7 @@ router.get('/user/:uuid',
         const user = await models.User.findByPk(req.params.uuid,
             {
                 include: [{
-                    model: models.Milestones,
+                    model: models.Milestone,
                     as: 'Users_Milestones',
                     required: false,
                     include: [{
