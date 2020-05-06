@@ -59,8 +59,8 @@ router.get('/milestones',
         const result = await models.Milestones.findAll(
             {
                 raw: true,
-                group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid'],
-                attributes: ['uuid', 'user_uuid', 'project_uuid', 'role', 'rate', 
+                group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid'],
+                attributes: ['uuid', 'user_uuid', 'project_uuid', 'person_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
                 'withdraw', 'start_date', 'comment', 'participants',
                 'end_date', [sequelize.literal(rpdCount), 'rpd']],
@@ -76,7 +76,15 @@ router.get('/milestones',
                     as: 'Projects',
                     // attributes: [],
                     required: false,
-                }],
+                },
+                {
+                    model: models.Person,
+                    as: 'Person',
+                    // attributes: [],
+                    required: false,
+                },
+                
+            ],
                 where: {
                     [Op.and]: [{
                         load: {

@@ -78,7 +78,7 @@ module.exports = (sequelize, Sequelize) => {
     });
     
     Milestones.belongsTo(models.Person, {
-        as: 'Project',
+        as: 'Person',
         foreignKey: 'person_uuid',
     });
     };

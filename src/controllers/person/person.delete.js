@@ -24,7 +24,12 @@ router.delete('/person/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const person = await models.Person.findByPk(req.params.uuid);
+
         if (!person) throw errors.NotFoundError('Person not found');
+
+        const milestone = await person.getMilestone();
+
+        await person.removeMilestone(milestone);
         await person.destroy();
         res.sendStatus(204);
     })

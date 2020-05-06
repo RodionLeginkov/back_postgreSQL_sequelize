@@ -23,7 +23,12 @@ router.get('/persons',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const result = await models.Person.findAll();
+        const result = await models.Person.findAll({
+            include: [{
+                model: models.Milestones,
+                as: 'Milestone',
+            }]
+        });
         res.json(result);
     })
 );
