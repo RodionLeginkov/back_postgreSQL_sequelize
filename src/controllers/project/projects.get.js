@@ -36,8 +36,8 @@ router.get('/projects',
             required: false,
         },
         {
-            model: models.Milestones,
-            as: 'Projects_Milestones',
+            model: models.Milestone,
+            as: 'ProjectMilestones',
             required: false,
             include: [{
                 model: models.User,

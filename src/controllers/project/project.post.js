@@ -28,11 +28,18 @@ router.post('/project',
         if (existingProject) throw errors.InvalidInputError('Project with same name already exists');
         const result = await models.Project.create(project);
 
-        const milestones = req.body.Projects_Milestones;
-        milestones.forEach(async item => {
-            item.project_uuid = result.uuid;
-            let ProjectMilestones = await models.Milestones.create(item);
-        });
+        // console.log(req.body);
+        // const milestones = req.body.ProjectMilestones;
+        // milestones.forEach(async item => {
+        //     item.project_uuid = result.uuid;
+        //     let ProjectMilestones = await models.Milestone.create(item);
+        // });
+
+        // const persons = req.body.Person;
+        // persons.forEach(async item =>{
+        //     item.project_uuid = result.uuid;
+        //     let ProjectPersons = await models.Person.create(item);
+        // });
     
         const FrontProject = await models.Project.findByPk(result.uuid,
             {include: [{
@@ -43,8 +50,8 @@ router.post('/project',
                 // attributes: ['uuid', 'name'],
             },
             {
-                model: models.Milestones,
-                as: 'Projects_Milestones',
+                model: models.Milestone,
+                as: 'ProjectMilestones',
                 required: false,
                 include: [{
                     model: models.User,

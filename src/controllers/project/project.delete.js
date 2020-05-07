@@ -29,12 +29,12 @@ router.delete('/project/:uuid',
 
             if (!project) throw errors.NotFoundError('Project not found');
             
-            const milestones = await project.getProjects_Milestones();
+            const milestones = await project.getProjectMilestones();
             const skills = await project.getSkills();
-            // const userTasks = await project.getUserTask();
-
+            const person = await project.getPerson();
             if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
             await project.removeSkills(skills);
+            await project.removePerson(person);
             // project.removeTasks(tasks);
             // const milestones = await models.Milestone.findAll({where: {'project_uuid': project.uuid}});
             // for (const milestone of milestones) {

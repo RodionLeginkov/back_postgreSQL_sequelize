@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         'user_uuid': {
           type: Sequelize.UUID,
-          allowNull: false,
+          allowNull: true,
           references: {
               model: 'user',
               key: 'uuid',
@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         'creator_uuid': {
           type: Sequelize.UUID,
-          allowNull: false,
+          allowNull: true,
           references: {
               model: 'user',
               key: 'uuid',

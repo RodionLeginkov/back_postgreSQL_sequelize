@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = (sequelize, Sequelize) => {
-    const Milestones = sequelize.define('Milestones', {
+    const Milestone = sequelize.define('Milestone', {
         'uuid': {
             type: Sequelize.UUID,
             defaultValue: Sequelize.UUIDV4,
@@ -22,6 +22,13 @@ module.exports = (sequelize, Sequelize) => {
                 model: 'project',
                 key: 'uuid',
             }
+        },
+        'person_uuid': {
+            type: Sequelize.UUID,
+            references: {
+                model: 'persons',
+                key: 'uuid',   
+            }     
         },
         'role': {
             type: Sequelize.STRING(50),
@@ -60,16 +67,22 @@ module.exports = (sequelize, Sequelize) => {
         timestamps: false,
     });
 
-    Milestones.associate = (models) => {
-      Milestones.belongsTo(models.User, {
+    Milestone.associate = (models) => {
+        Milestone.belongsTo(models.User, {
         as: 'Users',
         foreignKey: 'user_uuid',
       });
-      Milestones.belongsTo(models.Project, {
-            as: 'Projects',
-            foreignKey: 'project_uuid',
-          });
+      Milestone.belongsTo(models.Project, {
+        as: 'Projects',
+        foreignKey: 'project_uuid',
+    });
+    
+    Milestone.belongsTo(models.Person, {
+        as: 'Person',
+        foreignKey: 'person_uuid',
+    });
     };
+    
 
-    return Milestones;
+    return Milestone;
 };

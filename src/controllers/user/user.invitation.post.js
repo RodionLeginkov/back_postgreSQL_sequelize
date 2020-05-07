@@ -40,11 +40,9 @@ router.post('/user/invitation/:uuid',
       
     };
     transporter.sendMail(mailOptions, (err, response) =>{
-      if (err) console.error('there was an error: ', err);
-      else {
-        console.log('here is the res: ', response);
+      if (err) throw errors.InternalServerError(`Email wasn\`t send, reason: ${err.message}`);
+
         res.status(200).json('recovery email sent');
-      }
 });
 
    res.json(result);

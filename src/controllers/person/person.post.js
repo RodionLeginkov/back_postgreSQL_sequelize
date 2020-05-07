@@ -19,31 +19,14 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/milestones',
-    // authenticate(),
+router.post('/person',
+    authenticate(),
     errors.wrap(async (req, res) => {
+        // console.log('histoty', res.locals.user.dataValues.uuid);
         const models = res.app.get('models');
         const info = req.body;
-
-        const result = await models.Milestone.create(info);
-        const user = await models.User.findByPk(result.dataValues.user_uuid,
-            {
-                include: [{
-                    model: models.Milestone,
-                    as: 'UserMilestones',
-                    required: false,
-            },
-        ]
-            });
-        const milestones = user.UserMilestones;
-        
-        let totalLoad = 0;
-            for (let i = 0; i < milestones.length; i++) {
-                totalLoad += milestones[i].load;
-            }
-        
-        await user.update({total_load: totalLoad});
-
+    
+        const result = await models.Person.create(info);
         res.json(result);
     })
 );

@@ -28,8 +28,8 @@ router.get('/user/:uuid',
         const user = await models.User.findByPk(req.params.uuid,
             {
                 include: [{
-                    model: models.Milestones,
-                    as: 'Users_Milestones',
+                    model: models.Milestone,
+                    as: 'UserMilestones',
                     required: false,
                     include: [{
                         model: models.Project,
@@ -57,7 +57,7 @@ router.get('/user/:uuid',
 
             if (!user) throw errors.NotFoundError('Example not found');
            
-            const milestones = user.Users_Milestones;
+            const milestones = user.UserMilestones;
             let totalLoad = 0;
             
             for (let i = 0; i < milestones.length; i++) {
