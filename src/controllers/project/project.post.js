@@ -29,7 +29,7 @@ router.post('/project',
         const result = await models.Project.create(project);
 
         // console.log(req.body);
-        // const milestones = req.body.Projects_Milestones;
+        // const milestones = req.body.ProjectMilestones;
         // milestones.forEach(async item => {
         //     item.project_uuid = result.uuid;
         //     let ProjectMilestones = await models.Milestone.create(item);
@@ -51,7 +51,7 @@ router.post('/project',
             },
             {
                 model: models.Milestone,
-                as: 'Projects_Milestones',
+                as: 'ProjectMilestones',
                 required: false,
                 include: [{
                     model: models.User,

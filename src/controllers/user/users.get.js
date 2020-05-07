@@ -149,13 +149,13 @@ whereCondition = {
 // } else if (profitableFilter === 'No Profitable') {
 //     whereCondition = {
 //         [Op.or]: [{
-//             Users_Milestones: {[Op.is]: null},  
+//             UserMilestones: {[Op.is]: null},  
 //         }]};
 // }   
         const users = await models.User.findAll({
             include: [{
                 model: models.Milestone,
-                as: 'Users_Milestones',
+                as: 'UserMilestones',
                 required: reqMilestone,
                 where: whereConditionMilestone,
                 include: [{

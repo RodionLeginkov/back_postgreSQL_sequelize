@@ -39,7 +39,7 @@ module.exports = (sequelize, Sequelize) => {
           });
 
           Project.hasMany(models.Milestone, {
-            as: 'Projects_Milestones',
+            as: 'ProjectMilestones',
             foreignKey: 'project_uuid',
           });
 

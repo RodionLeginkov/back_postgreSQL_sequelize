@@ -33,13 +33,13 @@ router.put('/milestone/:uuid',
         {
             include: [{
                     model: models.Milestone,
-                    as: 'Users_Milestones',
+                    as: 'UserMilestones',
                     required: false,
             },
         ]
         });
         
-        const milestones = user.Users_Milestones;
+        const milestones = user.UserMilestones;
             
         let totalLoad = 0;
             

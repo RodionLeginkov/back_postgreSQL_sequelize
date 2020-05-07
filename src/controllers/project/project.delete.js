@@ -29,7 +29,7 @@ router.delete('/project/:uuid',
 
             if (!project) throw errors.NotFoundError('Project not found');
             
-            const milestones = await project.getProjects_Milestones();
+            const milestones = await project.getProjectMilestones();
             const skills = await project.getSkills();
             // const userTasks = await project.getUserTask();
 

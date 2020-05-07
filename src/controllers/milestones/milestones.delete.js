@@ -36,13 +36,13 @@ router.delete('/milestone/:uuid',
             {
                 include: [{
                     model: models.Milestone,
-                    as: 'Users_Milestones',
+                    as: 'UserMilestones',
                     required: false,
             },
         ]
             });
         
-        const milestones = user.Users_Milestones;
+        const milestones = user.UserMilestones;
         let totalLoad = 0;
         
         for (let i = 0; i < milestones.length; i++) {
