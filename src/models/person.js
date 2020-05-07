@@ -9,7 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         'project_uuid': {
           type: Sequelize.UUID,
-          allowNull: false,
+          allowNull: true,
           references: {
               model: 'projects',
               key: 'uuid',

@@ -31,12 +31,12 @@ router.delete('/user/:uuid',
             const skills = await users.getSkills();
             const milestones = await users.getUserMilestones();
             const task = await users.getUsersTasks();
-            // const taskCreator = await users.getTasksCreator();
+            const taskCreator = await users.getTasksCreator();
             // const userTasks = await project.getUserTask();
             if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
             // users.removeUserMilestones(milestones);
             await users.removeSkills(skills);
-            // await users.removeTasksCreator(taskCreator);
+            await users.removeTasksCreator(taskCreator);
             await users.removeUsersTasks(task);
             // console.log('test');
             await users.destroy();
