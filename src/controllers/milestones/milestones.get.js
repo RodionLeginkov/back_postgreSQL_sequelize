@@ -56,10 +56,10 @@ router.get('/milestones',
                 orderSort = 'project_uuid';
         }
         const models = res.app.get('models');
-        const result = await models.Milestones.findAll(
+        const result = await models.Milestone.findAll(
             {
                 raw: true,
-                group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid'],
+                group: ['Milestone.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid'],
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'person_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
                 'withdraw', 'start_date', 'comment', 'participants',
@@ -111,10 +111,10 @@ router.get('/milestones',
 // 
 
 const rpdCount =`
-CASE WHEN "Milestones"."rate_type" = 'flat_rate' then  "Milestones"."rate" / 20
-    WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / "Milestones"."load"
-    WHEN "Milestones"."rate_type" = 'hourly' then  "Milestones"."rate" * "Milestones"."load" /5 
-    WHEN "Milestones"."rate_type" = 'fixed' AND "Milestones"."end_date" IS NOT null then "Milestones"."rate" * "Milestones"."load"/(("Milestones"."end_date")::date - ("Milestones"."start_date")::date)
+CASE WHEN "Milestone"."rate_type" = 'flat_rate' then  "Milestone"."rate" / 20
+    WHEN "Milestone"."rate_type" = 'weekly' then  "Milestone"."rate" / "Milestone"."load"
+    WHEN "Milestone"."rate_type" = 'hourly' then  "Milestone"."rate" * "Milestone"."load" /5 
+    WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate" * "Milestone"."load"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
     ELSE 0
 END
 `;

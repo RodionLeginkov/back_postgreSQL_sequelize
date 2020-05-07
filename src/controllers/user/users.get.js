@@ -154,7 +154,7 @@ whereCondition = {
 // }   
         const users = await models.User.findAll({
             include: [{
-                model: models.Milestones,
+                model: models.Milestone,
                 as: 'Users_Milestones',
                 required: reqMilestone,
                 where: whereConditionMilestone,

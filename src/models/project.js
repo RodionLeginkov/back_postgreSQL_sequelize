@@ -38,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
             otherKey: 'skill_uuid'
           });
 
-          Project.hasMany(models.Milestones, {
+          Project.hasMany(models.Milestone, {
             as: 'Projects_Milestones',
             foreignKey: 'project_uuid',
           });

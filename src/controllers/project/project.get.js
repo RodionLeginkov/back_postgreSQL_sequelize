@@ -41,7 +41,7 @@ router.get('/project/:uuid',
                 required: false,
             },
             {
-                model: models.Milestones,
+                model: models.Milestone,
                 as: 'Projects_Milestones',
                 required: false,
                 include: [{

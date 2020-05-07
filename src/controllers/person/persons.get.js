@@ -25,7 +25,7 @@ router.get('/persons',
         const models = res.app.get('models');
         const result = await models.Person.findAll({
             include: [{
-                model: models.Milestones,
+                model: models.Milestone,
                 as: 'Milestone',
             }]
         });

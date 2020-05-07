@@ -23,7 +23,7 @@ const router = require('express').Router();
 router.delete('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
-        const milestone = await models.Milestones.findByPk(req.params.uuid);
+        const milestone = await models.Milestone.findByPk(req.params.uuid);
         if (!milestone) throw errors.NotFoundError('Milestone not found');
         // const users = await milestone.getUsers();
         // const project = await milestone.getProjects();
@@ -35,7 +35,7 @@ router.delete('/milestone/:uuid',
         const user = await models.User.findByPk(userId,
             {
                 include: [{
-                    model: models.Milestones,
+                    model: models.Milestone,
                     as: 'Users_Milestones',
                     required: false,
             },
