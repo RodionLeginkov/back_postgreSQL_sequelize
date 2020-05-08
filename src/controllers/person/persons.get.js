@@ -27,6 +27,12 @@ router.get('/persons',
             include: [{
                 model: models.Milestone,
                 as: 'Milestone',
+            }, {
+                model: models.Participant,
+                as: 'Participants',
+                required: false,
+                // Pass in the Product attributes that you want to retrieve
+                // attributes: ['uuid', 'name'],
             }]
         });
         res.json(result);

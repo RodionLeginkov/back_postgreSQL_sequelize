@@ -19,24 +19,11 @@ const authenticate = require('../../middleware/authenticate');
  *          description: return saved report object
  */
 
-router.post('/person',
-    authenticate(),
+router.get('/participants',
+    // authenticate(),
     errors.wrap(async (req, res) => {
-        // console.log('histoty', res.locals.user.dataValues.uuid);
         const models = res.app.get('models');
-        const info = req.body;
-
-        const result = await models.Person.create(info);
-
-        
-        const participants = req.body.Participants;
-        console.log(req.body);
-        participants.forEach(async item =>{
-            item.person_uuid = result.dataValues.uuid;
-            await models.Participant.create(item);
-});
-
-
+        const result = await models.Participant.findAll();
         res.json(result);
     })
 );
