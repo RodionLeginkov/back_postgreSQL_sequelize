@@ -24,11 +24,14 @@ router.put('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
+        console.log(req.body);
        
         if (!milestone) throw errors.NotFoundError('Milestone not found');
 
         const result = await milestone.update(req.body);
-
+        if (req.body.end_date !== null) {
+await milestone.update({status: 'Archived'});
+}
         const user = await models.User.findByPk(result.dataValues.user_uuid,
         {
             include: [{
@@ -37,8 +40,8 @@ router.put('/milestone/:uuid',
                     required: false,
             },
         ]
+
         });
-        
         const milestones = user.UserMilestones;
             
         let totalLoad = 0;
