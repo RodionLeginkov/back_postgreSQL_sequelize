@@ -58,8 +58,8 @@ router.get('/milestones',
         const models = res.app.get('models');
         const result = await models.Milestone.findAll(
             {
-                raw: true,
-                group: ['Milestone.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid'],
+                // raw: true,
+                group: ['Milestone.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid', 'Person->Participants.uuid'],
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'person_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
                 'withdraw', 'start_date', 'comment', 'participants',
@@ -82,6 +82,12 @@ router.get('/milestones',
                     as: 'Person',
                     // attributes: [],
                     required: false,
+                    include: [{
+                        model: models.Participant,
+                        as: 'Participants',
+                        required: false,
+                        
+                    }]
                 },
                 
             ],
