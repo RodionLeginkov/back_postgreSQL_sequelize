@@ -56,13 +56,16 @@ router.get('/milestones',
                 orderSort = 'project_uuid';
         }
         const models = res.app.get('models');
+        sequelize.literal(test);
+        // res.send(sequelize.literal(test));
+
         const result = await models.Milestone.findAll(
             {
                 // raw: true,
                 group: ['Milestone.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid', 'Person->Participants.uuid'],
                 attributes: ['uuid', 'user_uuid', 'project_uuid', 'person_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
-                'withdraw', 'start_date', 'comment', 'participants',
+                'withdraw', 'start_date', 'comment',
                 'end_date', [sequelize.literal(rpdCount), 'rpd']],
                 
                 include: [{
@@ -80,8 +83,7 @@ router.get('/milestones',
                 {
                     model: models.Person,
                     as: 'Person',
-                    // attributes: [],
-                    required: false,
+                    attributes: ['uuid', 'project_uuid', [sequelize.literal(test), 'participants']],
                     include: [{
                         model: models.Participant,
                         as: 'Participants',
@@ -123,6 +125,23 @@ CASE WHEN "Milestone"."rate_type" = 'flat_rate' then  "Milestone"."rate" / 20
     WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate" * "Milestone"."load"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
     ELSE 0
 END
+`;
+const participantCount = `
+CASE WHEN  "Person"."uuid" =  "Milestone"."person_uuid"  then "Milestone"."user_uuid"
+
+end
+
+`;
+
+const test =`
+(
+    SELECT
+    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'Milestone.role', "Milestone"."role"))
+                         FILTER (WHERE "Milestone"."user_uuid" IS NOT NULL), '[]')
+FROM "persons" AS "Person"
+ LEFT OUTER JOIN ("milestones" AS "Milestone" LEFT JOIN users u on "Milestone".user_uuid = u.uuid) ON "Person"."uuid" = "Milestone"."person_uuid"
+WHERE "Person"."uuid" =  "Milestone"."person_uuid"
+)
 `;
 
 

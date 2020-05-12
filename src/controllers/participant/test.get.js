@@ -20,13 +20,16 @@ const router = require('express').Router();
  *          description: example received
  */
 
-router.get('/person/:uuid',
+router.get('/personsdsd/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const result = await models.Person.findByPk(req.params.uuid, {include: [{
-            model: models.Milestone,
-            as: 'Milestone',
+            model: models.Participant,
+            as: 'Participants',
+            required: false,
+            // Pass in the Product attributes that you want to retrieve
+            // attributes: ['uuid', 'name'],
         },
         ]});
         if (!result) throw errors.NotFoundError('Example not found');
