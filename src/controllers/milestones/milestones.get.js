@@ -56,7 +56,6 @@ router.get('/milestones',
                 orderSort = 'project_uuid';
         }
         const models = res.app.get('models');
-        sequelize.literal(test);
         // res.send(sequelize.literal(test));
 
         const result = await models.Milestone.findAll(
@@ -83,14 +82,14 @@ router.get('/milestones',
                 {
                     model: models.Person,
                     as: 'Person',
-                    attributes: ['uuid', 'project_uuid', [sequelize.literal(test), 'participants']],
+                    attributes: ['uuid', 'project_uuid', 'name', 'description', 'start_date', 'end_date', [sequelize.literal(test), 'participants']],
                 },
                 
             ],
-                where: {
-                    [Op.and]: [{
-                        load: {
-                            [Op.not]: null,
+            where: {
+                [Op.and]: [{
+                    load: {
+                        [Op.not]: null,
                         }, 
                         load: {
                             [Op.not]: 0,
@@ -103,9 +102,10 @@ router.get('/milestones',
                         },
                     }],    
             },
-                order: [[sequelize.literal(orderSort), changeorder]]
+            order: [[sequelize.literal(orderSort), changeorder]]
         });
         // console.log("test")
+        console.log('hello', result);
         res.json(result);
     })
 );
@@ -118,7 +118,7 @@ CASE WHEN "Milestone"."rate_type" = 'flat_rate' then  "Milestone"."rate" / 20
     WHEN "Milestone"."rate_type" = 'hourly' then  "Milestone"."rate" * "Milestone"."load" /5 
     WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate" * "Milestone"."load"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
     ELSE 0
-END
+    END
 `;
 const participantCount = `
 CASE WHEN  "Person"."uuid" =  "Milestone"."person_uuid"  then "Milestone"."user_uuid"
@@ -130,11 +130,13 @@ end
 const test =`
 (
     SELECT
-    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'Milestone.role', "Milestone"."role"))
-                         FILTER (WHERE "Milestone"."user_uuid" IS NOT NULL), '[]')
-FROM "persons" AS "Person"
- LEFT OUTER JOIN ("milestones" AS "Milestone" LEFT JOIN users u on "Milestone".user_uuid = u.uuid) ON "Person"."uuid" = "Milestone"."person_uuid"
-WHERE "Person"."uuid" =  "Milestone"."person_uuid"
+    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.role))
+                         FILTER (WHERE m.user_uuid IS NOT NULL), '[]')
+
+FROM milestones AS m
+    LEFT JOIN  users u on m.user_uuid = u.uuid
+    LEFT  JOIN persons AS p ON p."uuid" = m.person_uuid
+    WHERE m.project_uuid = "Milestone"."project_uuid" AND "Milestone"."person_uuid" = p.uuid
 )
 `;
 

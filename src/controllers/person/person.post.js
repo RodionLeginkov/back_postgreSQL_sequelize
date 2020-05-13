@@ -28,14 +28,6 @@ router.post('/person',
 
         const result = await models.Person.create(info);
 
-        
-        const participants = req.body.Participants;
-        console.log(req.body);
-        participants.forEach(async item =>{
-            item.person_uuid = result.dataValues.uuid;
-            await models.Participant.create(item);
-});
-
 
         res.json(result);
     })

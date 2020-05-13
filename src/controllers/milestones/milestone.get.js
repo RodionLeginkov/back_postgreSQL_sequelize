@@ -24,7 +24,6 @@ router.get('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        console.log(req.params.uuid);
         const user = await models.Milestone.findByPk(req.params.uuid,
             {include: [{
                 model: models.User,

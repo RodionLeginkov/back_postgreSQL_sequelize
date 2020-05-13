@@ -52,10 +52,6 @@ module.exports = (sequelize, Sequelize) => {
         as: 'Milestone',
         foreignKey: 'person_uuid',
       });
-      Person.hasMany(models.Participant, {
-        as: 'Participants',
-        foreignKey: 'person_uuid',
-      });
     };
     return Person;
   };
