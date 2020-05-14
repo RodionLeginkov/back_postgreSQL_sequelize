@@ -29,9 +29,7 @@ router.put('/milestone/:uuid',
         if (!milestone) throw errors.NotFoundError('Milestone not found');
 
         const result = await milestone.update(req.body);
-        if (req.body.end_date !== null) {
-await milestone.update({status: 'Archived'});
-}
+
         const user = await models.User.findByPk(result.dataValues.user_uuid,
         {
             include: [{

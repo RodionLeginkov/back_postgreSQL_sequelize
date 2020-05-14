@@ -35,6 +35,11 @@ router.get('/user/:uuid',
                         model: models.Project,
                         as: 'Projects',
                         required: false,
+                        include: [{
+                            model: models.Person,
+                            as: 'Person',
+                            required: false,
+                        }]
                     }]
             },
              {                
