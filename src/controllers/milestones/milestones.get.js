@@ -100,6 +100,9 @@ router.get('/milestones',
                         rate: {
                             [Op.not]: 0,
                         },
+                        status: {
+                            [Op.not]: 'Archived',
+                        }
                     }],    
             },
             order: [[sequelize.literal(orderSort), changeorder]]
