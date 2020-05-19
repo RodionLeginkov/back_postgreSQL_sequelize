@@ -37,14 +37,22 @@ router.get('/users',
         
         // const sort = req.query.sort, filterRole = req.query.filterRole, 
         // order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
-        const {sort, filterRole, order, filterBar, profitable: profitableFilter} = req.query;
+        const {sort, filterRole, order, filterBar, profitable: profitableFilter, active} = req.query;
 
-        let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {};
+        
+        let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {}, activeCondition;
         if (order === 'false') {
             changeorder='DESC';
         }
         
 
+        if (active === 'Active') {
+            activeCondition = [true];
+        } else if (active === 'Archived') {
+            activeCondition = [false];
+        } else {
+            activeCondition =[false, true];
+        }
         // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -87,7 +95,10 @@ router.get('/users',
                     },
                     firstName: {
                     [Op.iLike]: `${filterBar}%`,
-                },
+                    },
+                    isActive: {
+                        [Op.any]: activeCondition,
+                    }
                 }]}, {
                 [Op.and]: [{
                     role: {
@@ -96,6 +107,9 @@ router.get('/users',
                     lastName: {
                     [Op.iLike]: `${filterBar}%`,
                 },
+                isActive: {
+                    [Op.any]: activeCondition,
+                }
                 }]}
 
  ]
@@ -127,11 +141,17 @@ whereCondition = {
             [Op.or]: [{
                 firstName: {
                     [Op.iLike]: `${filterBar}%`,
+                },
+                isActive: {
+                    [Op.any]: activeCondition,
                 }
             }, {
                 lastName: {
                      [Op.iLike]: `${filterBar}%`,
-             }
+             },
+             isActive: {
+                [Op.any]: activeCondition,
+            }
          }]
 };
 } if (profitableFilter === 'Profitable') {
@@ -143,6 +163,7 @@ whereCondition = {
     ]
 };
 } 
+
 // else if (profitableFilter === 'No Profitable') {
 //     reqMilestone = false;
 // }   

@@ -24,7 +24,7 @@ router.put('/milestone/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
-        console.log(req.body);
+        
        
         if (!milestone) throw errors.NotFoundError('Milestone not found');
 
