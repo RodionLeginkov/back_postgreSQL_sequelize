@@ -132,13 +132,13 @@ end
 const test =`
 (
     SELECT
-    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.role))
+    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.status))
                          FILTER (WHERE m.user_uuid IS NOT NULL), '[]')
 
 FROM milestones AS m
     LEFT JOIN  users u on m.user_uuid = u.uuid
     LEFT  JOIN persons AS p ON p."uuid" = m.person_uuid
-    WHERE m.project_uuid = "Milestone"."project_uuid" AND "Milestone"."person_uuid" = p.uuid
+    WHERE m.project_uuid = "Milestone"."project_uuid" AND "Milestone"."person_uuid" = p.uuid AND m.status  NOT LIKE 'Archived'
 )
 `;
 

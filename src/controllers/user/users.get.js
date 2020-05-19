@@ -158,10 +158,21 @@ whereCondition = {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
-            rate: {[Op.not]: null},  
+            [Op.and]: [{
+                rate: {[Op.not]: null},
+                status: {[Op.notILike]: 'Archived'}  
+
+            }]
         }
     ]
 };
+} if (active != 'Archived' && profitableFilter !== 'Profitable') {
+    whereConditionMilestone = {
+        [Op.or]: [{
+            status: {[Op.notILike]: 'Archived'}  
+
+        }]
+    };
 } 
 
 // else if (profitableFilter === 'No Profitable') {
