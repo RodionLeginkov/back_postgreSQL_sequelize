@@ -132,7 +132,7 @@ end
 const test =`
 (
     SELECT
-    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.status))
+    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.role))
                          FILTER (WHERE m.user_uuid IS NOT NULL), '[]')
 
 FROM milestones AS m
