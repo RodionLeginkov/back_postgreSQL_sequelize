@@ -25,8 +25,10 @@ router.post('/person',
         // console.log('histoty', res.locals.user.dataValues.uuid);
         const models = res.app.get('models');
         const info = req.body;
-    
+
         const result = await models.Person.create(info);
+
+
         res.json(result);
     })
 );

@@ -24,7 +24,11 @@ router.get('/person/:uuid',
     // authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        const result = await models.Person.findByPk(req.params.uuid);
+        const result = await models.Person.findByPk(req.params.uuid, {include: [{
+            model: models.Milestone,
+            as: 'Milestone',
+        },
+        ]});
         if (!result) throw errors.NotFoundError('Example not found');
         res.json(result);
     })
