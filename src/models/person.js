@@ -18,6 +18,21 @@ module.exports = (sequelize, Sequelize) => {
         'name': {
           type: Sequelize.STRING(64),
         },
+        'rate': {
+          type: Sequelize.INTEGER,
+        },
+        'rate_type': {
+          type: Sequelize.STRING(15),
+        },
+        'platform': {
+          type: Sequelize.STRING(64),
+        },
+        'withdraw': {
+          type: Sequelize.STRING(64),
+        },
+        'load': {
+          type: Sequelize.INTEGER,
+        },
         'description': {
           type: Sequelize.TEXT,
         },
