@@ -194,7 +194,15 @@ whereCondition = {
                     model: models.Project,
                     as: 'Projects',
                     required: false,
-                }],
+                    include: [{
+                        model: models.Person,
+                        as: 'Person',
+                        required: false,
+                    }
+                ],
+                }
+            
+            ]
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
             },
