@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
         'customer': {
             type: Sequelize.STRING(64),
         },
+        'communicationType': {
+            type: Sequelize.ENUM('Text', 'Voice calls', 'Video Calls'),
+        },
+        'communicationIntensity': {
+            type: Sequelize.STRING(30),
+        },
         'createdAt': {
             type: Sequelize.DATE,
             field: 'created_at',
