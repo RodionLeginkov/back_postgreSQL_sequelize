@@ -185,6 +185,9 @@ whereCondition = {
 //         }]};
 // }   
         const users = await models.User.findAll({
+            defaultScope: {
+                attributes: {exclude: ['password']}
+              },
             include: [{
                 model: models.Milestone,
                 as: 'UserMilestones',
@@ -229,6 +232,7 @@ whereCondition = {
         }],
            order: [[Sequelize.literal(orderSort), changeorder], ['first_name', 'ASC'], ['last_name', 'ASC']],
            where: whereCondition, // whereCondition,
+           
             // ...paginate({page,pageSize}),
             distinct: true,
         });
