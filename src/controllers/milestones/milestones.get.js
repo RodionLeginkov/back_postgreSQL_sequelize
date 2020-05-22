@@ -56,13 +56,15 @@ router.get('/milestones',
                 orderSort = 'project_uuid';
         }
         const models = res.app.get('models');
-        const result = await models.Milestones.findAll(
+        // res.send(sequelize.literal(test));
+
+        const result = await models.Milestone.findAll(
             {
-                raw: true,
-                group: ['Milestones.uuid', 'Users.uuid', 'Projects.uuid'],
-                attributes: ['uuid', 'user_uuid', 'project_uuid', 'role', 'rate', 
+                // raw: true,
+                group: ['Milestone.uuid', 'Users.uuid', 'Projects.uuid', 'Person.uuid'],
+                attributes: ['uuid', 'user_uuid', 'project_uuid', 'person_uuid', 'role', 'rate', 
                 'rate_type', 'load', 'platform', 
-                'withdraw', 'start_date', 'comment', 'participants',
+                'withdraw', 'start_date', 'comment',
                 'end_date', [sequelize.literal(rpdCount), 'rpd']],
                 
                 include: [{
@@ -76,11 +78,18 @@ router.get('/milestones',
                     as: 'Projects',
                     // attributes: [],
                     required: false,
-                }],
-                where: {
-                    [Op.and]: [{
-                        load: {
-                            [Op.not]: null,
+                },
+                {
+                    model: models.Person,
+                    as: 'Person',
+                    attributes: ['uuid', 'project_uuid', 'name', 'description', 'start_date', 'end_date', [sequelize.literal(test), 'participants']],
+                },
+                
+            ],
+            where: {
+                [Op.and]: [{
+                    load: {
+                        [Op.not]: null,
                         }, 
                         load: {
                             [Op.not]: 0,
@@ -91,9 +100,12 @@ router.get('/milestones',
                         rate: {
                             [Op.not]: 0,
                         },
+                        status: {
+                            [Op.not]: 'Archived',
+                        }
                     }],    
             },
-                order: [[sequelize.literal(orderSort), changeorder]]
+            order: [[sequelize.literal(orderSort), changeorder]]
         });
         // console.log("test")
         res.json(result);
@@ -103,12 +115,31 @@ router.get('/milestones',
 // 
 
 const rpdCount =`
-CASE WHEN "Milestones"."rate_type" = 'flat_rate' then  "Milestones"."rate" / 20
-    WHEN "Milestones"."rate_type" = 'weekly' then  "Milestones"."rate" / "Milestones"."load"
-    WHEN "Milestones"."rate_type" = 'hourly' then  "Milestones"."rate" * "Milestones"."load" /5 
-    WHEN "Milestones"."rate_type" = 'fixed' AND "Milestones"."end_date" IS NOT null then "Milestones"."rate" * "Milestones"."load"/(("Milestones"."end_date")::date - ("Milestones"."start_date")::date)
+CASE WHEN "Milestone"."rate_type" = 'flat_rate' then  "Milestone"."rate" / 20
+    WHEN "Milestone"."rate_type" = 'weekly' then  "Milestone"."rate" / "Milestone"."load"
+    WHEN "Milestone"."rate_type" = 'hourly' then  "Milestone"."rate" * "Milestone"."load" /5 
+    WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate" * "Milestone"."load"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
     ELSE 0
-END
+    END
+`;
+const participantCount = `
+CASE WHEN  "Person"."uuid" =  "Milestone"."person_uuid"  then "Milestone"."user_uuid"
+
+end
+
+`;
+
+const test =`
+(
+    SELECT
+    COALESCE(json_agg(json_build_object('user',  concat_ws(' ',u.first_name,u.last_name), 'role', m.role))
+                         FILTER (WHERE m.user_uuid IS NOT NULL), '[]')
+
+FROM milestones AS m
+    LEFT JOIN  users u on m.user_uuid = u.uuid
+    LEFT  JOIN persons AS p ON p."uuid" = m.person_uuid
+    WHERE m.project_uuid = "Milestone"."project_uuid" AND "Milestone"."person_uuid" = p.uuid AND m.status  NOT LIKE 'Archived'
+)
 `;
 
 

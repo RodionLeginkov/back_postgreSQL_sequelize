@@ -29,11 +29,15 @@ router.delete('/user/:uuid',
             if (!users) throw errors.NotFoundError('Example not found');
             
             const skills = await users.getSkills();
-            const milestones = await users.getUsers_Milestones();
+            const milestones = await users.getUserMilestones();
+            const task = await users.getUsersTasks();
+            const taskCreator = await users.getTasksCreator();
             // const userTasks = await project.getUserTask();
             if (Object.keys(milestones).length) throw errors.InvalidInputError('Milestones exists');
-            // users.removeUsers_Milestones(milestones);
-            users.removeSkills(skills);
+            // users.removeUserMilestones(milestones);
+            await users.removeSkills(skills);
+            await users.removeTasksCreator(taskCreator);
+            await users.removeUsersTasks(task);
             // console.log('test');
             await users.destroy();
 

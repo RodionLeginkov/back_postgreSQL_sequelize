@@ -37,14 +37,22 @@ router.get('/users',
         
         // const sort = req.query.sort, filterRole = req.query.filterRole, 
         // order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
-        const {sort, filterRole, order, filterBar, profitable: profitableFilter} = req.query;
+        const {sort, filterRole, order, filterBar, profitable: profitableFilter, active} = req.query;
 
-        let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {};
+        
+        let orderSort = 'first_name', changeorder='ASC', reqMilestone = false, whereConditionMilestone = {}, activeCondition;
         if (order === 'false') {
             changeorder='DESC';
         }
         
 
+        if (active === 'Active') {
+            activeCondition = [true];
+        } else if (active === 'Archived') {
+            activeCondition = [false];
+        } else {
+            activeCondition =[false, true];
+        }
         // const whereCondition = search
         // ? {
         //     [Op.or]: [{
@@ -87,7 +95,10 @@ router.get('/users',
                     },
                     firstName: {
                     [Op.iLike]: `${filterBar}%`,
-                },
+                    },
+                    isActive: {
+                        [Op.any]: activeCondition,
+                    }
                 }]}, {
                 [Op.and]: [{
                     role: {
@@ -96,6 +107,9 @@ router.get('/users',
                     lastName: {
                     [Op.iLike]: `${filterBar}%`,
                 },
+                isActive: {
+                    [Op.any]: activeCondition,
+                }
                 }]}
 
  ]
@@ -127,42 +141,68 @@ whereCondition = {
             [Op.or]: [{
                 firstName: {
                     [Op.iLike]: `${filterBar}%`,
+                },
+                isActive: {
+                    [Op.any]: activeCondition,
                 }
             }, {
                 lastName: {
                      [Op.iLike]: `${filterBar}%`,
-             }
+             },
+             isActive: {
+                [Op.any]: activeCondition,
+            }
          }]
 };
 } if (profitableFilter === 'Profitable') {
     reqMilestone = true;
     whereConditionMilestone = {
         [Op.or]: [{
-            rate: {[Op.not]: null},  
+            [Op.and]: [{
+                rate: {[Op.not]: null},
+                status: {[Op.notILike]: 'Archived'}  
+
+            }]
         }
     ]
 };
+} if (active != 'Archived' && profitableFilter !== 'Profitable') {
+    whereConditionMilestone = {
+        [Op.or]: [{
+            status: {[Op.notILike]: 'Archived'}  
+
+        }]
+    };
 } 
+
 // else if (profitableFilter === 'No Profitable') {
 //     reqMilestone = false;
 // }   
 // } else if (profitableFilter === 'No Profitable') {
 //     whereCondition = {
 //         [Op.or]: [{
-//             Users_Milestones: {[Op.is]: null},  
+//             UserMilestones: {[Op.is]: null},  
 //         }]};
 // }   
         const users = await models.User.findAll({
             include: [{
-                model: models.Milestones,
-                as: 'Users_Milestones',
+                model: models.Milestone,
+                as: 'UserMilestones',
                 required: reqMilestone,
                 where: whereConditionMilestone,
                 include: [{
                     model: models.Project,
                     as: 'Projects',
                     required: false,
-                }],
+                    include: [{
+                        model: models.Person,
+                        as: 'Person',
+                        required: false,
+                    }
+                ],
+                }
+            
+            ]
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
             },
