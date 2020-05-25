@@ -98,7 +98,7 @@ router.put('/user/avatar/:uuid',
           else {
             const user = await models.User.findByPk(id);
 
-            // console.log("Image",data.Location)
+          
             user.avatar = data.Location;
             const savedUser = await user.save();
             const newUser = await models.User.findByPk(id);

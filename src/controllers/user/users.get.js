@@ -185,9 +185,7 @@ whereCondition = {
 //         }]};
 // }   
         const users = await models.User.findAll({
-            defaultScope: {
-                attributes: {exclude: ['password']}
-              },
+            attributes: {exclude: ['password']},
             include: [{
                 model: models.Milestone,
                 as: 'UserMilestones',

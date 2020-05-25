@@ -72,6 +72,9 @@ router.get('/milestones',
                     // attributes: [],
                     as: 'Users',
                     required: false,
+                    attributes: {
+                        exclude: ['password'] // Removing password from User response data
+                    }  
                 },
                 {
                     model: models.Project,
@@ -107,7 +110,7 @@ router.get('/milestones',
             },
             order: [[sequelize.literal(orderSort), changeorder]]
         });
-        // console.log("test")
+       
         res.json(result);
     })
 );

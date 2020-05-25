@@ -25,7 +25,7 @@ router.post('/milestones',
         const models = res.app.get('models');
         req.body.status = 'Active';
         const info = req.body;
-        // console.log(req.body);
+        
         const result = await models.Milestone.create(info);
         const user = await models.User.findByPk(result.dataValues.user_uuid,
             {

@@ -44,7 +44,7 @@ router.post('/user/invitation/:uuid',
 
         res.status(200).json('recovery email sent');
 });
-
+   delete result.dataValues.password;
    res.json(result);
 })
 );

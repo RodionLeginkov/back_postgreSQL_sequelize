@@ -36,6 +36,11 @@ router.get('/projects',
             required: false,
         },
         {
+            model: models.Person,
+            as: 'Person',
+            required: false,
+        },
+        {
             model: models.Milestone,
             as: 'ProjectMilestones',
             required: false,
@@ -43,6 +48,9 @@ router.get('/projects',
                 model: models.User,
                 as: 'Users',
                 required: false,
+                attributes: {
+                    exclude: ['password'] // Removing password from User response data
+                }  
             }]
     },
 

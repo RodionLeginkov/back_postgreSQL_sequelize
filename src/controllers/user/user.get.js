@@ -39,10 +39,13 @@ router.get('/user/:uuid',
             }]
         }
         : {};
-        console.log('ffgfgf', req.query);
 
         const user = await models.User.findByPk(req.params.uuid,
-            {
+            {                
+                
+                   
+                attributes: {exclude: ['password']},
+                
                 include: [{
                     model: models.Milestone,
                     as: 'UserMilestones',

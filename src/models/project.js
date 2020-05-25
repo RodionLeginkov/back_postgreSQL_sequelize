@@ -23,6 +23,18 @@ module.exports = (sequelize, Sequelize) => {
         'communicationIntensity': {
             type: Sequelize.STRING(30),
         },
+        'timezone': {
+            type: Sequelize.STRING(50),
+        },
+        'location': {
+            type: Sequelize.STRING(30),
+        },
+        'workStart': {
+            type: Sequelize.DATE,
+        },
+        'workEnd': {
+            type: Sequelize.DATE,
+        },
         'createdAt': {
             type: Sequelize.DATE,
             field: 'created_at',

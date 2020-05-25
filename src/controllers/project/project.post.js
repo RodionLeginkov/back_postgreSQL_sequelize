@@ -28,7 +28,7 @@ router.post('/project',
         if (existingProject) throw errors.InvalidInputError('Project with same name already exists');
         const result = await models.Project.create(project);
 
-        // console.log(req.body);
+       
         // const milestones = req.body.ProjectMilestones;
         // milestones.forEach(async item => {
         //     item.project_uuid = result.uuid;
@@ -57,12 +57,15 @@ router.post('/project',
                     model: models.User,
                     as: 'Users',
                     required: false,
+                    attributes: {
+                        exclude: ['password'] // Removing password from User response data
+                    }  
                 }]
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name']
         }]});
 
-        // console.log(FrontProject);
+        
         res.json(FrontProject);
     })
 );
