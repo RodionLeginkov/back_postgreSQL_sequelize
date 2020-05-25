@@ -48,6 +48,9 @@ router.get('/project/:uuid',
                     model: models.User,
                     as: 'Users',
                     required: false,
+                    attributes: {
+                        exclude: ['password'] // Removing password from User response data
+                    }  
                 },
             ]
                 

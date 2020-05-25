@@ -64,13 +64,13 @@ router.post('/user',
     }),
     errors.wrap(async (req, res) => {
         const user = req.body;
-        console.log('invite', req.body);
         // if (req.body.email !== undefined) {
         //     const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
         //     if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong');
         // }
         if (!user.password) user.password = 'HelloWorld!';
         const result = await models.User.create(user);
+        delete result.dataValues.password;
         res.json(result);
     })
 );

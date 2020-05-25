@@ -34,6 +34,9 @@ router.get('/skills',
                 model: models.User,
                 as: 'Users',
                 required: false,
+                attributes: {
+                    exclude: ['password'] // Removing password from User response data
+                }  
                 // Pass in the Product attributes that you want to retrieve
                 // attributes: ['uuid', 'name'],
             },
