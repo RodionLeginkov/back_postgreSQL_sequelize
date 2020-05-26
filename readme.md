@@ -15,6 +15,17 @@ npm run start
 #### App setup
 - FRONTEND_URL - base frontend URL for email invitations 
 
+#### Reset password setup
+- EMAIL_ADDRESS 
+- EMAIL_PASSWORD
+
+#### AWS BUCKET setup
+-AWS_BUCKET_NAME
+-AWS_ACCESS_KEY_ID
+-AWS_SECRET_ACCESS_KEY
+-AWS_REGION
+-AWS_Uploaded_File_URL_LINK
+
 #### Default user
 - login: admin@admin.com
 - password: adminadmin
