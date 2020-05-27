@@ -120,6 +120,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'TasksCreator',
             foreignKey: 'creator_uuid',
         });
+        User.hasMany(models.ResetToken, {
+            as: 'Reset',
+            foreignKey: 'userUuid',
+        });
     };
     /**
      * @param {string} email
