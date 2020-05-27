@@ -2,8 +2,16 @@ const router = require('express').Router();
 const errors = require('../../errors');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const arrangeInputs = require('../../middleware/arrange-inputs');
 
 router.put('/users/updatePassword',
+arrangeInputs('body', {
+  password: {type: 'STRING',
+  required: true,
+  pattern: /^([A-Za-z0-9!@#$%^&*()_+=\[{\]};:<>|./?,-]).{6,15}$/,
+
+},
+}),
     // authenticate(),
     errors.wrap(async (req, res) => {
       password = req.body.password;
