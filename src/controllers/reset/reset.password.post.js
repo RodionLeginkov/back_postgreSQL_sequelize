@@ -31,23 +31,21 @@ arrangeInputs('body', {
 
         const token = await models.ResetToken.create({
           userUuid: user.uuid,
-          expiresIn: Date.now() + 3600 * 24 * 1000, // 24 hour
+          expiresIn: Date.now() + 3600 * 24 * 1000, 
           token: generateToken(body),
         });
         
 
         await sendEmail(resetPassword({ ...user.dataValues }, token));
-        const authToken = await user.generateToken();
         delete user.dataValues.password;
         res.status(200).json({
-            user: user,
-            token: authToken,
+            user: user
         });
     })
 );
 
 const generateToken = ({ email }) => {
-    const salt = process.env.SALT_TOKEN_RESET || 'salt';
+    const salt = process.env.SALT || 'salt';
     const data = {
         userEmail: email,
     };

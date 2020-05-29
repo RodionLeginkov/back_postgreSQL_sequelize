@@ -2,29 +2,49 @@ const errors = require('../../errors');
 const router = require('express').Router();
 const {Op} = require('sequelize');
 const jwt = require('jsonwebtoken');
+const arrangeInputs = require('../../middleware/arrange-inputs');
 
 router.put('/v1/reset/',
+arrangeInputs('body', {
+  password: {type: 'STRING',
+  required: true,
+  pattern: /^([A-Za-z0-9!@#$%^&*()_+=\[{\]};:<>|./?,-]).{6,15}$/,
+  }
+}),
     errors.wrap(async (req, res) => {
       const models = res.app.get('models');
-      const {password} = req.body;
-      const {token} = req.query;
+      const password = req.body.password;
+      const token = req.body.token;
+      console.log(req.body.token);
+      console.log('password', password);
+     
+      console.log('after', token);
 
-      const {userEmail} = verifyToken(token);
+      const user = await models.User.findOne({
+        include: [{
+          model: models.ResetToken,
+          as: 'Reset',
+          where: {token: token}
+        }]
+      });
 
-      const user = await models.User.findOne({where: {email: userEmail}});
-
+      console.log('user', user);
       const existingToken = await models.ResetToken.findOne({
         where: {
-          userUuid: user.uuid,
+          userUuid: user.dataValues.uuid,
           expiresIn: {[Op.gt]: Date.now()},
         },
-      });
+      }); 
 
       if (!existingToken) throw errors.NotFoundError('Password reset token is invalid or has expired.');
 
       const hashedPassword = models.User.hashPassword(password, user.email);
       if (user.password === hashedPassword) throw errors.InvalidInputError('Old password and new password match!');
       user.password = hashedPassword;
+
+      await user.update({
+        password: req.body.password,
+      });
       await user.save();
 
       await models.ResetToken.destroy({
@@ -33,13 +53,11 @@ router.put('/v1/reset/',
         },
       });
 
-      res.json(user.email);
+      res.json({
+        user, 
+        token: token
+      });
     })
 );
-
-verifyToken = (token) => {
-  const payload = jwt.verify(token, process.env.SALT_TOKEN_RESET || 'salt');
-  return payload;
-};
 
 module.exports = router;

@@ -147,7 +147,7 @@ module.exports = (sequelize, DataTypes) => {
      * @return {any} hash
      */
     User.hashPassword = (password) => crypto
-        .createHmac('sha512', process.env.SALT || 'salt')
+        .createHmac('sha512', process.env.SALT)
         .update(password)
         .digest('hex');
 

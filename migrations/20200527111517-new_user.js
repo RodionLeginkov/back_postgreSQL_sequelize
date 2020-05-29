@@ -1,7 +1,6 @@
 'use strict';
 const crypto = require('crypto');
 const uuid = require('uuid');
-const user = require('../src/models/user');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
