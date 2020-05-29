@@ -43,8 +43,6 @@ module.exports = router;
 
 //         await models.UserSkill.destroy({ where: { "user_uuid": userUuid } });
 
-//         console.log(skills)
-
 //         for (const skill of skills) {
 //             await models.UserSkill.create({ userUuid: userUuid, skillUuid: skill.uuid });
 //         }

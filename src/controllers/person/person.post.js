@@ -22,7 +22,6 @@ const authenticate = require('../../middleware/authenticate');
 router.post('/person',
     authenticate(),
     errors.wrap(async (req, res) => {
-        // console.log('histoty', res.locals.user.dataValues.uuid);
         const models = res.app.get('models');
         const info = req.body;
 

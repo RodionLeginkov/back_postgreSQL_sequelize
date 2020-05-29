@@ -44,7 +44,8 @@ router.put('/user/:uuid',
         if (!user) throw errors.NotFoundError('user not found');
 
         const result = await user.update(req.body);
-        
+        delete result.dataValues.password;
+       
         res.json(result);
     })
 );

@@ -38,7 +38,7 @@ router.delete('/user/:uuid',
             await users.removeSkills(skills);
             await users.removeTasksCreator(taskCreator);
             await users.removeUsersTasks(task);
-            // console.log('test');
+           
             await users.destroy();
 
         res.sendStatus(204);
