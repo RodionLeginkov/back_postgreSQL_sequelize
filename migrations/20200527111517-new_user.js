@@ -1,15 +1,15 @@
 'use strict';
-const crypto = require('crypto');
 const uuid = require('uuid');
+const db = require('../src/database').models;
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: async(queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('users', [{
       uuid: uuid(),
       first_name: 'Admin',
       last_name: 'Admin',
-      email: 'user@admin.com',
-      password: crypto.createHmac('sha512', process.env.SALT).update('adminadmin').digest('hex'),
+      email: 'admin@admin.com',
+      password: db.User.hashPassword('adminadmin'),
       role: 'ceo',
       created_at: new Date(),
       updated_at: new Date()

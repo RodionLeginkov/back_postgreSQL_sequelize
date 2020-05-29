@@ -16,7 +16,7 @@ arrangeInputs('body', {
 }),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        console.log(req.body)
+
         const body = req.body;
         const user = await models.User.findOne({ where: { email: body.email } });
         if (!user) throw errors.NotFoundError('User with such email not found.');

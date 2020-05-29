@@ -15,10 +15,7 @@ arrangeInputs('body', {
       const models = res.app.get('models');
       const password = req.body.password;
       const token = req.body.token;
-      console.log(req.body.token);
-      console.log('password', password);
-     
-      console.log('after', token);
+
 
       const user = await models.User.findOne({
         include: [{
@@ -28,7 +25,6 @@ arrangeInputs('body', {
         }]
       });
 
-      console.log('user', user);
       const existingToken = await models.UserToken.findOne({
         where: {
           userUuid: user.dataValues.uuid,

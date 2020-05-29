@@ -150,6 +150,7 @@ module.exports = (sequelize, DataTypes) => {
         .createHmac('sha512', process.env.SALT)
         .update(password)
         .digest('hex');
+    
 
     /**
      * Generate Authentication Token for user
