@@ -22,14 +22,14 @@ arrangeInputs('body', {
         if (!user) throw errors.NotFoundError('User with such email not found.');
 
 
-        await models.ResetToken.destroy({
+        await models.UserToken.destroy({
           where: {
               userUuid: user.uuid,
           },
       });
 
 
-        const token = await models.ResetToken.create({
+        const token = await models.UserToken.create({
           userUuid: user.uuid,
           expiresIn: Date.now() + 3600 * 24 * 1000, 
           token: generateToken(body),

@@ -1,11 +1,12 @@
 module.exports = function (sequelize, Sequelize) {
-  const ResetToken = sequelize.define('ResetToken', {
+  const UserToken = sequelize.define('UserToken', {
     uuid: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
     },
     userUuid: {
+      field: 'user_uuid',
       type: Sequelize.UUID,
       allowNull: true,
       references: {
@@ -14,6 +15,7 @@ module.exports = function (sequelize, Sequelize) {
       }
     },
     expiresIn: {
+      field: 'expires_id',
       type: Sequelize.DATE,
       allowNull: false,
     },
@@ -22,15 +24,15 @@ module.exports = function (sequelize, Sequelize) {
       allowNull: true,
     },
   }, {
-    tableName: 'reset_tokens',
+    tableName: 'user_tokens',
     timestamps: false,
   });
 
-  ResetToken.associate = (models) => {
-    ResetToken.belongsTo(models.User, {
+  UserToken.associate = (models) => {
+    UserToken.belongsTo(models.User, {
       foreignKey: 'userUuid',
     });
   };
 
-  return ResetToken;
+  return UserToken;
 };

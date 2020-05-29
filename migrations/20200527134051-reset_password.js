@@ -2,13 +2,14 @@
 
 module.exports = {
     up: async (Sequelize, DataTypes) => {
-        await Sequelize.createTable('reset_tokens', {
+        await Sequelize.createTable('user_tokens', {
             uuid: {
                 type: DataTypes.UUID,
                 primaryKey: true,
                 defaultValue: Sequelize.UUIDV4,
             },
             userUuid: {
+                field: 'user_uuid',
                 type: DataTypes.UUID,
                 references: {
                     model: 'users',
@@ -16,6 +17,7 @@ module.exports = {
                 }
             },
             expiresIn: {
+                field: 'expires_id',
                 type: DataTypes.DATE,
                 allowNull: false,
             },
@@ -27,6 +29,6 @@ module.exports = {
     },
 
     down: async (Sequelize, DataTypes) => {
-        await Sequelize.dropTable('reset_tokens');
+        await Sequelize.dropTable('user_tokens');
     }
 };

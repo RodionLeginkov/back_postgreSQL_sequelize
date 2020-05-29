@@ -22,14 +22,14 @@ arrangeInputs('body', {
 
       const user = await models.User.findOne({
         include: [{
-          model: models.ResetToken,
+          model: models.UserToken,
           as: 'Reset',
           where: {token: token}
         }]
       });
 
       console.log('user', user);
-      const existingToken = await models.ResetToken.findOne({
+      const existingToken = await models.UserToken.findOne({
         where: {
           userUuid: user.dataValues.uuid,
           expiresIn: {[Op.gt]: Date.now()},
@@ -47,7 +47,7 @@ arrangeInputs('body', {
       });
       await user.save();
 
-      await models.ResetToken.destroy({
+      await models.UserToken.destroy({
         where: {
           userUuid: user.uuid,
         },

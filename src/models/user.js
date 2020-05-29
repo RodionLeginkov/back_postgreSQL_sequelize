@@ -120,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
             as: 'TasksCreator',
             foreignKey: 'creator_uuid',
         });
-        User.hasMany(models.ResetToken, {
+        User.hasMany(models.UserToken, {
             as: 'Reset',
             foreignKey: 'userUuid',
         });
