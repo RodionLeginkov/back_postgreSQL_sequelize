@@ -120,6 +120,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'TasksCreator',
             foreignKey: 'creator_uuid',
         });
+        User.hasMany(models.UserToken, {
+            as: 'Reset',
+            foreignKey: 'userUuid',
+        });
     };
     /**
      * @param {string} email
@@ -143,9 +147,10 @@ module.exports = (sequelize, DataTypes) => {
      * @return {any} hash
      */
     User.hashPassword = (password) => crypto
-        .createHmac('sha512', process.env.SALT || 'salt')
+        .createHmac('sha512', process.env.SALT)
         .update(password)
         .digest('hex');
+    
 
     /**
      * Generate Authentication Token for user

@@ -29,6 +29,7 @@ router.get('/projects',
     authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
+        
         const projects = await models.Project.findAll({
         include: [{
             model: models.Skill,
