@@ -124,6 +124,9 @@ whereCondition = {
             firstName: {
             [Op.iLike]: `${filterBar}%`,
         },
+        isActive: {
+            [Op.any]: activeCondition,
+        }
         }]}, {
         [Op.and]: [{
             role: {
@@ -131,7 +134,11 @@ whereCondition = {
             },
             lastName: {
             [Op.iLike]: `${filterBar}%`,
+            
         },
+        isActive: {
+            [Op.any]: activeCondition,
+        }
         }]}
 
 ]

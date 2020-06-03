@@ -37,6 +37,7 @@ router.put('/user/:uuid',
     errors.wrap(async (req, res) => {
         const user = await models.User.findByPk(req.params.uuid);
             delete req.body.password;
+            delete req.body.avatar;
         // if (req.body.email !== null) {
         //     const validateEmail = (email) => (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email));
         //     if (!validateEmail(req.body.email)) throw errors.InvalidInputError('email is wrong'); 

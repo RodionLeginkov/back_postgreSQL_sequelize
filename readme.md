@@ -27,7 +27,7 @@ npm run start
 - AWS_Uploaded_File_URL_LINK
 
 #### Default user
-- login: admin@admin.com
+- login: user@user.com
 - password: adminadmin
 
 #### Database credentials
