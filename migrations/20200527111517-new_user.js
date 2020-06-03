@@ -8,7 +8,7 @@ module.exports = {
       uuid: uuid(),
       first_name: 'Admin',
       last_name: 'Admin',
-      email: 'admin@admin.com',
+      email: 'user@user.com',
       password: db.User.hashPassword('adminadmin'),
       role: 'ceo',
       created_at: new Date(),
