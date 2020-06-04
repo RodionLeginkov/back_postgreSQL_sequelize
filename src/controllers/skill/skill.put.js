@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.put('/skill/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const user = await models.Skill.findByPk(req.params.uuid);
         if (!user) throw errors.NotFoundError('user not found');

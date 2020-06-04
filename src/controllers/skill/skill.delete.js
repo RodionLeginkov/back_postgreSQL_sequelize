@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.delete('/skill/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const skill = await models.Skill.findByPk(req.params.uuid);
         if (!skill) throw errors.NotFoundError('Example not found');

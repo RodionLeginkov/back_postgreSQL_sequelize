@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.get('/milestone/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const user = await models.Milestone.findByPk(req.params.uuid,

@@ -7,7 +7,7 @@ const {check, validationResult} = require('express-validator');
 const arrangeInputs = require('../../middleware/arrange-inputs');
 // 
 router.post('/user/invitation/:uuid',
-  // authenticate(),
+  authenticate(),
   arrangeInputs('body', {
     email: {type: 'STRING',
         required: false,

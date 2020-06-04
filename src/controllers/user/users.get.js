@@ -31,7 +31,7 @@ const {paginate} = require('../../../utils/pagination');
 
 // page =0, pageSize =0, 
 router.get('/users',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
         

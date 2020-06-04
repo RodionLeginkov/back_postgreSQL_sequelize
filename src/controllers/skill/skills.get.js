@@ -26,7 +26,7 @@ const router = require('express').Router();
  */
 
 router.get('/skills',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const skills = await models.Skill.findAll({

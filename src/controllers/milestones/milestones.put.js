@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.put('/milestone/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
         

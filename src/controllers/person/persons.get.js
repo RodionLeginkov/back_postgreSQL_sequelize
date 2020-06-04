@@ -20,7 +20,7 @@ const authenticate = require('../../middleware/authenticate');
  */
 
 router.get('/persons',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const result = await models.Person.findAll({

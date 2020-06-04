@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.delete('/person/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const person = await models.Person.findByPk(req.params.uuid);
 

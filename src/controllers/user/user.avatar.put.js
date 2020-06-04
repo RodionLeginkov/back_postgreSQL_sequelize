@@ -42,7 +42,7 @@ const fileFilter = (req, file, cb) => {
 
 router.put('/user/avatar/:uuid',
     upload.single('avatar'),
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const id = req.params.uuid;

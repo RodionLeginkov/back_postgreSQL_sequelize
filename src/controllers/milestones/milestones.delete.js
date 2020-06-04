@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.delete('/milestone/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
         if (!milestone) throw errors.NotFoundError('Milestone not found');
