@@ -27,23 +27,6 @@ router.post('/milestones',
         const info = req.body;
         
         const result = await models.Milestone.create(info);
-        const user = await models.User.findByPk(result.dataValues.user_uuid,
-            {
-                include: [{
-                    model: models.Milestone,
-                    as: 'UserMilestones',
-                    required: false,
-            },
-        ]
-            });
-        const milestones = user.UserMilestones;
-        
-        let totalLoad = 0;
-            for (let i = 0; i < milestones.length; i++) {
-                totalLoad += milestones[i].load;
-            }
-        
-        await user.update({total_load: totalLoad});
 
         res.json(result);
     })

@@ -72,9 +72,6 @@ module.exports = (sequelize, DataTypes) => {
         role: {
             type: DataTypes.STRING(64),
         },
-        total_load: {
-            type: DataTypes.INTEGER
-        },
         english_skill: {
             type: DataTypes.STRING(64),
         },

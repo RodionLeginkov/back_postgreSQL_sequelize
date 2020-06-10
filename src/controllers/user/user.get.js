@@ -85,15 +85,8 @@ router.get('/user/:uuid',
 
             if (!user) throw errors.NotFoundError('Example not found');
            
-            const milestones = user.UserMilestones;
-            let totalLoad = 0;
             
-            for (let i = 0; i < milestones.length; i++) {
-                totalLoad += milestones[i].load;
-                }
-        
-            const result = await user.update({total_load: totalLoad});
-            res.json(result);
+            res.json(user);
     })
 
 );
