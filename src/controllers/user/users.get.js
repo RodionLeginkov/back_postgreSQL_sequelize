@@ -2,6 +2,7 @@ const authenticate = require('../../middleware/authenticate');
 const errors = require('../../errors');
 const router = require('express').Router();
 const Sequelize = require('sequelize');
+
 const {Op} = require('sequelize');
 const {paginate} = require('../../../utils/pagination');
 
@@ -31,10 +32,10 @@ const {paginate} = require('../../../utils/pagination');
 
 // page =0, pageSize =0, 
 router.get('/users',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
             const models = res.app.get('models');
-        
+
         // const sort = req.query.sort, filterRole = req.query.filterRole, 
         // order =req.query.order, filterBar = req.query.filterBar, profitableFilter = req.query.profitable;
         const {sort, filterRole, order, filterBar, profitable: profitableFilter, active} = req.query;
@@ -192,7 +193,8 @@ whereCondition = {
 //         }]};
 // }   
         const users = await models.User.findAll({
-            attributes: {exclude: ['password']},
+            attributes: {include: [[Sequelize.literal(testCount), 'total_load']],
+            exclude: ['password']},
             include: [{
                 model: models.Milestone,
                 as: 'UserMilestones',
@@ -287,6 +289,14 @@ SELECT *
 FROM users
 WHERE english_skill = 'beginner' 
 ORDER BY role DESC;
+`;
+const testCount=`(
+
+    SELECT  COALESCE(sum(m.load),0) as totalSum 
+    from users
+    join milestones m on users.uuid = m.user_uuid
+    where (m.status='Active' and user_uuid = "User"."uuid") 
+)
 `;
 
 

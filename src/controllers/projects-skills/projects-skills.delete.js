@@ -21,7 +21,7 @@ const authenticate = require('../../middleware/authenticate');
  */
 
 router.delete('/users-skills/:skill_uuid/:project_uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         await models.UserSkill.destroy({where: {'skill_uuid': req.params.skill_uuid, 'project_uuid': req.params.project_uuid}});        

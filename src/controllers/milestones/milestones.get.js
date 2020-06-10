@@ -23,7 +23,7 @@ const {Op} = require('sequelize');
 
  // , [sequelize.fn('min', sequelize.col('rate')), 'RPD']
 router.get('/milestones',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const {sort, order} = req.query;
         let orderSort, changeorder='ASC', whereCondition = {};

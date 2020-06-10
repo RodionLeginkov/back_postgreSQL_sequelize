@@ -21,7 +21,7 @@ const router = require('express').Router();
  */
 
 router.delete('/history-tasks/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const task = await models.TasksHistory.findByPk(req.params.uuid);
         if (!task) throw errors.NotFoundError('Example not found');

@@ -20,7 +20,7 @@ const authenticate = require('../../middleware/authenticate');
  */
 
 router.post('/skill',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
         const skill = req.body;

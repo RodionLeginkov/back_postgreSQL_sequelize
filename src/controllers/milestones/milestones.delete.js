@@ -21,35 +21,16 @@ const router = require('express').Router();
  */
 
 router.delete('/milestone/:uuid',
-    // authenticate(),
+    authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
         if (!milestone) throw errors.NotFoundError('Milestone not found');
         // const users = await milestone.getUsers();
         // const project = await milestone.getProjects();
 
-        const userId = milestone.dataValues.user_uuid;
 
-        // user.update({total_load: user.dataValues.total_load - milestone.dataValues.load});
         await milestone.destroy();
-        const user = await models.User.findByPk(userId,
-            {
-                include: [{
-                    model: models.Milestone,
-                    as: 'UserMilestones',
-                    required: false,
-            },
-        ]
-            });
-        
-        const milestones = user.UserMilestones;
-        let totalLoad = 0;
-        
-        for (let i = 0; i < milestones.length; i++) {
-            totalLoad += milestones[i].load;
-        }
-        
-        await user.update({total_load: totalLoad});
+
 
         res.sendStatus(204);
     })
