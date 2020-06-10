@@ -24,11 +24,13 @@ router.put('/milestone/:uuid',
     authenticate(),
     errors.wrap(async (req, res) => {
         const milestone = await models.Milestone.findByPk(req.params.uuid);
+        const sequelize = res.app.get('sequelize');
         
        
         if (!milestone) throw errors.NotFoundError('Milestone not found');
 
         const result = await milestone.update(req.body);
+        
 
         res.json(result);
     })
