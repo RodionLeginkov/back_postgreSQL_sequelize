@@ -29,17 +29,43 @@ router.get('/projects',
     authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        // const {Op} = require('sequelize');
-        // const active = 'Active';
+        const sequelize = res.app.get('sequelize');
+        const {Op} = require('sequelize');
+        const {active} = req.query;
 
-        // let whereCondition = {};
-        //     if (active === 'Active') {
-        //         whereCondition={
-        //             [Op.and]: [{
-        //                 status: {[Op.iLike]: 'Active'}  
-        //             }]
-        //         };
-        //     }
+
+        const total = await sequelize.query(
+            `			
+
+            select total.uuid FROM(SELECT projects.uuid,count(m.status) as active
+            from projects
+            left join milestones m on projects.uuid = m.project_uuid
+            where m.status = 'Active'
+            group by projects.uuid) as total
+            where total.active > 0
+            ;`,
+            {type: sequelize.QueryTypes.SELECT},
+        ).map((item)=> (item.uuid));
+
+        let whereCondition = {};
+        if (active === 'Active') {
+            whereCondition={
+                [Op.or]: [{
+                    uuid: {
+                        [Op.in]: total,
+                    } 
+                }]
+            };
+        } else if (active === 'Archived') {
+            whereCondition={
+                [Op.or]: [{
+                    uuid: {
+                        [Op.notIn]: total,
+                    } 
+                }]
+            };
+        }
+
 
         const projects = await models.Project.findAll({
         include: [{
@@ -66,6 +92,7 @@ router.get('/projects',
         },
         
     ],
+    where: whereCondition,
     order: [['name', 'ASC']],
     });
         res.json(projects);
