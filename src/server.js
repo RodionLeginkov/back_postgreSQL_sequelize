@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 useControllers();
+jobs();
 
 app.use((err, req, res, next) => {
     console.error(err);
@@ -62,6 +63,14 @@ async function useControllers() {
     
     console.info(`Total controllers: ${controllersCount}`);
 };
+
+async function jobs() {
+    const paths = klawSync(`${__dirname}/jobs`, {nodir: true});
+    paths.forEach((file) => {
+        require(file.path)();
+    });
+    console.info(`Total jobs: ${paths.length}`);
+}
 
 function configureLogger() {
     process.on('uncaughtException', function (err) {

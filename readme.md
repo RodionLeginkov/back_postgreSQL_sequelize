@@ -15,9 +15,13 @@ npm run start
 #### App setup
 - FRONTEND_URL - base frontend URL for email invitations 
 
-#### Reset password setup
+#### Ping heroku setup
 - EMAIL_ADDRESS 
 - EMAIL_PASSWORD
+
+#### Reset password setup
+- PING_FRONTEND_URL 
+- PING_BACKEND_URL
 
 #### AWS BUCKET setup
 - AWS_BUCKET_NAME 
