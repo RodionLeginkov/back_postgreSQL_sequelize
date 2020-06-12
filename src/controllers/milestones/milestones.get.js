@@ -26,7 +26,7 @@ router.get('/milestones',
     authenticate(),
     errors.wrap(async (req, res) => {
         const {sort, order} = req.query;
-        let orderSort, changeorder='ASC', whereCondition = {};
+        let orderSort, changeorder='ASC', whereCondition = {}, milestoneOrder;
 
         if (order === 'false') {
             changeorder='DESC';
@@ -52,12 +52,33 @@ router.get('/milestones',
             case 'startDate':
                 orderSort = 'start_date';
             break;
+            case 'user':
+                orderSort = 'user';
+            break;
+            case 'name':
+                orderSort = 'name';
+            break;
+            case 'person':
+                orderSort = 'person';
+            break;
             default:
                 orderSort = 'project_uuid';
         }
         const models = res.app.get('models');
         // res.send(sequelize.literal(test));
-
+        console.log(sort);
+        if (orderSort === 'user') {
+            milestoneOrder = [{model: models.User, as: 'Users'}, 'firstName', changeorder];
+        } else if (orderSort === 'name') {
+            milestoneOrder = [{model: models.Project, as: 'Projects'}, 'name', changeorder];
+        } else if (orderSort === 'person') {
+            milestoneOrder = [{model: models.Person, as: 'Person'}, 'name', changeorder];
+        } else if (orderSort === 'start_date') {
+            milestoneOrder = [{model: models.Person, as: 'Person'}, 'start_date', changeorder];
+        } else {
+            milestoneOrder = [sequelize.literal(orderSort), changeorder];
+        }
+        // /const testOrder = [{model: models.User, as: 'Users'}, 'firstName', changeorder];// [sequelize.literal(orderSort), changeorder];
         const result = await models.Milestone.findAll(
             {
                 // raw: true,
@@ -108,7 +129,7 @@ router.get('/milestones',
                         }
                     }],    
             },
-            order: [[sequelize.literal(orderSort), changeorder]]
+            order: [milestoneOrder]
         });
        
         res.json(result);
