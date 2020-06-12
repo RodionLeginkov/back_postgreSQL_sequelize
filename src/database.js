@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbConfig.uri, {
       multipleStatements: true,
     },
     logging: dbConfig.logging ? debug : false,
-    logging: console.log
+    // logging: console.log
 });
 
 const models = {};
