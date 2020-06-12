@@ -29,7 +29,18 @@ router.get('/projects',
     authenticate(),
     errors.wrap(async (req, res) => {
         const models = res.app.get('models');
-        
+        // const {Op} = require('sequelize');
+        // const active = 'Active';
+
+        // let whereCondition = {};
+        //     if (active === 'Active') {
+        //         whereCondition={
+        //             [Op.and]: [{
+        //                 status: {[Op.iLike]: 'Active'}  
+        //             }]
+        //         };
+        //     }
+
         const projects = await models.Project.findAll({
         include: [{
             model: models.Skill,
@@ -44,7 +55,6 @@ router.get('/projects',
         {
             model: models.Milestone,
             as: 'ProjectMilestones',
-            required: false,
             include: [{
                 model: models.User,
                 as: 'Users',
@@ -53,8 +63,8 @@ router.get('/projects',
                     exclude: ['password'] // Removing password from User response data
                 }  
             }]
-    },
-
+        },
+        
     ],
     order: [['name', 'ASC']],
     });
