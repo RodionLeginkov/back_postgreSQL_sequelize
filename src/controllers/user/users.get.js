@@ -77,7 +77,7 @@ router.get('/users',
             orderSort='first_name';
         } else if (sort === 'Senioiry') {
             orderSort = orderBySenioiry;
-        } else if (sort === 'Loads' || sort === 'load') {
+        } else if (sort === 'Loads' || sort ==='load') {
             orderSort = 'total_load';
         } else if (sort === 'project_ready') {
         orderSort = 'project_ready';
@@ -195,7 +195,7 @@ whereCondition = {
 //         }]};
 // }   
         const users = await models.User.findAll({
-            attributes: {include: [[Sequelize.literal(testCount), 'total_load']], include: [[Sequelize.literal(rateCount), 'current_rate']],
+            attributes: {include: [[Sequelize.literal(testCount), 'total_load'], [Sequelize.literal(rateCount), 'current_rate']],
             exclude: ['password']},
             include: [{
                 model: models.Milestone,
@@ -302,10 +302,11 @@ const testCount=`(
 `;
 
 const rateCount =
-`( SELECT COALESCE(sum(m.rate),0) as totalRate
+`( 
+  SELECT COALESCE(sum(m.rate),0) as totalRate
   from users
   join milestones m on users.uuid = m.user_uuid
-  where (m.status='Active' and user_uuid = "User"."uuid")
+  where (m.status='Active' and user_uuid = "User"."uuid" and m.rate>0)
   )
 `;
 
