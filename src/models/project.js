@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(64),
         },
         'communicationType': {
-            type: Sequelize.ENUM('Text', 'Voice calls', 'Video Calls'),
+            type: Sequelize.STRING(30),
         },
         'communicationIntensity': {
             type: Sequelize.STRING(30),
