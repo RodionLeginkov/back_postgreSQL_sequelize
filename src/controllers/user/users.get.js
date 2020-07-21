@@ -77,10 +77,12 @@ router.get('/users',
             orderSort='first_name';
         } else if (sort === 'Senioiry') {
             orderSort = orderBySenioiry;
-        } else if (sort === 'Loads') {
+        } else if (sort === 'Loads' || sort ==='load') {
             orderSort = 'total_load';
         } else if (sort === 'project_ready') {
         orderSort = 'project_ready';
+        } else if (sort === 'current_rate') {
+            orderSort ='current_rate';
     } else if (sort === 'current_task') {
         orderSort = 'current_task';
     } else if (sort === 'english_skill') {
@@ -92,7 +94,7 @@ router.get('/users',
             [Op.or]: [{
                 [Op.and]: [{
                     role: {
-                        [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern']},
                     },
                     firstName: {
                     [Op.iLike]: `${filterBar}%`,
@@ -103,7 +105,7 @@ router.get('/users',
                 }]}, {
                 [Op.and]: [{
                     role: {
-                        [Op.iLike]: {[Op.any]: ['team_leader', 'middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern']},
                     },
                     lastName: {
                     [Op.iLike]: `${filterBar}%`,
@@ -120,7 +122,7 @@ whereCondition = {
     [Op.or]: [{
         [Op.and]: [{
             role: {
-                [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
+                [Op.iLike]: {[Op.any]: ['team_leader', 'ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
             },
             firstName: {
             [Op.iLike]: `${filterBar}%`,
@@ -131,7 +133,7 @@ whereCondition = {
         }]}, {
         [Op.and]: [{
             role: {
-                [Op.iLike]: {[Op.any]: ['ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
+                [Op.iLike]: {[Op.any]: ['team_leader', 'ceo', 'cto', 'hr_manager', 'sales_manager', 'office_manager']},
             },
             lastName: {
             [Op.iLike]: `${filterBar}%`,
@@ -193,7 +195,7 @@ whereCondition = {
 //         }]};
 // }   
         const users = await models.User.findAll({
-            attributes: {include: [[Sequelize.literal(testCount), 'total_load']],
+            attributes: {include: [[Sequelize.literal(testCount), 'total_load'], [Sequelize.literal(rateCount), 'current_rate']],
             exclude: ['password']},
             include: [{
                 model: models.Milestone,
@@ -297,6 +299,15 @@ const testCount=`(
     join milestones m on users.uuid = m.user_uuid
     where (m.status='Active' and user_uuid = "User"."uuid") 
 )
+`;
+
+const rateCount =
+`( 
+  SELECT COALESCE(sum(m.rate),0) as totalRate
+  from users
+  join milestones m on users.uuid = m.user_uuid
+  where (m.status='Active' and user_uuid = "User"."uuid" and m.rate>0)
+  )
 `;
 
 
