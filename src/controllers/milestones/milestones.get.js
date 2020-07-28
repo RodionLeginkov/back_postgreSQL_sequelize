@@ -142,7 +142,7 @@ const rpdCount =`
 CASE WHEN "Milestone"."rate_type" = 'flat_rate' then  "Milestone"."rate" / 20
     WHEN "Milestone"."rate_type" = 'weekly' then  "Milestone"."rate" / "Milestone"."load"
     WHEN "Milestone"."rate_type" = 'hourly' then  "Milestone"."rate" * "Milestone"."load" /5 
-    WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate" * "Milestone"."load"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
+    WHEN "Milestone"."rate_type" = 'fixed' AND "Milestone"."end_date" IS NOT null then "Milestone"."rate"/(("Milestone"."end_date")::date - ("Milestone"."start_date")::date)
     ELSE 0
     END
 `;
