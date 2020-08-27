@@ -94,7 +94,7 @@ router.get('/users',
             [Op.or]: [{
                 [Op.and]: [{
                     role: {
-                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern', 'candidate']},
                     },
                     firstName: {
                     [Op.iLike]: `${filterBar}%`,
@@ -105,7 +105,7 @@ router.get('/users',
                 }]}, {
                 [Op.and]: [{
                     role: {
-                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern']},
+                        [Op.iLike]: {[Op.any]: ['middle_developer', 'junior_developer', 'senior_developer', 'intern', 'candidate']},
                     },
                     lastName: {
                     [Op.iLike]: `${filterBar}%`,
@@ -260,8 +260,9 @@ CASE WHEN "User"."role" = 'ceo' THEN 1
      WHEN "User"."role" = 'senior_developer' THEN 6
      WHEN "User"."role" = 'middle_developer' THEN 7
      WHEN "User"."role" = 'junior_developer' THEN 9  
-     WHEN "User"."role" = 'intern' THEN 10  
-     ELSE 11
+     WHEN "User"."role" = 'intern' THEN 10
+     WHEN "User"."role" = 'candidate' THEN 11
+     ELSE 12
 END 
 `;
 // (${new Date()} - hired_at) ASC
