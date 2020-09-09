@@ -91,6 +91,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             field: 'updated_at',
         },
+        invited: {
+            type: DataTypes.BOOLEAN,
+            field: 'invited',
+            defaultValue: false,
+        },
     }, {
         tableName: 'users',
         timestamps: true,
