@@ -34,13 +34,16 @@ arrangeInputs('body', {
           expiresIn: Date.now() + 3600 * 24 * 1000, 
           token: generateToken(body),
         });
+        try{
+            await sendEmail(resetPassword({ ...user.dataValues }, token));
+            delete user.dataValues.password;
+            return res.status(200).json({
+                user: user
+            });
+        } catch(err){
+            throw errors.InvalidInputError(err.message);
+        }
         
-
-        await sendEmail(resetPassword({ ...user.dataValues }, token));
-        delete user.dataValues.password;
-        res.status(200).json({
-            user: user
-        });
     })
 );
 

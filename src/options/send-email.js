@@ -9,9 +9,12 @@ exports.sendEmail = (mailOptions) => {
     }
   });
 
-  transporter.sendMail(mailOptions, function (err, info) {
-    if (err) throw err.InternalServerError('Email wasn\`t send, reason');
-
-    res.status(200).json('recovery email sent');
-  });
+let sendMail;
+try {
+  sendMail = transporter.sendMail(mailOptions);
+} catch (err) {
+  throw new Error(err.message);
+}
+transporter.close();
+return sendMail;
 };
