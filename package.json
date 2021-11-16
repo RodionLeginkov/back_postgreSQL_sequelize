@@ -19,7 +19,7 @@
   "dependencies": {
     "@sendgrid/mail": "^6.5.5",
     "@sentry/node": "^5.4.0",
-    "aws-sdk": "^2.655.0",
+    "aws-sdk": "^2.814.0",
     "bcrypt": "^4.0.1",
     "body-parser": "^1.18.2",
     "boolean": "^3.0.1",
