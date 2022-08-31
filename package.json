@@ -37,7 +37,7 @@
     "lodash": "^4.17.15",
     "mandrill-api": "^1.0.45",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.35",
     "multer": "^1.4.2",
     "mysql2": "^1.6.5",
     "nodemailer": "^6.4.6",
